@@ -5,6 +5,22 @@
     <title>Employee</title>
 </head>
 <body>
-<p>hello</p>
+<table>
+    <thead>
+    <tr>
+        <th> Name </th>
+        <th> Surname </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${employees.empty}">
+        <td colspan="2"> No Employyes Hired </td>
+    </tr>
+    <tr th:each="e : ${employees}">
+        <td><span th:text="${e.name}"> Name </span></td>
+        <td><span th:text="${e.surname}"> Surname </span></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

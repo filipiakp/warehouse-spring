@@ -30,7 +30,7 @@ public class Employee {
 	private String street;
 	@NotBlank
 	private String houseNumber;
-	@Column(nullable=true)
+	@Column
 	private String apartmentNumber;
 	@Temporal(TemporalType.DATE)
 	private Date employmentDate;
