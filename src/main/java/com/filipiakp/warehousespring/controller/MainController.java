@@ -18,7 +18,7 @@ public class MainController {
 		return "index";
 	}
 
-	//TODO: ogarnąć rest controller, gdzie wyswietlac employeesów, repository, sproboj tego thymeleaf https://www.baeldung.com/thymeleaf-list
+	//TODO: repository, sproboj tego thymeleaf https://www.baeldung.com/thymeleaf-list
 	@RequestMapping("/employees")
 	public String getEmployeePage(Model model){
 		model.addAttribute("employees",employeeRepository.findAll());

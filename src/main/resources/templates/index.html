@@ -6,7 +6,26 @@
 </head>
 <body>
     <div id="main-menu">Main menu</div>
-    <div id="panel" style="float:left;">Panel<a href="\employees">Employees</a></div>
-    <div id="body" style="float:left;">Body</div>
+    <div id="panel" style="float:left;">
+        Panel<br/>
+        <a href="\employees">Employees</a>
+    </div>
+    <div id="body" style="float:left;">
+        <thead>
+        <tr>
+            <th> Name </th>
+            <th> Surname </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${employees.empty}">
+            <td colspan="2"> No Employyes Hired </td>
+        </tr>
+        <tr th:each="e : ${employees}">
+            <td><span th:text="${e.name}"> Name </span></td>
+            <td><span th:text="${e.surname}"> Surname </span></td>
+        </tr>
+        </tbody>
+    </div>
 </body>
 </html>
