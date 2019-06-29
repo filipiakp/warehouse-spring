@@ -1,31 +1,38 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="pl-PL" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Warehouse</title>
+    <link href="/main.css" rel="stylesheet"/>
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="/app.js"></script>
+
 </head>
 <body>
-    <div id="main-menu">Main menu</div>
+    <div id="main-menu">Menu <span>Dodaj</span><span>Edytuj</span><span>Usun</span></div>
     <div id="panel" style="float:left;">
         Panel<br/>
-        <a href="\employees">Employees</a>
+        <div id="employees-button" class="panel-button">Pracownicy</div>
+        <div id="contractors-button" class="panel-button">Kontrahenci</div>
+        <div id="orders-button" class="panel-button">Zamówienia</div>
+        <div id="products-button" class="panel-button">Produkty</div>
+        <div id=""></div>
     </div>
     <div id="body" style="float:left;">
-        <thead>
-        <tr>
-            <th> Name </th>
-            <th> Surname </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:if="${employees.empty}">
-            <td colspan="2"> No Employyes Hired </td>
-        </tr>
-        <tr th:each="e : ${employees}">
-            <td><span th:text="${e.name}"> Name </span></td>
-            <td><span th:text="${e.surname}"> Surname </span></td>
-        </tr>
-        </tbody>
+
+        <table id="employeeTable" class="table">
+            <thead>
+            <tr>
+                <th> Imię </th>
+                <th> Nazwisko </th>
+            </tr>
+            </thead>
+            <tbody id="employees">
+            </tbody>
+        </table>
     </div>
 </body>
 </html>

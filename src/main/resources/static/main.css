@@ -1,0 +1,31 @@
+body {
+    padding: 0px;
+    margin: 0px;
+}
+#main-menu {
+    background-color: #5555ff;
+    padding: 3px;
+    margin: 0px;
+}
+
+#panel{
+    background-color: #444444;
+    color: #eeeeee;
+    margin: 0px;
+    padding: 5px;
+    height: 900px;
+}
+
+.panel-button {
+    padding: 2px;
+}
+
+.panel-button:hover {
+    background-color: #555577;
+    color: #ffffff;
+}
+
+.table th td{
+
+    border: 2px solid gray;
+}

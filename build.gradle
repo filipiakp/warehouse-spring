@@ -21,11 +21,16 @@ configurations {
 
 repositories {
 	mavenCentral()
+	flatDir {
+		dirs 'lib'
+	}
 }
 
 dependencies {
-	compile("org.webjars:jquery:3.1.0")
-	compile("org.webjars:stomp-websocket:2.3.3")
+	compile "org.webjars:jquery:3.1.0"
+	compile "org.webjars:stomp-websocket:2.3.3"
+	compile "org.webjars:sockjs-client:1.0.2"
+	compile "org.webjars:webjars-locator-core"
 	implementation "org.springframework.boot:spring-boot-starter-websocket"
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
@@ -35,4 +40,5 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	compile name: 'ojdbc8'
 }

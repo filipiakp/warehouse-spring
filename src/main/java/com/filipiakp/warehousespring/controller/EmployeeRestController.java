@@ -2,6 +2,7 @@ package com.filipiakp.warehousespring.controller;
 
 import com.filipiakp.warehousespring.entities.Employee;
 import com.filipiakp.warehousespring.model.EmployeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,7 @@ import java.util.Optional;
 @RequestMapping("/api/employees")
 public class EmployeeRestController {
 
-
+	@Autowired
 	private EmployeeRepository employeeRepository;
 
 	@GetMapping
@@ -27,13 +28,13 @@ public class EmployeeRestController {
 	}
 
 	@PostMapping
-	public String createEmployee(@RequestBody Employee employee){
+	public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee){
 		employeeRepository.save(employee);
-		return "";
+		return new ResponseEntity<>(employee, HttpStatus.OK);
 	}
 
 	@PutMapping
-	public String updateEmployee(@RequestBody Employee newEmp){
+	public ResponseEntity<Employee> updateEmployee(@RequestBody Employee newEmp){
 		Employee oldEmp = employeeRepository.findById(newEmp.getId()).get();
 		oldEmp.setName(newEmp.getName());
 		oldEmp.setSurname(newEmp.getSurname());
@@ -45,15 +46,15 @@ public class EmployeeRestController {
 		oldEmp.setSalary(newEmp.getSalary());
 		oldEmp.setStreet(newEmp.getStreet());
 		employeeRepository.save(oldEmp);
-		return "";
+		return new ResponseEntity<>(oldEmp, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public String deleteEmployee(@PathVariable int id){
+	public ResponseEntity<String> deleteEmployee(@PathVariable int id){
 		Optional<Employee> employeeOptional = employeeRepository.findById(id);
 		if (employeeOptional.isPresent()) {
 			employeeRepository.delete(employeeOptional.get());
 		}
-		return "";
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
