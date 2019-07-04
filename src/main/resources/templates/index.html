@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Warehouse</title>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/fontello/css/fontello.css" rel="stylesheet">
     <link href="/main.css" rel="stylesheet"/>
     <script src="/webjars/jquery/jquery.min.js"></script>
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
@@ -12,17 +14,26 @@
 
 </head>
 <body>
-    <div id="main-menu">Menu <span>Dodaj</span><span>Edytuj</span><span>Usun</span></div>
-    <div id="panel" style="float:left;">
-        Panel<br/>
-        <div id="employees-button" class="panel-button">Pracownicy</div>
-        <div id="contractors-button" class="panel-button">Kontrahenci</div>
-        <div id="orders-button" class="panel-button">Zamówienia</div>
-        <div id="products-button" class="panel-button">Produkty</div>
-        <div id=""></div>
-    </div>
-    <div id="body" style="float:left;">
+<div id="main-menu">
+    <span id="menu-label"> <i class="icon-industry"></i> Hurtownia </span>
+    <span class="btn-group">
+        <a id="addButton" href="/addEmployee" class="btn btn-sm btn-outline-primary btn-color" role="button"> Dodaj </a>
+		<a id="editButton" href="#" class="btn btn-sm btn-outline-primary btn-color" role="button"> Edytuj </a>
+		<a id="deleteButton" href="#" class="btn btn-sm btn-outline-primary btn-color" role="button"> Usun </a>
+    </span>
+</div>
+<div id="panel" style="float:left;" class="">
+    <center> Panel </center>
+    <hr/>
+    <div id="employeesButton" class=" panel-button"><i class="icon-users"></i> Pracownicy </div>
+    <div id="contractorsButton" class=" panel-button"><i class="icon-handshake-o"></i> Kontrahenci </div>
+    <div id="ordersButton" class=" panel-button"><i class="icon-money"></i> Zamówienia </div>
+    <div id="productsButton" class=" panel-button"><i class="icon-cubes"></i> Produkty </div>
+    <div id=""></div>
+</div>
+<div id="body" class="container">
 
+    <div id="tables" class="">
         <table id="employeeTable" class="table">
             <thead>
             <tr>
@@ -33,6 +44,23 @@
             <tbody id="employees">
             </tbody>
         </table>
+        <table id="productTable" class="table">
+            <thead>
+            <tr>
+                <th> Kod </th>
+                <th> Producent </th>
+                <th> Nazwa </th>
+                <th> Ilość </th>
+                <th> Cena </th>
+                <th> Kategoria </th>
+                <th> Waga </th>
+                <th> Opis </th>
+            </tr>
+            </thead>
+            <tbody id="products">
+            </tbody>
+        </table>
     </div>
+</div>
 </body>
 </html>

@@ -1,16 +1,22 @@
+$(function () {
+    $("table").hide();
+    $("#employeesButton").click(function(){sendEmployeesRequest();});
+    $("#productsButton").click(function(){sendProductsRequest();});
+});
 var stompClient = null;
 connect();
-
 
 function connect() {
     var socket = new SockJS('/warehouse-spring');
     stompClient = Stomp.over(socket);
+
     stompClient.connect({}, function (frame) {
-        //setConnected(true);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/listener/employees', function (answer) {
-            console.log(answer);
             showEmployees(JSON.parse(answer.body));
+        });
+        stompClient.subscribe('/listener/products', function (answer){
+            showProducts(JSON.parse(answer.body));
         });
     });
 }
@@ -19,27 +25,49 @@ function disconnect() {
     if (stompClient !== null) {
         stompClient.disconnect();
     }
-    setConnected(false);
     console.log("Disconnected");
 }
 
 function sendEmployeesRequest() {
-    stompClient.send("/app/employees", {},"ok");
+    stompClient.send("/app/employees", {}, "empl");
+}
+
+function sendProductsRequest() {
+    stompClient.send("/app/products", {}, "prod");
 }
 
 function showEmployees(employees) {
     console.log(employees);
+
+    $("#employeeTable").show();
+    $("#productTable").hide();
+
     $("#employees").html("");
-    $("#employees").append("<tr><td>" + employees[0].name + "</td><td>"+ employees[0].surname +"</td></tr>");
+    employees.forEach(function(e){
+        $("#employees").append("<tr><td>" + e.name + "</td><td>"+ e.surname +"</td></tr>");
+    });
+    makeTableSelectable("#employeeTable");
 }
 
-$(function () {
-    $("form").on('submit', function (e) {
-        e.preventDefault();
-    });
-    $("#employees-button").click(function(){sendEmployeesRequest();});
-    //$( "#connect" ).click(function() { connect(); });
-    //$( "#disconnect" ).click(function() { disconnect(); });
-//    $( "#send" ).click(function() { sendName(); });
-});
+function showProducts(products) {
+    console.log(products);
 
+    $("#employeeTable").hide();
+    $("#productTable").show();
+
+    $("#products").html("");
+    products.forEach(function(p){
+         $("#products").append("<tr><td>" +p.code+ "</td><td>" +p.manufacturer+ "</td><td>" +p.name+ "</td><td>"
+                    +p.amount+ "</td><td>" +p.price+ "</td><td>" +p.category+ "</td><td>" +p.weight+ "</td><td>"
+                    +p.specification+ "</td></tr>");
+    });
+    makeTableSelectable("#productTable");
+}
+
+function makeTableSelectable(table){
+    $( table+" tbody tr").click(function(){
+           $(this).addClass('selected').siblings().removeClass('selected');
+           $("#addButton").attr("aria-disabled", true);
+           $("#addButton").addClass('disabled');
+     });
+}

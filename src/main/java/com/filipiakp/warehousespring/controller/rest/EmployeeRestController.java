@@ -1,4 +1,4 @@
-package com.filipiakp.warehousespring.controller;
+package com.filipiakp.warehousespring.controller.rest;
 
 import com.filipiakp.warehousespring.entities.Employee;
 import com.filipiakp.warehousespring.model.EmployeeRepository;
