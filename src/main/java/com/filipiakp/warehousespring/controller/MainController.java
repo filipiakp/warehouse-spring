@@ -9,7 +9,6 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -23,26 +22,28 @@ public class MainController {
 	@Autowired
 	private ProductRepository productRepository;
 
-//	@RequestMapping("/")
-//	public String getHomepage(){
-//		return "index";
+	@RequestMapping("/")
+	public String getHomepage(){
+		return "index";
+	}
+
+//	@MessageMapping("/employees")
+//	@SendTo("/listener/employees")
+//	public List<Employee> getEmployeesData(String message){
+//		return employeeRepository.findAll();
+//	}
+//
+//	@MessageMapping("/products")
+//	@SendTo("/listener/products")
+//	public List<Product> getProductsData(String message){
+//		return productRepository.findAll();
+//	}
+//
+//	@RequestMapping("/addEmployee")
+//	public String addEmployee(Model model){
+//		model.addAttribute("file","employees");
+//		return "employees";
 //	}
 
-	@MessageMapping("/employees")
-	@SendTo("/listener/employees")
-	public List<Employee> getEmployeesData(String message){
-		return employeeRepository.findAll();
-	}
-
-	@MessageMapping("/products")
-	@SendTo("/listener/products")
-	public List<Product> getProductsData(String message){
-		return productRepository.findAll();
-	}
-
-	@RequestMapping("/addEmployee")
-	public String addEmployee(){
-		return "employees";
-	}
 
 }

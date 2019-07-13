@@ -1,66 +1,38 @@
 <!DOCTYPE html>
 <html lang="pl-PL" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Warehouse</title>
-    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/fontello/css/fontello.css" rel="stylesheet">
-    <link href="/main.css" rel="stylesheet"/>
-    <script src="/webjars/jquery/jquery.min.js"></script>
-    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
-    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
-    <script src="/app.js"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Hurtownia</title>
+	<link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/fontello/css/fontello.css" rel="stylesheet">
+	<link href="/main.css" rel="stylesheet"/>
+	<script src="/webjars/jquery/jquery.min.js"></script>
+	<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+	<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+	<!--<script src="/app.js"></script>-->
 
 </head>
 <body>
-<div id="main-menu">
-    <span id="menu-label"> <i class="icon-industry"></i> Hurtownia </span>
-    <span class="btn-group">
-        <a id="addButton" href="/addEmployee" class="btn btn-sm btn-outline-primary btn-color" role="button"> Dodaj </a>
-		<a id="editButton" href="#" class="btn btn-sm btn-outline-primary btn-color" role="button"> Edytuj </a>
-		<a id="deleteButton" href="#" class="btn btn-sm btn-outline-primary btn-color" role="button"> Usun </a>
+<header id="main-menu">
+	<span id="menu-label"><a href="/" role="button"><b> <i class="icon-industry"></i>&nbsp;Hurtownia </b></a></span>
+	<span class="btn-group">
+        <a href="#" id="addButton" class="btn btn-sm btn-outline-primary btn-color disabled" aria-disabled="true"> <i class="icon-plus-squared"></i> Dodaj </a>
+		<a href="#" id="editButton" class="btn btn-sm btn-outline-primary btn-color disabled" aria-disabled="true"> <i class="icon-pencil-squared"></i> Edytuj </a>
+		<a href="#" id="deleteButton" class="btn btn-sm btn-outline-primary btn-color disabled" aria-disabled="true"> <i class="icon-minus-squared"></i> Usun </a>
     </span>
-</div>
-<div id="panel" style="float:left;" class="">
-    <center> Panel </center>
-    <hr/>
-    <div id="employeesButton" class=" panel-button"><i class="icon-users"></i> Pracownicy </div>
-    <div id="contractorsButton" class=" panel-button"><i class="icon-handshake-o"></i> Kontrahenci </div>
-    <div id="ordersButton" class=" panel-button"><i class="icon-money"></i> Zamówienia </div>
-    <div id="productsButton" class=" panel-button"><i class="icon-cubes"></i> Produkty </div>
-    <div id=""></div>
-</div>
-<div id="body" class="container">
+</header>
+<aside id="panel" class="">
+	<center> Panel </center>
+	<hr/>
+	<a href="/employees"><div id="employeesButton" class=" panel-button"><i class="icon-users"></i> Pracownicy </div></a>
+	<a href="/contractors"><div id="contractorsButton" class=" panel-button"><i class="icon-handshake-o"></i> Kontrahenci </div></a>
+	<a href="/orders"><div id="ordersButton" class=" panel-button"><i class="icon-money"></i> Zamówienia </div></a>
+	<a href="/products"><div id="productsButton" class=" panel-button"><i class="icon-cubes"></i> Produkty </div></a>
+	<!--<a href="/r" id=""></a>-->
+</aside>
+<main id="container" class="container">
 
-    <div id="tables" class="">
-        <table id="employeeTable" class="table">
-            <thead>
-            <tr>
-                <th> Imię </th>
-                <th> Nazwisko </th>
-            </tr>
-            </thead>
-            <tbody id="employees">
-            </tbody>
-        </table>
-        <table id="productTable" class="table">
-            <thead>
-            <tr>
-                <th> Kod </th>
-                <th> Producent </th>
-                <th> Nazwa </th>
-                <th> Ilość </th>
-                <th> Cena </th>
-                <th> Kategoria </th>
-                <th> Waga </th>
-                <th> Opis </th>
-            </tr>
-            </thead>
-            <tbody id="products">
-            </tbody>
-        </table>
-    </div>
-</div>
+</main>
 </body>
 </html>
