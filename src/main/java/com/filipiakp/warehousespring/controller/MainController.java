@@ -1,7 +1,5 @@
 package com.filipiakp.warehousespring.controller;
 
-import com.filipiakp.warehousespring.entities.Employee;
-import com.filipiakp.warehousespring.entities.Product;
 import com.filipiakp.warehousespring.model.EmployeeRepository;
 import com.filipiakp.warehousespring.model.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,23 +25,9 @@ public class MainController {
 		return "index";
 	}
 
-//	@MessageMapping("/employees")
-//	@SendTo("/listener/employees")
-//	public List<Employee> getEmployeesData(String message){
-//		return employeeRepository.findAll();
+//	@RequestMapping("/error")
+//	public String getErrorPage(Model model){
+//		return "";
 //	}
-//
-//	@MessageMapping("/products")
-//	@SendTo("/listener/products")
-//	public List<Product> getProductsData(String message){
-//		return productRepository.findAll();
-//	}
-//
-//	@RequestMapping("/addEmployee")
-//	public String addEmployee(Model model){
-//		model.addAttribute("file","employees");
-//		return "employees";
-//	}
-
 
 }

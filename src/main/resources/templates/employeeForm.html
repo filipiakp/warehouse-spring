@@ -17,58 +17,58 @@
 <header id="main-menu">
 	<span id="menu-label"><a href="/" role="button"><b> <i class="icon-industry"></i>&nbsp;Hurtownia </b></a></span>
 	<span class="btn-group">
-        <button id="addButton" class="btn btn-sm btn-outline-primary btn-color"> <i class="icon-plus-squared"></i> Dodaj </button>
-		<button id="editButton" class="btn btn-sm btn-outline-primary btn-color"> <i class="icon-pencil-squared"></i> Edytuj </button>
-		<button id="deleteButton" class="btn btn-sm btn-outline-primary btn-color"> <i class="icon-minus-squared"></i> Usun </button>
+        <a href="#" id="addButton" class="btn btn-sm btn-outline-primary btn-color disabled" aria-disabled="true"> <i class="icon-plus-squared"></i> Dodaj </a>
+		<a href="#" id="editButton" class="btn btn-sm btn-outline-primary btn-color disabled" aria-disabled="true"> <i class="icon-pencil-squared"></i> Edytuj </a>
+		<a href="#" id="deleteButton" class="btn btn-sm btn-outline-primary btn-color disabled" aria-disabled="true"> <i class="icon-minus-squared"></i> Usun </a>
     </span>
 </header>
 <aside id="panel" class="">
 	<center> Panel </center>
 	<hr/>
 	<a href="/employees"><div id="employeesButton" class=" panel-button"><i class="icon-users"></i> Pracownicy </div></a>
-	<div id="contractorsButton" class=" panel-button"><i class="icon-handshake-o"></i> Kontrahenci </div>
-	<div id="ordersButton" class=" panel-button"><i class="icon-money"></i> Zamówienia </div>
-	<div id="productsButton" class=" panel-button"><i class="icon-cubes"></i> Produkty </div>
-	<div id=""></div>
+	<a href="/contractors"><div id="contractorsButton" class=" panel-button"><i class="icon-handshake-o"></i> Kontrahenci </div></a>
+	<a href="/orders"><div id="ordersButton" class=" panel-button"><i class="icon-money"></i> Zamówienia </div></a>
+	<a href="/products"><div id="productsButton" class=" panel-button"><i class="icon-cubes"></i> Produkty </div></a>
+	<!--<a href="/r" id=""></a>-->
 </aside>
 <main id="container" class="container">
 	<h1>Dodaj Pracownika</h1>
-	<form action="/addEmployee" method="POST">
+	<form action="/addEmployee" method="POST" th:object="${form}">
 		<div class="form-group">
 			<label for="emplName"> Imię </label>
-			<input type="text" id="emplName" name="emplName" class="form-control"/>
+			<input type="text" id="emplName" name="emplName" class="form-control" th:field="${employee.name}"/>
 		</div>
 		<div class="form-group">
 			<label for="emplSurname"> Nazwisko </label>
-			<input type="text" id="emplSurname" name="emplSurname" class="form-control"/>
+			<input type="text" id="emplSurname" name="emplSurname" class="form-control" th:field="${employee.surname}"/>
 		</div>
 		<div class="form-group">
 			<label for="emplPosition"> Stanowisko </label>
-			<input type="text" id="emplPosition" name="emplPosition" class="form-control"/>
+			<input type="text" id="emplPosition" name="emplPosition" class="form-control" th:field="${employee.position}"/>
 		</div>
 		<div class="form-group">
 			<label for="emplSalary"> Pensja </label>
-			<input type="text" id="emplSalary" name="emplSalary" class="form-control"/>
+			<input type="text" id="emplSalary" name="emplSalary" class="form-control" th:field="${employee.salary}"/>
 		</div>
 		<div class="form-group">
 			<label for="emplCity"> Miasto </label>
-			<input type="text" id="emplCity" name="emplCity" class="form-control"/>
+			<input type="text" id="emplCity" name="emplCity" class="form-control" th:field="${employee.city}"/>
 		</div>
 		<div class="form-group">
 			<label for="emplStreet"> Ulica </label>
-			<input type="text" id="emplStreet" name="emplStreet" class="form-control"/>
+			<input type="text" id="emplStreet" name="emplStreet" class="form-control" th:field="${employee.street}"/>
 		</div>
 		<div class="form-group">
 			<label for="emplHouseNum"> Numer Domu </label>
-			<input type="text" id="emplHouseNum" name="emplHouseNum" class="form-control"/>
+			<input type="text" id="emplHouseNum" name="emplHouseNum" class="form-control" th:field="${employee.houseNumber}"/>
 		</div>
 		<div class="form-group">
 			<label for="emplApartNum"> Numer Mieszkania </label>
-			<input type="text" id="emplApartNum" name="emplApartNum" class="form-control"/>
+			<input type="text" id="emplApartNum" name="emplApartNum" class="form-control" th:field="${employee.apartmentNumber}"/>
 		</div>
 		<div class="form-group">
 			<label for="emplDate"> Data Zatrudnienia </label>
-			<input type="text" id="emplDate" name="emplDate" class="form-control"/>
+			<input type="text" id="emplDate" name="emplDate" class="form-control" th:field="${employee.employmentDate}"/>
 		</div>
 		<div class="form-group">
 			<input type="submit" class="btn btn-primary">Dodaj</input>

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,7 +21,7 @@ public class EmployeeController {
 
 	@RequestMapping("/employees/add")
 	String add(){
-		return "addEmployee";
+		return "employeeForm";
 	}
 
 	@PostMapping(value="/addEmployee", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
@@ -51,10 +50,10 @@ public class EmployeeController {
 		return "employees";
 	}
 
-	@RequestMapping("/employees/edit/{Id}")
-	String edit(@RequestParam int id, Model model){
+	@RequestMapping("/employees/edit/{id}")
+	String edit(@PathVariable int id, Model model){
 		model.addAttribute("employee",repository.findById(id));
-		return "addEmployee";
+		return "employeeForm";
 	}
 
 	@PutMapping("/updateEmployee")
@@ -62,8 +61,8 @@ public class EmployeeController {
 		return new ModelAndView("redirect:/employees");
 	}
 
-	@DeleteMapping("/employees/delete/{Id}")
-	ModelAndView deleteEmployee(@RequestParam int id){
+	@DeleteMapping("/employees/delete/{id}")
+	ModelAndView deleteEmployee(@PathVariable int id){
 		return new ModelAndView("redirect:/employees");
 	}
 }
