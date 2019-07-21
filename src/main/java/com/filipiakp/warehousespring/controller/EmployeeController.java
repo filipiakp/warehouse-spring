@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 public class EmployeeController {
@@ -20,28 +21,30 @@ public class EmployeeController {
 	EmployeeRepository repository;
 
 	@RequestMapping("/employees/add")
-	String add(){
+	String add(Model model){
+		model.addAttribute("employee",new Employee());
 		return "employeeForm";
 	}
 
-	@PostMapping(value="/addEmployee", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-	ModelAndView addEmployee(@RequestParam Map<String, String> data){
-		Employee employee = new Employee();
-		employee.setName(data.get("emplName"));
-		employee.setSurname(data.get("emplSurname"));
-		employee.setApartmentNumber(data.get("emplApartNum"));
-		employee.setCity(data.get("emplCity"));
-		employee.setHouseNumber(data.get("emplHouseNum"));
-		employee.setPosition(data.get("emplPosition"));
-		employee.setSalary(Double.parseDouble(data.get("emplSalary")));
-		employee.setStreet(data.get("emplStreet"));
+	@RequestMapping(value="/saveEmployee", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, method=RequestMethod.POST)
+	String saveEmployee(@RequestParam Map<String, String> data){
+		Employee employee = data.get("id")==null? new Employee():repository.findById(Integer.parseInt(data.get("id"))).get();
+		employee.setName(data.get("name"));
+		employee.setSurname(data.get("surname"));
+		employee.setApartmentNumber(data.get("apartmentNumber"));
+		employee.setCity(data.get("city"));
+		employee.setHouseNumber(data.get("houseNumber"));
+		employee.setPosition(data.get("position"));
+		employee.setSalary(Double.parseDouble(data.get("salary")));
+		employee.setStreet(data.get("street"));
 		try {
-			employee.setEmploymentDate(new SimpleDateFormat("dd.MM.yyyy").parse(data.get("emplDate")));
+			employee.setEmploymentDate(new SimpleDateFormat("dd.MM.yyyy").parse(data.get("employmentDate")));
 		} catch (ParseException e) {
 			e.printStackTrace();
+			//TODO:make validation
 		}
 		repository.save(employee);
-		return new ModelAndView("redirect:/employees");
+		return "redirect:/employees";
 	}
 
 	@RequestMapping("/employees")
@@ -56,13 +59,12 @@ public class EmployeeController {
 		return "employeeForm";
 	}
 
-	@PutMapping("/updateEmployee")
-	ModelAndView editEmployee(@RequestBody Employee employee){
-		return new ModelAndView("redirect:/employees");
-	}
-
-	@DeleteMapping("/employees/delete/{id}")
-	ModelAndView deleteEmployee(@PathVariable int id){
-		return new ModelAndView("redirect:/employees");
+	@RequestMapping("/employees/delete/{id}")
+	String deleteEmployee(@PathVariable int id){
+		Optional<Employee> employeeOptional = repository.findById(id);
+		if (employeeOptional.isPresent()) {
+			repository.delete(employeeOptional.get());
+		}
+		return "redirect:/employees";
 	}
 }

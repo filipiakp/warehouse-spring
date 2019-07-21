@@ -33,45 +33,46 @@
 </aside>
 <main id="container" class="container">
 	<h1>Dodaj Pracownika</h1>
-	<form action="/addEmployee" method="POST" th:object="${form}">
+	<form action="/saveEmployee" method="POST" th:object="${employee}">
+		<input type="hidden" id="id" th:field="${employee.id}"/>
 		<div class="form-group">
 			<label for="emplName"> Imię </label>
-			<input type="text" id="emplName" name="emplName" class="form-control" th:field="${employee.name}"/>
+			<input type="text" id="emplName" class="form-control" th:field="${employee.name}"/>
 		</div>
 		<div class="form-group">
 			<label for="emplSurname"> Nazwisko </label>
-			<input type="text" id="emplSurname" name="emplSurname" class="form-control" th:field="${employee.surname}"/>
+			<input type="text" id="emplSurname" class="form-control" th:field="${employee.surname}"/>
 		</div>
 		<div class="form-group">
 			<label for="emplPosition"> Stanowisko </label>
-			<input type="text" id="emplPosition" name="emplPosition" class="form-control" th:field="${employee.position}"/>
+			<input type="text" id="emplPosition" class="form-control" th:field="${employee.position}"/>
 		</div>
 		<div class="form-group">
 			<label for="emplSalary"> Pensja </label>
-			<input type="text" id="emplSalary" name="emplSalary" class="form-control" th:field="${employee.salary}"/>
+			<input type="text" id="emplSalary" class="form-control" th:field="${employee.salary}"/>
 		</div>
 		<div class="form-group">
 			<label for="emplCity"> Miasto </label>
-			<input type="text" id="emplCity" name="emplCity" class="form-control" th:field="${employee.city}"/>
+			<input type="text" id="emplCity" class="form-control" th:field="${employee.city}"/>
 		</div>
 		<div class="form-group">
 			<label for="emplStreet"> Ulica </label>
-			<input type="text" id="emplStreet" name="emplStreet" class="form-control" th:field="${employee.street}"/>
+			<input type="text" id="emplStreet" class="form-control" th:field="${employee.street}"/>
 		</div>
 		<div class="form-group">
 			<label for="emplHouseNum"> Numer Domu </label>
-			<input type="text" id="emplHouseNum" name="emplHouseNum" class="form-control" th:field="${employee.houseNumber}"/>
+			<input type="text" id="emplHouseNum" class="form-control" th:field="${employee.houseNumber}"/>
 		</div>
 		<div class="form-group">
 			<label for="emplApartNum"> Numer Mieszkania </label>
-			<input type="text" id="emplApartNum" name="emplApartNum" class="form-control" th:field="${employee.apartmentNumber}"/>
+			<input type="text" id="emplApartNum" class="form-control" th:field="${employee.apartmentNumber}"/>
 		</div>
 		<div class="form-group">
 			<label for="emplDate"> Data Zatrudnienia </label>
-			<input type="text" id="emplDate" name="emplDate" class="form-control" th:field="${employee.employmentDate}"/>
+			<input type="text" id="emplDate" class="form-control" th:field="${employee.employmentDate}"/>
 		</div>
 		<div class="form-group">
-			<input type="submit" class="btn btn-primary">Dodaj</input>
+			<input type="submit" class="btn btn-primary"/>
 		</div>
 	</form>
 </main>
