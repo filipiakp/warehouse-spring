@@ -1,6 +1,8 @@
 $(function(){
 	var location = window.location.pathname;
 
+
+
 	$(".table tbody tr").click(function(){
 		$(this).addClass('selected').siblings().removeClass('selected');
 		$("#editButton").attr("aria-disabled", false);

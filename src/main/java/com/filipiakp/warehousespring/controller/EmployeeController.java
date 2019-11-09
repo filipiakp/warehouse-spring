@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,7 +30,7 @@ public class EmployeeController {
 
 	@RequestMapping(value="/saveEmployee", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, method=RequestMethod.POST)
 	String saveEmployee(@RequestParam Map<String, String> data){
-		Employee employee = data.get("id")==null? new Employee():repository.findById(Integer.parseInt(data.get("id"))).get();
+		Employee employee = data.get("id").equals("0")? new Employee():repository.findById(Integer.parseInt(data.get("id"))).get();
 		employee.setName(data.get("name"));
 		employee.setSurname(data.get("surname"));
 		employee.setApartmentNumber(data.get("apartmentNumber"));

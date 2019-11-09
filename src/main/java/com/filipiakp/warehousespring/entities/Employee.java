@@ -3,6 +3,7 @@ package com.filipiakp.warehousespring.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -12,6 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name="warehouse_employee")
 public class Employee {
 
 	@Id
@@ -29,9 +31,12 @@ public class Employee {
 	@NotBlank
 	private String street;
 	@NotBlank
+	@Column(name = "house_number")
 	private String houseNumber;
-	@Column
+	@Column(name = "apartment_number")
 	private String apartmentNumber;
 	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern="dd.MM.yyyy")
+	@Column(name = "employment_date")
 	private Date employmentDate;
 }

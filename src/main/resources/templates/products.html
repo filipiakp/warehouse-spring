@@ -1,27 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Hurtownia - Produkty</title>
-</head>
+<html lang="pl-PL" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head"></head>
 <body>
-
-
-<table id="productTable" class="table">
-	<thead>
-	<tr>
-		<th> Kod </th>
-		<th> Producent </th>
-		<th> Nazwa </th>
-		<th> Ilość </th>
-		<th> Cena </th>
-		<th> Kategoria </th>
-		<th> Waga </th>
-		<th> Opis </th>
-	</tr>
-	</thead>
-	<tbody id="products">
-	</tbody>
-</table>
+<header id="main-menu">
+	<span id="menu-label"><a href="/" role="button"><b> <i class="icon-industry"></i>&nbsp;Hurtownia </b></a></span>
+	<span class="btn-group">
+        <a href="/products/add" id="addButton" class="btn btn-sm btn-outline-primary btn-color"> <i class="icon-plus-squared"></i> Dodaj </a>
+		<a href="#" id="editButton" class="btn btn-sm btn-outline-primary btn-color disabled" aria-disabled="true"> <i class="icon-pencil-squared"></i> Edytuj </a>
+		<a href="#" id="deleteButton" class="btn btn-sm btn-outline-primary btn-color disabled" aria-disabled="true"> <i class="icon-minus-squared"></i> Usun </a>
+    </span>
+</header>
+<aside th:replace="fragments/aside"></aside>
+<main id="container" class="container">
+	<table id="productTable" class="table">
+		<thead>
+		<tr>
+			<th> Kod </th>
+			<th> Producent </th>
+			<th> Nazwa </th>
+			<th> Specyfikacja </th>
+			<th> Ilość </th>
+			<th> Cena </th>
+			<th> Kategoria </th>
+			<th> Waga </th>
+		</tr>
+		</thead>
+		<tbody id="products">
+		<tr th:each="product: ${products}">
+			<td th:text="${product.code}">Code</td>
+			<td th:text="${product.manufacturer}">Manufacturer</td>
+			<td th:text="${product.name}">Name</td>
+			<td th:text="${product.specification}">Specification</td>
+			<td th:text="${product.amount}">Amount</td>
+			<td th:text="${product.price}">Price</td>
+			<td th:text="${product.category}">Category</td>
+			<td th:text="${product.weight}">Weight</td>
+		</tr>
+		</tbody>
+	</table>
+</main>
 </body>
 </html>

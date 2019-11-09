@@ -1,18 +1,6 @@
 <!DOCTYPE html>
 <html lang="pl-PL" xmlns:th="http://www.thymeleaf.org">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>Hurtownia</title>
-	<link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<link href="/fontello/css/fontello.css" rel="stylesheet">
-	<link href="/main.css" rel="stylesheet"/>
-	<script src="/webjars/jquery/jquery.min.js"></script>
-	<script src="/webjars/sockjs-client/sockjs.min.js"></script>
-	<script src="/webjars/stomp-websocket/stomp.min.js"></script>
-	<!--<script src="/app.js"></script>-->
-
-</head>
+<head th:replace="fragments/head :: head"></head>
 <body>
 <header id="main-menu">
 	<span id="menu-label"><a href="/" role="button"><b> <i class="icon-industry"></i>&nbsp;Hurtownia </b></a></span>
@@ -22,15 +10,7 @@
 		<a href="#" id="deleteButton" class="btn btn-sm btn-outline-primary btn-color disabled" aria-disabled="true"> <i class="icon-minus-squared"></i> Usun </a>
     </span>
 </header>
-<aside id="panel" class="">
-	<center> Panel </center>
-	<hr/>
-	<a href="/employees"><div id="employeesButton" class=" panel-button"><i class="icon-users"></i> Pracownicy </div></a>
-	<a href="/contractors"><div id="contractorsButton" class="panel-button"><i class="icon-handshake-o"></i> Kontrahenci </div></a>
-	<a href="/orders"><div id="ordersButton" class=" panel-button"><i class="icon-money"></i> Zamówienia </div></a>
-	<a href="/products"><div id="productsButton" class=" panel-button"><i class="icon-cubes"></i> Produkty </div></a>
-	<!--<a href="/r" id=""></a>-->
-</aside>
+<aside th:replace="fragments/aside"></aside>
 <main id="container" class="container">
 
 </main>
