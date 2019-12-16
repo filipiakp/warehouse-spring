@@ -21,9 +21,9 @@ public class Order {
 	private long id;
 	@Temporal(TemporalType.DATE)
 	@Column(name="order_date")
-	@DateTimeFormat(pattern="dd.MM.yyyy")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date date;
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)//mappedBy = "order",
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	@JoinColumn(name = "order_id")
 	private Set<OrderProduct> productsList;
 	@ManyToOne

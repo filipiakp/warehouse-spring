@@ -40,7 +40,7 @@ public class EmployeeController {
 		employee.setSalary(Double.parseDouble(data.get("salary")));
 		employee.setStreet(data.get("street"));
 		try {
-			employee.setEmploymentDate(new SimpleDateFormat("dd.MM.yyyy").parse(data.get("employmentDate")));
+			employee.setEmploymentDate(new SimpleDateFormat("yyyy-MM-dd").parse(data.get("employmentDate")));
 		} catch (ParseException e) {
 			e.printStackTrace();
 			//TODO:make validation

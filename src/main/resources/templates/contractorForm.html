@@ -43,7 +43,7 @@
 			<input type="text" id="contApartNum" class="form-control" th:field="${contractor.apartmentNumber}"/>
 		</div>
 		<div class="form-check">
-			<input type="checkbox"  class="form-check-input" th:field="*{supplier}" th:value="${contractor.supplier}"/>
+			<input type="checkbox" class="form-check-input" th:field="*{supplier}"/>
 			<label th:for="${#ids.prev('supplier')}" class="form-check-label"> Dostawca </label>
 		</div>
 		<div class="form-group">

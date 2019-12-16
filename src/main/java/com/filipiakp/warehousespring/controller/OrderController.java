@@ -45,20 +45,20 @@ public class OrderController {
 	}
 
 	@RequestMapping(value="/saveOrder", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, method=RequestMethod.POST)
-	String saveOrder(@RequestParam Map<String,String> data){//porównaj z employee controller
+	String saveOrder(@RequestParam Map<String,String> data){
 		Order order = repository.existsById(Long.parseLong(data.get("id")))?repository.findById(Long.parseLong(data.get("id"))).get():new Order();
 		if(data.get("contractor")!=null && !data.get("contractor").trim().equals(""))
 			order.setContractor(contractorRepository.findByNip(data.get("contractor")).get());
 		try {
-			order.setDate(new SimpleDateFormat("dd.MM.yyyy").parse(data.get("date")));
+			order.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(data.get("date")));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		//Tutaj MOŻĘ Być w przyszłości problem
 		int items = (data.size()-3)/4;
 		Set<OrderProduct> orderProductSet = new HashSet<>();
 		long tempOPId = 0;
 		for (int i=0; i<items;++i){
-			//jak nie to dodaj najpierw te orderproducts do bazy
 			OrderProduct orderProduct = new OrderProduct();
 			tempOPId = Long.parseLong(data.get("productsList["+i+"].id"));
 			if(tempOPId != 0)
@@ -69,19 +69,6 @@ public class OrderController {
 		}
 		order.setProductsList(orderProductSet);
 		repository.save(order);
-		//TODO: wymyśl jak zapisać tę listę
-//		orderProductRepository.saveAll()
-//		order.setProductsList(new HashSet<OrderProduct>());
-//		//order.setProductsList(data.getProductsList());
-//		repository.save(order);
-//		if(data.getProductsList()!=null)
-//			for(OrderProductDTO opdto : data.getProductsList()){
-//				OrderProduct orderProduct = orderProductRepository.existsById(opdto.getId())?orderProductRepository.findById(opdto.getId()).get():new OrderProduct();
-//				order.getProductsList().add(orderProduct);
-//				orderProduct.setProduct(productRepository.findByCode(opdto.getProductCode()).get());
-//				orderProduct.setQuantity(opdto.getQuantity());
-//				orderProductRepository.save(orderProduct);
-//			}
 
 		return "redirect:/orders";
 	}
@@ -108,7 +95,6 @@ public class OrderController {
 		model.addAttribute("order",orderDTO);
 		model.addAttribute("contractors",contractorRepository.findAll());
 		model.addAttribute("products", productRepository.findAll());
-		//model.addAttribute("orderproducts",orderProductRepository.findAll().stream().filter(op ->op.getOrder().getId()==id).collect(Collectors.toList()));
 		return "orderForm";
 	}
 

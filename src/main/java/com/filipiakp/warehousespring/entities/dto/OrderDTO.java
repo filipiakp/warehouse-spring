@@ -13,7 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class OrderDTO {
 	private long id;
-	@DateTimeFormat(pattern="dd.MM.yyyy")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date date;
 	private Set<OrderProductDTO> productsList;
 	private String contractor;

@@ -36,7 +36,7 @@ public class Employee {
 	@Column(name = "apartment_number")
 	private String apartmentNumber;
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern="dd.MM.yyyy")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@Column(name = "employment_date")
 	private Date employmentDate;
 }
