@@ -1,0 +1,23 @@
+<dataset>
+	<product
+			code="ABCDE"
+			manufacturer="Asus"
+			name="Monitor"
+			specification="Opis"
+			amount="5"
+			price="2.0"
+			category="PC"
+			weight="10"
+			/>
+	<product
+			code="12345"
+			manufacturer="AMD"
+			name="Procek"
+			specification="Opis"
+			amount="7"
+			price="42.0"
+			category="PC"
+			weight="10"
+	/>
+
+</dataset>

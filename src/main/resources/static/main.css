@@ -79,6 +79,10 @@ aside a:hover {
 header span a{
 
 }
+td input{
+	background-color: white;
+	border: none;
+}
 /*
 th, td{
     border: 2px solid gray;

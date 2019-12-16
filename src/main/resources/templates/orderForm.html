@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pl-PL" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head"></head>
+<body>
+<header id="main-menu">
+	<span id="menu-label"><a href="/" role="button"><b> <i class="icon-industry"></i>&nbsp;Hurtownia </b></a></span>
+	<span class="btn-group">
+        <a href="#" id="addButton" class="btn btn-sm btn-outline-primary btn-color disabled" aria-disabled="true"> <i class="icon-plus-squared"></i> Dodaj </a>
+		<a href="#" id="editButton" class="btn btn-sm btn-outline-primary btn-color disabled" aria-disabled="true"> <i class="icon-pencil-squared"></i> Edytuj </a>
+		<a href="#" id="deleteButton" class="btn btn-sm btn-outline-primary btn-color disabled" aria-disabled="true"> <i class="icon-minus-squared"></i> Usun </a>
+    </span>
+</header>
+<aside th:replace="fragments/aside"></aside>
+<main id="container" class="container">
+	<h1>Dodaj Zamówienie</h1>
+	<form action="#" th:action="@{/saveOrder}" method="POST" th:object="${order}">
+		<div class="form-group" style="display:none;">
+			<label for="ordId"> ID </label>
+			<input type="text" id="ordId" class="form-control" th:field="${order.id}"/>
+		</div>
+		<div class="form-group">
+			<label for="ordDate"> Data </label>
+			<input type="text" id="ordDate" class="form-control" th:field="${order.date}"/>
+		</div>
+		<div class="form-group">
+			<label for="ordContractor"> Kontrahent </label>
+			<select class="form-control" id="ordContractor" name="contractor">
+				<option th:each="contractor : ${contractors}" th:value="${contractor.nip}" th:text="${contractor.nip + ' ' + contractor.name }" th:selected="${contractor.nip==order.contractor}"></option>
+			</select>
+		</div>
+		<fieldset>
+			<legend> Lista Produktów: </legend>
+			<table class="table">
+				<thead>
+					<th width="1"></th>
+					<th>Kod</th>
+					<th>Nazwa</th>
+					<th>Ilość</th>
+				</thead>
+				<tbody id="list">
+					<tr th:each="ope, i : ${order.productsList}">
+						<td><input type="text" hidden th:name="|productsList[${i.index}].id|" th:value="${ope.getId()}"/></td>
+						<td><input type="text" th:name="|productsList[${i.index}].productCode|" th:value="${ope.getProductCode()}"/></td>
+						<td><input type="text" th:name="|productsList[${i.index}].productName|" th:value="${ope.getProductName()}"/></td>
+						<td><input type="text" th:name="|productsList[${i.index}].quantity|" th:value="${ope.getQuantity()}"/></td>
+					</tr>
+				</tbody>
+			</table>
+			<table>
+				<tr>
+					<td>
+						<select class="form-control" id="ordOP">
+						<option selected value="none">Wybierz Produkt...</option>
+						<option th:each="product : ${products}" th:value="${product.code}" th:text="${product.code + ' ' + product.name}"></option>
+						</select>
+					</td>
+					<td>
+						<input id="ordQuantity" type="text" class="form-control" placeholder="Ilość"/>
+					</td>
+					<td>
+						<button id="addOrderProductButton" class="btn btn-outline-secondary" type="button">Dodaj</button>
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+		<br/>
+		<input type="submit" class="btn btn-primary"/>
+	</form>
+
+</main>
+<script>
+	var counter = document.getElementById("list").childElementCount - 1;
+	$("#addOrderProductButton").click(function(event) {
+		event.preventDefault();
+		if($("#ordOP").val()!="none") {
+			var productCode = $("#ordOP").val();
+			var productName = $("#ordOP option:selected").text().replace(productCode, "");
+			productName = productName.substr(1);
+			var quantity = $("#ordQuantity").val();
+
+			counter++;
+			var appendix = "<tr><td><input type=\"text\" hidden=\"\" name=\"productsList["+counter+"].id\" value=\"0\"></td>"+
+			"<td><input type=\"text\" name=\"productsList["+counter+"].productCode\" value=\""+productCode+"\"></td>"+
+			"<td><input type=\"text\" name=\"productsList["+counter+"].productName\" value=\""+productName+"\"></td>"+
+			"<td><input type=\"text\" name=\"productsList["+counter+"].quantity\" value=\""+quantity+"\"></td></tr>";
+			$("#list").append(appendix);
+		}
+	});
+</script>
+</body>
+</html>

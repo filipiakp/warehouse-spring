@@ -1,0 +1,22 @@
+<dataset>
+	<contractor
+		nip="78787878"
+		name="Firma A"
+		phoneNumber="5434243"
+		city="Wa-wa"
+		street="Mała"
+		house_number="5"
+		apartment_number="43"
+		is_supplier="0"
+		/>
+	<contractor
+			nip="121212"
+			name="Firma B"
+			phoneNumber="03423243"
+			city="CZewa"
+			street="Duza"
+			house_number="35"
+			apartment_number="4"
+			is_supplier="1"
+	/>
+</dataset>
