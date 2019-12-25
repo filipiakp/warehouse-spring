@@ -23,7 +23,7 @@ public class Order {
 	@Column(name="order_date")
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date date;
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@JoinColumn(name = "order_id")
 	private Set<OrderProduct> productsList;
 	@ManyToOne

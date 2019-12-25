@@ -38,6 +38,8 @@ public class OrderController {
 
 	@RequestMapping("/orders/add")
 	String add(Model model){
+//		OrderDTO orderDTO = new OrderDTO();
+//		orderDTO.setContractor("0");
 		model.addAttribute("order",new OrderDTO());
 		model.addAttribute("contractors",contractorRepository.findAll());
 		model.addAttribute("products", productRepository.findAll());
@@ -47,7 +49,7 @@ public class OrderController {
 	@RequestMapping(value="/saveOrder", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, method=RequestMethod.POST)
 	String saveOrder(@RequestParam Map<String,String> data){
 		Order order = repository.existsById(Long.parseLong(data.get("id")))?repository.findById(Long.parseLong(data.get("id"))).get():new Order();
-		if(data.get("contractor")!=null && !data.get("contractor").trim().equals(""))
+		if(data.get("contractor")!=null && !data.get("contractor").equals(""))
 			order.setContractor(contractorRepository.findByNip(data.get("contractor")).get());
 		try {
 			order.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(data.get("date")));
@@ -55,6 +57,7 @@ public class OrderController {
 			e.printStackTrace();
 		}
 		//Tutaj MOŻĘ Być w przyszłości problem
+		//hardcoded variable can cause problems in the future
 		int items = (data.size()-3)/4;
 		Set<OrderProduct> orderProductSet = new HashSet<>();
 		long tempOPId = 0;
@@ -68,8 +71,9 @@ public class OrderController {
 			orderProductSet.add(orderProduct);
 		}
 		order.setProductsList(orderProductSet);
-		repository.save(order);
 
+		order = repository.save(order);
+		orderProductRepository.saveAll(order.getProductsList());
 		return "redirect:/orders";
 	}
 
@@ -91,9 +95,9 @@ public class OrderController {
 			opDTO.setQuantity(op.getQuantity());
 			opDTOList.add(opDTO);
 		}
-		OrderDTO orderDTO = new OrderDTO(order.getId(),order.getDate(),opDTOList,order.getContractor().getNip() +" "+ order.getContractor().getName());
+		OrderDTO orderDTO = new OrderDTO(order.getId(),order.getDate(),opDTOList,(order.getContractor()!=null)? (order.getContractor().getNip() +" "+ order.getContractor().getName()):"");
 		model.addAttribute("order",orderDTO);
-		model.addAttribute("contractors",contractorRepository.findAll());
+		model.addAttribute("contractors",contractorRepository.findAll());//.add(new Contractor("0","Wybierz Kontrahenta","","","","","",false))
 		model.addAttribute("products", productRepository.findAll());
 		return "orderForm";
 	}

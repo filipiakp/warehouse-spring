@@ -22,6 +22,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -121,5 +126,35 @@ public class OrderIntegrationTest {
 
 		assertEquals(productRepository.findByCode("abc").get(),orderProductFound.getProduct());
 		assertEquals(1,orderProductFound.getQuantity());
+	}
+
+	@Test
+	public void givenOrderWithOrderProducts_whenOrderDeleted_thenOrderProductsDeleted() throws ParseException {
+		//given
+		orderRepository.deleteAll();
+		orderProductRepository.deleteAll();
+		Order order = new Order();
+		order.setId(0);
+		order.setContractor(contractorRepository.findByNip("1234567890").get());
+		order.setDate(new SimpleDateFormat("yyyy-MM-dd").parse("2003-03-03"));
+
+		Set<OrderProduct> orderProducts = new HashSet<OrderProduct>();
+		OrderProduct orderProduct = new OrderProduct();
+		orderProduct.setId(0);
+		orderProduct.setQuantity(654);
+		orderProduct.setProduct(productRepository.findByCode("abc").get());
+		orderProducts.add(orderProduct);
+
+		order.setProductsList(orderProducts);
+		order = orderRepository.save(order);
+		orderProductRepository.saveAll(order.getProductsList());
+		assertEquals(1,orderProductRepository.count());
+		assertEquals(1,orderRepository.count());
+		//when
+		orderRepository.delete(order);
+
+		//then
+		assertEquals(0,orderProductRepository.count());
+		assertEquals(0,orderRepository.count());
 	}
 }
