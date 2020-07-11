@@ -43,7 +43,6 @@ public class EmployeeController {
 			employee.setEmploymentDate(new SimpleDateFormat("yyyy-MM-dd").parse(data.get("employmentDate")));
 		} catch (ParseException e) {
 			e.printStackTrace();
-			//TODO:make validation
 		}
 		repository.save(employee);
 		return "redirect:/employees";

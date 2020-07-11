@@ -2,6 +2,7 @@ package com.filipiakp.warehousespring.controller;
 
 import com.filipiakp.warehousespring.entities.Order;
 import com.filipiakp.warehousespring.entities.OrderProduct;
+import com.filipiakp.warehousespring.entities.Product;
 import com.filipiakp.warehousespring.entities.dto.OrderDTO;
 import com.filipiakp.warehousespring.entities.dto.OrderProductDTO;
 import com.filipiakp.warehousespring.model.ContractorRepository;
@@ -19,10 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class OrderController {
@@ -38,8 +36,6 @@ public class OrderController {
 
 	@RequestMapping("/orders/add")
 	String add(Model model){
-//		OrderDTO orderDTO = new OrderDTO();
-//		orderDTO.setContractor("0");
 		model.addAttribute("order",new OrderDTO());
 		model.addAttribute("contractors",contractorRepository.findAll());
 		model.addAttribute("products", productRepository.findAll());
@@ -58,17 +54,27 @@ public class OrderController {
 		}
 		//Tutaj MOŻĘ Być w przyszłości problem
 		//hardcoded variable can cause problems in the future
-		int items = (data.size()-3)/4;
+		//final int numberOfOrderFields = Order.class.getFields().length;
+		final int numberOfOrderFields = 4-1;//Id + date + contractor + collection of OrderProducts = 4 - collection
+		final int numberOfOPDTOFields = 5;//id + prodCode + prodName + quantity + deleted = 5
+		int items = (data.size() - numberOfOrderFields) /numberOfOPDTOFields;
 		Set<OrderProduct> orderProductSet = new HashSet<>();
 		long tempOPId = 0;
+		boolean tempOPdeleted = false;
 		for (int i=0; i<items;++i){
-			OrderProduct orderProduct = new OrderProduct();
+
 			tempOPId = Long.parseLong(data.get("productsList["+i+"].id"));
-			if(tempOPId != 0)
-				orderProduct.setId(tempOPId);
-			orderProduct.setProduct(productRepository.findByCode(data.get("productsList["+i+"].productCode")).get());
-			orderProduct.setQuantity(Integer.parseInt(data.get("productsList["+i+"].quantity")));
-			orderProductSet.add(orderProduct);
+			tempOPdeleted = Boolean.parseBoolean(data.get("productsList["+i+"].deleted"));
+			if(tempOPId != 0 && tempOPdeleted){
+				OrderProduct orderProduct = orderProductRepository.findById(tempOPId).get();
+				orderProductSet.remove(orderProduct);
+				orderProductRepository.delete(orderProduct);
+			}else if(!tempOPdeleted){
+				OrderProduct orderProduct = (tempOPId == 0) ? new OrderProduct() : orderProductRepository.findById(tempOPId).get();
+				orderProduct.setProduct(productRepository.findByCode(data.get("productsList["+i+"].productCode")).get());
+				orderProduct.setQuantity(Integer.parseInt(data.get("productsList["+i+"].quantity")));
+				orderProductSet.add(orderProduct);
+			}
 		}
 		order.setProductsList(orderProductSet);
 
@@ -87,18 +93,21 @@ public class OrderController {
 	String edit(@PathVariable long id, Model model){
 		Order order = repository.findById(id).get();
 		Set<OrderProductDTO> opDTOList = new HashSet();
+		List<Product> productList = productRepository.findAll();
 		for(OrderProduct op : order.getProductsList()){
 			OrderProductDTO opDTO = new OrderProductDTO();
 			opDTO.setId(op.getId());
 			opDTO.setProductCode(op.getProduct().getCode());
 			opDTO.setProductName(op.getProduct().getName());
 			opDTO.setQuantity(op.getQuantity());
+			opDTO.setDeleted(false);
 			opDTOList.add(opDTO);
 		}
 		OrderDTO orderDTO = new OrderDTO(order.getId(),order.getDate(),opDTOList,(order.getContractor()!=null)? (order.getContractor().getNip() +" "+ order.getContractor().getName()):"");
 		model.addAttribute("order",orderDTO);
-		model.addAttribute("contractors",contractorRepository.findAll());//.add(new Contractor("0","Wybierz Kontrahenta","","","","","",false))
-		model.addAttribute("products", productRepository.findAll());
+		model.addAttribute("contractors",contractorRepository.findAll());
+
+		model.addAttribute("products", productList);
 		return "orderForm";
 	}
 

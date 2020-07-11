@@ -107,6 +107,7 @@ public class OrderIntegrationTest {
 	@Transactional//Because of org.hibernate.LazyInitializationException: failed to lazily initialize a collection of role: com.filipiakp.warehousespring.entities.Order.productsList, could not initialize proxy - no Session
 	public void givenSaveOrderMapping_whenNewOrderWithProdListPOSTed_thenEntitiesFoundAtRepositories() throws Exception {
 		orderRepository.deleteAll();
+
 		this.mockMvc.perform(post("/saveOrder").contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("id", "0")
 				.param("date", "2002-02-02")
@@ -117,7 +118,7 @@ public class OrderIntegrationTest {
 				.param("productsList[0].quantity","1"))
 				.andDo(print());
 
-		Order orderFound = orderRepository.findById(1).get();
+		Order orderFound = orderRepository.findAll().get(0);
 		OrderProduct orderProductFound = (OrderProduct) orderFound.getProductsList().toArray()[0];
 
 

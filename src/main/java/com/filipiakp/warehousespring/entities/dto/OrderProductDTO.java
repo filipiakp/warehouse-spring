@@ -12,4 +12,5 @@ public class OrderProductDTO {
 	private String productCode;
 	private String productName;
 	private int quantity;
+	private boolean deleted;
 }
