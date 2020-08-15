@@ -115,7 +115,8 @@ public class OrderIntegrationTest {
 				.param("productsList[0].id","0")
 				.param("productsList[0].productCode","abc")
 				.param("productsList[0].productName","Monitor")
-				.param("productsList[0].quantity","1"))
+				.param("productsList[0].quantity","1")
+				.param("productsList[0].deleted", "false"))
 				.andDo(print());
 
 		Order orderFound = orderRepository.findAll().get(0);
