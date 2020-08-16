@@ -1,4 +1,6 @@
 FROM openjdk:8-jdk-alpine
-#ARG JAR_FILE=target/*.jar
+COPY . .
+#./gradlew bootBuildImage --imageName=filipiakp/warehouse-spring
+RUN  ./gradlew build
 COPY build/libs/*.jar app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
