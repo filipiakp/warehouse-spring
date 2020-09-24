@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pl-PL" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head"></head>
+<head th:replace="fragments/head :: head(siteTitle = 'Pracownik - Edycja')"></head>
 <body>
 <header id="main-menu">
 	<span id="menu-label"><a href="/" role="button"><b> <i class="icon-industry"></i>&nbsp;Hurtownia </b></a></span>
@@ -18,38 +18,47 @@
 		<div class="form-group">
 			<label for="emplName"> Imię </label>
 			<input type="text" id="emplName" class="form-control" th:field="${employee.name}"/>
+			<span style="color:red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
 		</div>
 		<div class="form-group">
 			<label for="emplSurname"> Nazwisko </label>
 			<input type="text" id="emplSurname" class="form-control" th:field="${employee.surname}"/>
+			<span style="color:red;" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></span>
 		</div>
 		<div class="form-group">
 			<label for="emplPosition"> Stanowisko </label>
 			<input type="text" id="emplPosition" class="form-control" th:field="${employee.position}"/>
+			<span style="color:red;" th:if="${#fields.hasErrors('position')}" th:errors="*{position}"></span>
 		</div>
 		<div class="form-group">
 			<label for="emplSalary"> Pensja </label>
 			<input type="text" id="emplSalary" class="form-control" th:field="${employee.salary}"/>
+			<span style="color:red;" th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}"></span>
 		</div>
 		<div class="form-group">
 			<label for="emplCity"> Miasto </label>
 			<input type="text" id="emplCity" class="form-control" th:field="${employee.city}"/>
+			<span style="color:red;" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></span>
 		</div>
 		<div class="form-group">
 			<label for="emplStreet"> Ulica </label>
 			<input type="text" id="emplStreet" class="form-control" th:field="${employee.street}"/>
+			<span style="color:red;" th:if="${#fields.hasErrors('street')}" th:errors="*{street}"></span>
 		</div>
 		<div class="form-group">
 			<label for="emplHouseNum"> Numer Domu </label>
 			<input type="text" id="emplHouseNum" class="form-control" th:field="${employee.houseNumber}"/>
+			<span style="color:red;" th:if="${#fields.hasErrors('houseNumber')}" th:errors="*{houseNumber}"></span>
 		</div>
 		<div class="form-group">
 			<label for="emplApartNum"> Numer Mieszkania </label>
 			<input type="text" id="emplApartNum" class="form-control" th:field="${employee.apartmentNumber}"/>
+			<span style="color:red;" th:if="${#fields.hasErrors('apartmentNumber')}" th:errors="*{apartmentNumber}"></span>
 		</div>
 		<div class="form-group">
 			<label for="emplDate"> Data Zatrudnienia </label>
 			<input type="date" id="emplDate" class="form-control" th:field="${employee.employmentDate}"/>
+			<span style="color:red;" th:if="${#fields.hasErrors('employmentDate')}" th:errors="*{employmentDate}"></span>
 		</div>
 		<div class="form-group">
 			<input type="submit" class="btn btn-primary"/>

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -43,7 +44,7 @@ public class OrderController {
 	}
 
 	@RequestMapping(value="/saveOrder", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, method=RequestMethod.POST)
-	String saveOrder(@RequestParam Map<String,String> data){
+	String saveOrder(@Valid Map<String,String> data){
 		Order order = repository.existsById(Long.parseLong(data.get("id")))?repository.findById(Long.parseLong(data.get("id"))).get():new Order();
 		if(data.get("contractor")!=null && !data.get("contractor").equals(""))
 			order.setContractor(contractorRepository.findByNip(data.get("contractor")).get());
