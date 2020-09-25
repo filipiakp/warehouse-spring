@@ -15,6 +15,7 @@ public class OrderDTO {
 	private long id;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date date;
-	private Set<OrderProductDTO> productsList;
+	//private Set<OrderProductDTO> productsList;
+	private OrderProductDTO[] productsList;
 	private String contractor;
 }

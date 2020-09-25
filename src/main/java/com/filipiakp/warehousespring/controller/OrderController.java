@@ -44,40 +44,46 @@ public class OrderController {
 	}
 
 	@RequestMapping(value="/saveOrder", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, method=RequestMethod.POST)
-	String saveOrder(@Valid Map<String,String> data){
-		Order order = repository.existsById(Long.parseLong(data.get("id")))?repository.findById(Long.parseLong(data.get("id"))).get():new Order();
-		if(data.get("contractor")!=null && !data.get("contractor").equals(""))
-			order.setContractor(contractorRepository.findByNip(data.get("contractor")).get());
-		try {
-			order.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(data.get("date")));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+	String saveOrder(@Valid OrderDTO data){
+		Order order = repository.existsById(data.getId())?repository.findById(data.getId()).get():new Order();
+
+		if(data.getContractor()!=null )//&& !data.getContractor().equals("")
+			order.setContractor(contractorRepository.findByNip(data.getContractor()).get());
+		order.setDate(data.getDate());
+
 		//Tutaj MOŻĘ Być w przyszłości problem
 		//hardcoded variable can cause problems in the future
 		//final int numberOfOrderFields = Order.class.getFields().length;
 		final int numberOfOrderFields = 4-1;//Id + date + contractor + collection of OrderProducts = 4 - collection
 		final int numberOfOPDTOFields = 5;//id + prodCode + prodName + quantity + deleted = 5
-		int items = (data.size() - numberOfOrderFields) /numberOfOPDTOFields;
-		Set<OrderProduct> orderProductSet = new HashSet<>();
-		long tempOPId = 0;
-		boolean tempOPdeleted = false;
-		for (int i=0; i<items;++i){
+		//int items = (data.size() - numberOfOrderFields) /numberOfOPDTOFields;
+		if(data.getProductsList() != null && data.getProductsList().length != 0) {
+			int items = data.getProductsList().length;
+			Set<OrderProduct> orderProductSet = new HashSet<>();
+			long tempOPId = 0;
+			boolean tempOPdeleted = false;
+			for (int i = 0; i < items; ++i) {
 
-			tempOPId = Long.parseLong(data.get("productsList["+i+"].id"));
-			tempOPdeleted = Boolean.parseBoolean(data.get("productsList["+i+"].deleted"));
-			if(tempOPId != 0 && tempOPdeleted){
-				OrderProduct orderProduct = orderProductRepository.findById(tempOPId).get();
-				orderProductSet.remove(orderProduct);
-				orderProductRepository.delete(orderProduct);
-			}else if(!tempOPdeleted){
-				OrderProduct orderProduct = (tempOPId == 0) ? new OrderProduct() : orderProductRepository.findById(tempOPId).get();
-				orderProduct.setProduct(productRepository.findByCode(data.get("productsList["+i+"].productCode")).get());
-				orderProduct.setQuantity(Integer.parseInt(data.get("productsList["+i+"].quantity")));
-				orderProductSet.add(orderProduct);
+				//tempOPId = Long.parseLong(data.get("productsList["+i+"].id"));
+				//tempOPdeleted = Boolean.parseBoolean(data.get("productsList["+i+"].deleted"));
+				tempOPId = data.getProductsList()[i].getId();
+				tempOPdeleted = data.getProductsList()[i].isDeleted();
+
+				if (tempOPId != 0 && tempOPdeleted) {
+					OrderProduct orderProduct = orderProductRepository.findById(tempOPId).get();
+					orderProductSet.remove(orderProduct);
+					orderProductRepository.delete(orderProduct);
+				} else if (!tempOPdeleted) {
+					OrderProduct orderProduct = (tempOPId == 0) ? new OrderProduct() : orderProductRepository.findById(tempOPId).get();
+//				orderProduct.setProduct(productRepository.findByCode(data.get("productsList["+i+"].productCode")).get());
+//				orderProduct.setQuantity(Integer.parseInt(data.get("productsList["+i+"].quantity")));
+					orderProduct.setProduct(productRepository.findByCode(data.getProductsList()[i].getProductCode()).get());
+					orderProduct.setQuantity(data.getProductsList()[i].getQuantity());
+					orderProductSet.add(orderProduct);
+				}
 			}
+			order.setProductsList(orderProductSet);
 		}
-		order.setProductsList(orderProductSet);
 
 		order = repository.save(order);
 		orderProductRepository.saveAll(order.getProductsList());
@@ -93,8 +99,10 @@ public class OrderController {
 	@RequestMapping("/orders/edit/{id}")
 	String edit(@PathVariable long id, Model model){
 		Order order = repository.findById(id).get();
-		Set<OrderProductDTO> opDTOList = new HashSet();
+		//Set<OrderProductDTO> opDTOList = new HashSet();
+		OrderProductDTO[] opDTOList = new OrderProductDTO[order.getProductsList().size()];
 		List<Product> productList = productRepository.findAll();
+		int i = 0;
 		for(OrderProduct op : order.getProductsList()){
 			OrderProductDTO opDTO = new OrderProductDTO();
 			opDTO.setId(op.getId());
@@ -102,7 +110,7 @@ public class OrderController {
 			opDTO.setProductName(op.getProduct().getName());
 			opDTO.setQuantity(op.getQuantity());
 			opDTO.setDeleted(false);
-			opDTOList.add(opDTO);
+			opDTOList[i++] = opDTO;
 		}
 		OrderDTO orderDTO = new OrderDTO(order.getId(),order.getDate(),opDTOList,(order.getContractor()!=null)? (order.getContractor().getNip() +" "+ order.getContractor().getName()):"");
 		model.addAttribute("order",orderDTO);

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Pattern;
 
@@ -24,12 +25,13 @@ public class Product {
 	@Pattern(regexp = "[\\w- ?]{3,}",message = "Niepoprawna nazwa")
 	private String name;
 	private String specification;
-	@Pattern(regexp = "[0-9]{1,7}",message = "Niepoprawna ilosc. Podaj liczbe calkowita")
+	@DecimalMin(value = "0",message = "Niepoprawna ilosc. Podaj liczbe naturalna")
 	private long amount;
-	@Pattern(regexp = "[0-9]{1,7}(\\.[0-9]{1,2})?",message = "Niepoprawna cena")
+	@DecimalMin(value = "0.0",message = "Niepoprawna cena. Podaj dodatnią liczbę rzeczywistą")
 	private double price;
 	@Pattern(regexp = "[A-ZŻŹĆĘŚĄÓŁŃ][a-zżźćńąśłęó]+( [A-ZŻŹĆĘŚĄÓŁŃ][a-zżźćńąśłęó]+){0,}",message = "Niepoprawna nazwa dzialu. Użyj Dużych Liter")
 	private String category;
-	@Pattern(regexp = "[0-9]{1,7}(\\.[0-9]{1,3})?",message = "Niepoprawna waga")
+	@DecimalMin(value = "0.0",message = "Niepoprawna waga")
+	@Digits(integer = 6, fraction = 3, message = "Niepoprawna precyzja wagi")
 	private double weight;
 }

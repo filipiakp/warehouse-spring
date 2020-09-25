@@ -35,12 +35,12 @@
 			<span style="color:red;" th:if="${#fields.hasErrors('specification')}" th:errors="*{specification}"></span>
 		</div>
 		<div class="form-group">
-			<label for="prodAmount"> Ilość </label>
+			<label for="prodAmount"> Ilość [szt] </label>
 			<input type="text" id="prodAmount" class="form-control" th:field="${product.amount}"/>
 			<span style="color:red;" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></span>
 		</div>
 		<div class="form-group">
-			<label for="prodPrice"> Cena </label>
+			<label for="prodPrice"> Cena [zł] </label>
 			<input type="text" id="prodPrice" class="form-control" th:field="${product.price}"/>
 			<span style="color:red;" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
 		</div>
@@ -50,7 +50,7 @@
 			<span style="color:red;" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></span>
 		</div>
 		<div class="form-group">
-			<label for="prodWeight"> Waga </label>
+			<label for="prodWeight"> Waga [g] </label>
 			<input type="text" id="prodWeight" class="form-control" th:field="${product.weight}"/>
 			<span style="color:red;" th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}"></span>
 		</div>

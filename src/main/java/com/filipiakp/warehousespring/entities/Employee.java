@@ -6,10 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.Date;
 
 @Data
@@ -30,7 +27,8 @@ public class Employee {
 	private String surname;
 	@NotBlank
 	private String position;
-	@Pattern(regexp = "[0-9]{3,7}(\\.[0-9]{1,2})?", message = "Podaj poprawną pensję")
+	@DecimalMin(value = "0", message = "Pensja musi byc dodatnia")
+	@Digits(integer = 5, fraction = 2,message = "Podaj poprawną pensję")
 	private double salary;
 	private String city;
 	@Pattern(regexp = "(al\\. )?[A-ZŻŹĆĘŚĄÓŁŃ][a-zżźćńąśłęó]+([- ][A-ZŻŹĆĘŚĄÓŁŃ0-9][a-zżźćńąśłęó0-9]+){0,4}", message = "Niepoprawna ulica lub aleja")
