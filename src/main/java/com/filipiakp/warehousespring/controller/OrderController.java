@@ -5,6 +5,7 @@ import com.filipiakp.warehousespring.entities.OrderProduct;
 import com.filipiakp.warehousespring.entities.Product;
 import com.filipiakp.warehousespring.entities.dto.OrderDTO;
 import com.filipiakp.warehousespring.entities.dto.OrderProductDTO;
+import com.filipiakp.warehousespring.entities.dto.OrderSummaryDTO;
 import com.filipiakp.warehousespring.model.ContractorRepository;
 import com.filipiakp.warehousespring.model.OrderProductRepository;
 import com.filipiakp.warehousespring.model.OrderRepository;
@@ -51,12 +52,6 @@ public class OrderController {
 			order.setContractor(contractorRepository.findByNip(data.getContractor()).get());
 		order.setDate(data.getDate());
 
-		//Tutaj MOŻĘ Być w przyszłości problem
-		//hardcoded variable can cause problems in the future
-		//final int numberOfOrderFields = Order.class.getFields().length;
-		final int numberOfOrderFields = 4-1;//Id + date + contractor + collection of OrderProducts = 4 - collection
-		final int numberOfOPDTOFields = 5;//id + prodCode + prodName + quantity + deleted = 5
-		//int items = (data.size() - numberOfOrderFields) /numberOfOPDTOFields;
 		if(data.getProductsList() != null && data.getProductsList().length != 0) {
 			int items = data.getProductsList().length;
 			Set<OrderProduct> orderProductSet = new HashSet<>();
@@ -92,7 +87,20 @@ public class OrderController {
 
 	@RequestMapping("/orders")
 	String getAll(Model model){
-		model.addAttribute("orders",repository.findAll());
+		List<Order> orders = repository.findAll();
+		List<OrderSummaryDTO> orderSummaryDTOList = new LinkedList<OrderSummaryDTO>();
+		for (Order o : orders) {
+			OrderSummaryDTO osd = new OrderSummaryDTO();
+			osd.setId(o.getId());
+			osd.setDate(o.getDate());
+			osd.setContractor(o.getContractor());
+			osd.setSummaryValue(o.getProductsList()
+					.stream()
+					.mapToDouble(obj -> obj.getProduct().getPrice() * obj.getQuantity())
+					.sum());
+			orderSummaryDTOList.add(osd);
+		}
+		model.addAttribute("orders",orderSummaryDTOList);
 		return "orders";
 	}
 
@@ -108,6 +116,7 @@ public class OrderController {
 			opDTO.setId(op.getId());
 			opDTO.setProductCode(op.getProduct().getCode());
 			opDTO.setProductName(op.getProduct().getName());
+			opDTO.setProductPrice(op.getProduct().getPrice());
 			opDTO.setQuantity(op.getQuantity());
 			opDTO.setDeleted(false);
 			opDTOList[i++] = opDTO;
