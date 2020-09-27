@@ -29,7 +29,7 @@ public class Product {
 	private long amount;
 	@DecimalMin(value = "0.0",message = "Niepoprawna cena. Podaj dodatnią liczbę rzeczywistą")
 	private double price;
-	@Pattern(regexp = "[A-ZŻŹĆĘŚĄÓŁŃ][a-zżźćńąśłęó]+( [A-ZŻŹĆĘŚĄÓŁŃ][a-zżźćńąśłęó]+){0,}",message = "Niepoprawna nazwa dzialu. Użyj Dużych Liter")
+	@Pattern(regexp = "[A-ZŻŹĆĘŚĄÓŁŃ]+[a-zżźćńąśłęó]*( [A-ZŻŹĆĘŚĄÓŁŃ]+[a-zżźćńąśłęó]*){0,}",message = "Niepoprawna nazwa dzialu. Użyj Dużych Liter")
 	private String category;
 	@DecimalMin(value = "0.0",message = "Niepoprawna waga")
 	@Digits(integer = 6, fraction = 3, message = "Niepoprawna precyzja wagi")

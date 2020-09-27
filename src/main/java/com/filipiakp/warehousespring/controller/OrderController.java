@@ -47,7 +47,7 @@ public class OrderController {
 	String saveOrder(@Valid OrderDTO data){
 		Order order = repository.existsById(data.getId())?repository.findById(data.getId()).get():new Order();
 
-		if(data.getContractor()!=null )//&& !data.getContractor().equals("")
+		if(data.getContractor()!=null && !data.getContractor().equals(""))
 			order.setContractor(contractorRepository.findByNip(data.getContractor()).get());
 		order.setDate(data.getDate());
 

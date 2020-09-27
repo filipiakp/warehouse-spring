@@ -60,7 +60,7 @@ public class OrderIntegrationTest {
 		p1.setCode("abc");
 		p1.setName("Monitor");
 		p1.setManufacturer("BrandMonitor");
-		p1.setCategory("PC");
+		p1.setCategory("PC Monitors");
 		p1.setWeight(0.5);
 		p1.setPrice(450.99);
 		p1.setAmount(100);
@@ -71,7 +71,7 @@ public class OrderIntegrationTest {
 		p2.setCode("def");
 		p2.setName("CPU");
 		p2.setManufacturer("BrandCPU");
-		p2.setCategory("PCpu");
+		p2.setCategory("Processors");
 		p2.setWeight(0.1);
 		p2.setPrice(799.00);
 		p2.setAmount(80);
@@ -97,7 +97,7 @@ public class OrderIntegrationTest {
 		this.mockMvc.perform(post("/saveOrder").contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("id", "0")
 				.param("date", "2001-01-01")
-				.param("contractor",""))
+				.param("contractor","1234567890"))//must not be null
 				.andDo(print()).andExpect(status().is(302));//302 because of redirection, not needed
 
 		assertEquals(before+1,orderRepository.count());

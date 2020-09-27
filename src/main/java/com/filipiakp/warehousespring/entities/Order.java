@@ -29,7 +29,7 @@ public class Order {
 	private Set<OrderProduct> productsList;
 	@ManyToOne
 	@JoinColumn(name="nip")
-	@NotNull
+	@NotNull(message = "Musisz podać kontrahenta")
 	private Contractor contractor;
 
 	public Order(){

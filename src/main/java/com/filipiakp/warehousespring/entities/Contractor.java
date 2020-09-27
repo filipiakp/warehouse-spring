@@ -30,7 +30,7 @@ public class Contractor {
 	private String phoneNumber;
 	@Pattern(regexp = "([A-ZŻŹĆĘŚĄÓŁŃ][a-zżźćńąśłęó]{2,} ?)+", message = "Niepoprawne miasto")
 	private String city;
-	@Pattern(regexp = "(al\\. )?[A-ZŻŹĆĘŚĄÓŁŃ][a-zżźćńąśłęó]+([- ][A-ZŻŹĆĘŚĄÓŁŃ0-9][a-zżźćńąśłęó0-9]+){0,4}", message = "Niepoprawna ulica lub aleja")
+	@Pattern(regexp = "((al\\. )|(ul\\. ))?[A-ZŻŹĆĘŚĄÓŁŃ][a-zżźćńąśłęó]+([- ][A-ZŻŹĆĘŚĄÓŁŃ0-9][a-zżźćńąśłęó0-9]*){0,5}", message = "Niepoprawna ulica lub aleja")
 	private String street;
 	@Column(name = "house_number")
 	@Pattern(regexp = "[1-9][0-9]{0,4}[A-Z]?[A-Z]?", message = "Niepoprawny numer domu")
