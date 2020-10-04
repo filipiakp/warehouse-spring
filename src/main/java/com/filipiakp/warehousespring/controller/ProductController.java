@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.Valid;
 import java.util.Map;
 import java.util.Optional;
 
@@ -27,16 +29,19 @@ public class ProductController {
 	}
 
 	@RequestMapping(value="/saveProduct", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, method=RequestMethod.POST)
-	String saveProduct(@RequestParam Map<String, String> data){
-		Product product = repository.existsById(data.get("code"))?repository.findByCode(data.get("code")).get():new Product();
-		product.setCode(data.get("code"));
-		product.setManufacturer(data.get("manufacturer"));
-		product.setName(data.get("name"));
-		product.setSpecification(data.get("specification"));
-		product.setAmount(Long.parseLong(data.get("amount")));
-		product.setPrice(Double.parseDouble(data.get("price")));
-		product.setCategory(data.get("category"));
-		product.setWeight(Double.parseDouble(data.get("weight")));
+	String saveProduct(@Valid Product data, BindingResult bindingResult){
+		if (bindingResult.hasErrors()) {
+			return "productForm";
+		}
+		Product product = repository.existsById(data.getCode())?repository.findByCode(data.getCode()).get():new Product();
+		product.setCode(data.getCode());
+		product.setManufacturer(data.getManufacturer());
+		product.setName(data.getName());
+		product.setSpecification(data.getSpecification());
+		product.setAmount(data.getAmount());
+		product.setPrice(data.getPrice());
+		product.setCategory(data.getCategory());
+		product.setWeight(data.getWeight());
 		repository.save(product);
 		return "redirect:/products";
 	}

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: warehouse-spring
+  labels: 
+    release: 0.0.1
+    env: dev
+spec:
+  containers:
+    - name: db-container
+      image: pvargacl/oracle-xe-18.4.0:latest
+    - name: app-container
+      image: filipiakp/warehouse-spring:latest
+      ports:
+        - containerPort: 8090
+          protocol: TCP

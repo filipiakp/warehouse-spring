@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,6 +29,7 @@ public class Order {
 	private Set<OrderProduct> productsList;
 	@ManyToOne
 	@JoinColumn(name="nip")
+	@NotNull(message = "Musisz podać kontrahenta")
 	private Contractor contractor;
 
 	public Order(){

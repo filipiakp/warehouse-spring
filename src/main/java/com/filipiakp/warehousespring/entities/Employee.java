@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.*;
 import java.util.Date;
 
 @Data
@@ -19,21 +19,25 @@ public class Employee {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-	@NotBlank
+	@Size(min=2, max=40, message = "Zla dlugosc imienia")
+	@NotBlank(message = "Pole nie może być puste")
 	private String name;
-	@NotBlank
+	@Size(min=2, max=40, message = "Zla dlugosc nazwiska")
+	@NotBlank(message = "Pole nie może być puste")
 	private String surname;
-	@NotBlank
+	@NotBlank(message = "Pole nie może być puste")
 	private String position;
+	@DecimalMin(value = "0", message = "Pensja musi byc dodatnia")
+	@Digits(integer = 5, fraction = 2,message = "Podaj poprawną pensję")
 	private double salary;
-	@NotBlank
 	private String city;
-	@NotBlank
+	@Pattern(regexp = "((al\\. )|(ul\\. ))?[A-ZŻŹĆĘŚĄÓŁŃ][a-zżźćńąśłęó]+([- ][A-ZŻŹĆĘŚĄÓŁŃ0-9][a-zżźćńąśłęó0-9]*){0,5}", message = "Niepoprawna ulica lub aleja")
 	private String street;
-	@NotBlank
 	@Column(name = "house_number")
+	@Pattern(regexp = "[1-9][0-9]{0,4}[A-Z]?[A-Z]?", message = "Niepoprawny numer domu")
 	private String houseNumber;
 	@Column(name = "apartment_number")
+	@Pattern(regexp = "([1-9][0-9]{0,4}[A-Z]?[A-Z]?)|", message = "Niepoprawny numer mieszkania")
 	private String apartmentNumber;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern="yyyy-MM-dd")

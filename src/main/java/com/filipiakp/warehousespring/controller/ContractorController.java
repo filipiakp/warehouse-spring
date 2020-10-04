@@ -6,16 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import javax.naming.Binding;
+import javax.validation.Valid;
 import java.util.Map;
 import java.util.Optional;
 
 @Controller
-public class ContractorController {
+public class ContractorController implements WebMvcConfigurer {
 
 	@Autowired
 	ContractorRepository repository;
@@ -27,16 +31,19 @@ public class ContractorController {
 	}
 
 	@RequestMapping(value="/saveContractor", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, method=RequestMethod.POST)
-	String saveContractor(@RequestParam Map<String, String> data){
-		Contractor contractor = repository.existsById(data.get("nip"))?repository.findByNip(data.get("nip")).get():new Contractor();
-		contractor.setNip(data.get("nip"));
-		contractor.setSupplier(Boolean.parseBoolean(data.get("supplier")));
-		contractor.setName(data.get("name"));
-		contractor.setPhoneNumber(data.get("phoneNumber"));
-		contractor.setCity(data.get("city"));
-		contractor.setStreet(data.get("street"));
-		contractor.setHouseNumber(data.get("houseNumber"));
-		contractor.setApartmentNumber(data.get("apartmentNumber"));
+	String saveContractor(@Valid Contractor data, BindingResult bindingResult){
+		if (bindingResult.hasErrors()) {
+			return "contractorForm";
+		}
+		Contractor contractor = repository.existsById(data.getNip())?repository.findByNip(data.getNip()).get():new Contractor();
+		contractor.setNip(data.getNip());
+		contractor.setSupplier(data.isSupplier());
+		contractor.setName(data.getName());
+		contractor.setPhoneNumber(data.getPhoneNumber());
+		contractor.setCity(data.getCity());
+		contractor.setStreet(data.getStreet());
+		contractor.setHouseNumber(data.getHouseNumber());
+		contractor.setApartmentNumber(data.getApartmentNumber());
 		repository.save(contractor);
 		return "redirect:/contractors";
 	}
