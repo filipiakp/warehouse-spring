@@ -3,22 +3,103 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Faktura</title>
+	<style>
+		#fnum {
+			float: left;
+		}
+		#sprzedawca {
+			clear: both;
+		}
+		#nabywca {
+			float: left;
+		}
+		#pozycje {
+			clear:both;
+		}
+	</style>
 </head>
 <body>
 <p>Wystawiono dnia </p>
-___________________
-W każdym przypadku, faktura powinna zawierać:
+<div id="fnum">
+	<h4>Faktura VAT nr FV</h4>
+	<table>
+		<tr>
+			<td>Data Sprzedaży</td>
+			<td>data</td>
+		</tr>
+		<tr>
+			<td>Termin Płatności</td>
+			<td>data</td>
+		</tr>
+	</table>
+</div>
 
-datę wystawienia;
-datę sprzedaży, czyli datę dokonania dostawy lub wykonania usługi, o ile data ta jest znana i różni się od daty wystawienia faktury;
-unikalny numer;
-nazwy, adresy i NIP podatnika (sprzedawcy) oraz nabywcy;
-opis towaru lub usługi, wraz z miarą i ilością;
-cenę jednostkową netto (kwoty rabatów można wykazać w osobnej pozycji);
-wartość sprzedaży netto;
-zastosowane stawki podatku;
-sumę wartości sprzedaży netto, z podziałem na sprzedaż objętą poszczególnymi stawkami podatku i sprzedaż zwolnioną od podatku;
-kwotę podatku od sumy wartości sprzedaży netto, z podziałem na kwoty dotyczące poszczególnych stawek podatku;
-kwotę należności ogółem.
+<div id="sprzedawca">
+	<h4>Sprzedawca:</h4>
+	<p>Nazwa i Dane Firmy</p>
+</div>
+<div id="nabywca">
+	<h4>Nabywca:</h4>
+	<p>Dane Kontrahenta</p>
+</div>
+
+<div id="pozycje">
+	<h3>Pozycje Faktury</h3>
+	<table id="pozycje_t" border="1">
+		<thead>
+		<tr>
+			<th>LP</th>
+			<th>Nazwa towaru</th>
+			<th>Ilość</th>
+			<th>Cena netto</th>
+			<th>Wartość netto</th>
+			<th>Stawka VAT</th>
+			<th>VAT</th>
+			<th>Wartość brutto</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+
+
+<h3>Podsumowanie</h3>
+<table id="podsumowanie_t" border="1">
+	<thead>
+		<tr>
+			<th></th>
+			<th>Wartość netto</th>
+			<th>Stawka VAT</th>
+			<th>VAT</th>
+			<th>Wartość brutto</th>
+		</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td>Razem:</td>
+		<td>netto</td>
+		<td>23%</td>
+		<td>wart vat</td>
+		<td>wart brutto</td>
+	</tr>
+	<tr>
+		<td>Konto bankowe:</td>
+		<td colspan="4">konto scalona komorka</td>
+	</tr>
+
+	</tbody>
+</table>
+<hr/>
 </body>
 </html>
