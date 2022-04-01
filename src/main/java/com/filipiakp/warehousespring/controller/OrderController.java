@@ -5,6 +5,7 @@ import com.filipiakp.warehousespring.entities.OrderProduct;
 import com.filipiakp.warehousespring.entities.Product;
 import com.filipiakp.warehousespring.entities.dto.OrderDTO;
 import com.filipiakp.warehousespring.entities.dto.OrderProductDTO;
+import com.filipiakp.warehousespring.entities.dto.OrderSummaryDTO;
 import com.filipiakp.warehousespring.model.ContractorRepository;
 import com.filipiakp.warehousespring.model.OrderProductRepository;
 import com.filipiakp.warehousespring.model.OrderRepository;
@@ -84,7 +85,21 @@ public class OrderController {
 
 	@RequestMapping("/orders")
 	public String getAll(Model model){
-		model.addAttribute("orders",repository.findAll());
+		List<Order> orders = repository.findAll();
+		List<OrderSummaryDTO> orderSummaryDTOList = new LinkedList<OrderSummaryDTO>();
+		for (Order o : orders) {
+			OrderSummaryDTO osd = new OrderSummaryDTO();
+			osd.setId(o.getId());
+			osd.setCreationDate(o.getCreationDate());
+			osd.setFinishDate(o.getFinishDate());
+			osd.setContractor(o.getContractor());
+			osd.setSummaryValue(o.getProductsList()
+					.stream()
+					.mapToDouble(obj -> obj.getProduct().getPrice() * obj.getQuantity())
+					.sum());
+			orderSummaryDTOList.add(osd);
+		}
+		model.addAttribute("orders",orderSummaryDTOList);
 		return "orders";
 	}
 
@@ -100,6 +115,7 @@ public class OrderController {
 			opDTO.setId(op.getId());
 			opDTO.setProductCode(op.getProduct().getCode());
 			opDTO.setProductName(op.getProduct().getName());
+			opDTO.setProductPrice(op.getProduct().getPrice());
 			opDTO.setQuantity(op.getQuantity());
 			opDTO.setDeleted(false);
 			opDTOList[i++] = opDTO;

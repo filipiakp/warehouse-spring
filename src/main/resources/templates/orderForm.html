@@ -19,8 +19,12 @@
 			<input type="text" id="ordId" class="form-control" th:field="${order.id}"/>
 		</div>
 		<div class="form-group">
-			<label for="ordDate"> Data </label>
-			<input type="date" id="ordDate" class="form-control" th:field="${order.date}"/>
+			<label for="ordFinishDate"> Data utworzenia </label>
+			<input type="datetime-local" id="ordCreationDate" class="form-control" th:field="${order.creationDate}" disabled/>
+		</div>
+		<div class="form-group">
+			<label for="ordFinishDate"> Data ukończenia </label>
+			<input type="datetime-local" id="ordFinishDate" class="form-control" th:field="${order.finishDate}"/>
 		</div>
 		<div class="form-group">
 			<label for="ordContractor"> Kontrahent </label>
@@ -55,8 +59,8 @@
 				<tr>
 					<td>
 						<select class="form-control" id="ordOP">
-						<option selected value="none">Wybierz Produkt...</option>
-						<option th:each="product : ${products}" th:value="${product.code}" th:text="${product.code + ' ' + product.name}"></option>
+							<option selected value="none">Wybierz Produkt...</option>
+							<option th:each="product : ${products}" th:value="${product.code}" th:text="${product.code + ' ' + product.name}"></option>
 						</select>
 					</td>
 					<td>
@@ -77,30 +81,21 @@
 	var counter = document.getElementById("list").childElementCount - 1;
 	$("#addOrderProductButton").click(function(event) {
 		event.preventDefault();
-		$("#ordQuantity").css("border-color", "#ccc");
-		$("#ordOP").css("border-color", "#ccc");
 		if($("#ordOP").val()!="none") {
-			if($("#ordQuantity").val() > 0){
-				var productCode = $("#ordOP").val();
-				var productName = $("#ordOP option:selected").text().replace(productCode, "");
-				productName = productName.substr(1);
-				var quantity = parseInt($("#ordQuantity").val(), 10);
+			var productCode = $("#ordOP").val();
+			var productName = $("#ordOP option:selected").text().replace(productCode, "");
+			productName = productName.substr(1);
+			var quantity = $("#ordQuantity").val();
 
-				counter++;
-				var appendix = "<tr id='"+counter+"'><td><input type='text' class='id' hidden='' name='productsList["+counter+"].id' value='0' readonly></td>"+
-				"<td><input type='text' name='productsList["+counter+"].productCode' value='"+productCode+"' readonly></td>"+
-				"<td><input type='text' name='productsList["+counter+"].productName' value='"+productName+"' readonly></td>"+
-				"<td><input type='text' name='productsList["+counter+"].quantity' value='"+quantity+"' readonly></td>"+
-				"<td><button type='button' onclick='deleteOrderProduct("+counter+")'><i class='demo-icon icon-minus-circled'></i></button></td>"+
-				"<td><input type='text' name='productsList["+counter+"].deleted' value='"+false+"' hidden></td></tr>";
-				$("#list").append(appendix);//TODO:dopisz tutaj wszystkie zmiany, jakie zrobisz wyżej
-			} else {
-				$("#ordQuantity").css("border-color", "red");
-			}
+			counter++;
+			var appendix = "<tr id='"+counter+"'><td><input type='text' class='id' hidden='' name='productsList["+counter+"].id' value='0' readonly></td>"+
+			"<td><input type='text' name='productsList["+counter+"].productCode' value='"+productCode+"' readonly></td>"+
+			"<td><input type='text' name='productsList["+counter+"].productName' value='"+productName+"' readonly></td>"+
+			"<td><input type='text' name='productsList["+counter+"].quantity' value='"+quantity+"' readonly></td>"+
+			"<td><button type='button' onclick='deleteOrderProduct("+counter+")'><i class='demo-icon icon-minus-circled'></i></button></td>"+
+			"<td><input type='text' name='productsList["+counter+"].deleted' value='"+false+"' hidden></td></tr>";
+			$("#list").append(appendix);//TODO:dopisz tutaj wszystkie zmiany, jakie zrobisz wyżej
 
-
-		} else {
-			$("#ordOP").css("border-color", "red");
 		}
 	});
 

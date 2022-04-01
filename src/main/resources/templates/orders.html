@@ -18,13 +18,16 @@
 			<th> ID </th>
 			<th> Data </th>
 			<th> Kontrahent </th>
+			<th> Wartość </th>
 		</tr>
 		</thead>
 		<tbody id="orders">
 		<tr th:each="order: ${orders}">
 			<td th:text="${order.id}">Id</td>
-			<td th:text="${{#dates.format(order.date, 'dd.MM.yyyy')}}">Date</td>
+			<td th:text="${{#dates.format(order.creationDate, 'dd.MM.yyyy HH:mm')}}">Creation Date</td>
+			<td th:text="${order.finishDate == null ? 'Zrealizowane' : 'W trakcie'}">Finished</td>
 			<td th:text="${order.contractor != null} ? ${order.contractor.name + ', NIP:' + order.contractor.nip} : ${'-'}">Contractor</td>
+			<td th:text="${order.summaryValue}">Summary Value</td>
 		</tr>
 		</tbody>
 	</table>

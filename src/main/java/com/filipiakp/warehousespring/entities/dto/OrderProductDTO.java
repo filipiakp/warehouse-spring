@@ -14,6 +14,7 @@ public class OrderProductDTO {
 	private long id;
 	private String productCode;
 	private String productName;
+	private double productPrice;
 	@NotNull(message = "Podaj ilosc")
 	@DecimalMin(value = "0",message = "Niepoprawna ilosc. Podaj liczbe naturalna")
 	private int quantity;
