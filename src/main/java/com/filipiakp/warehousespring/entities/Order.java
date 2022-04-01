@@ -20,10 +20,14 @@ public class Order {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id")
 	private long id;
-	@Temporal(TemporalType.DATE)
-	@Column(name="order_date")
-	@DateTimeFormat(pattern="yyyy-MM-dd")
-	private Date date;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="creation_date")
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
+	private Date creationDate;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="finish_date")
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
+	private Date finishDate;
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@JoinColumn(name = "order_id")
 	private Set<OrderProduct> productsList;
@@ -34,7 +38,8 @@ public class Order {
 
 	public Order(){
 		id = 0;
-		date = new Date();
+		creationDate = new Date();
+		finishDate = null;
 		productsList = new HashSet<>();
 		contractor = null;
 	}
@@ -44,7 +49,13 @@ public class Order {
 	}
 
 	@Override
-	public String toString(){
-		return "Order id: " + id + ", date: " + date.toString() + ", contractor: " + contractor==null?"null":contractor.getNip() + ";";
+	public String toString() {
+		return "Order{" +
+				"id=" + id +
+				", creationDate=" + creationDate +
+				", finishDate=" + finishDate +
+				", productsList=" + productsList +
+				", contractor=" + contractor +
+				'}';
 	}
 }

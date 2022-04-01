@@ -28,16 +28,16 @@ import java.util.*;
 public class OrderController {
 
 	@Autowired
-	OrderRepository repository;
+	private OrderRepository repository;
 	@Autowired
-	ContractorRepository contractorRepository;
+	private ContractorRepository contractorRepository;
 	@Autowired
-	ProductRepository productRepository;
+	private ProductRepository productRepository;
 	@Autowired
-	OrderProductRepository orderProductRepository;
+	private OrderProductRepository orderProductRepository;
 
 	@RequestMapping("/orders/add")
-	String add(Model model){
+	public String add(Model model){
 		model.addAttribute("order",new OrderDTO());
 		model.addAttribute("contractors",contractorRepository.findAll());
 		model.addAttribute("products", productRepository.findAll());
@@ -45,12 +45,12 @@ public class OrderController {
 	}
 
 	@RequestMapping(value="/saveOrder", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, method=RequestMethod.POST)
-	String saveOrder(@Valid OrderDTO data){
+	public String saveOrder(@Valid OrderDTO data){
 		Order order = repository.existsById(data.getId())?repository.findById(data.getId()).get():new Order();
 
 		if(data.getContractor()!=null && !data.getContractor().equals(""))
 			order.setContractor(contractorRepository.findByNip(data.getContractor()).get());
-		order.setDate(data.getDate());
+		order.setFinishDate(data.getFinishDate());
 
 		if(data.getProductsList() != null && data.getProductsList().length != 0) {
 			int items = data.getProductsList().length;
@@ -86,7 +86,7 @@ public class OrderController {
 	}
 
 	@RequestMapping("/orders")
-	String getAll(Model model){
+	public String getAll(Model model){
 		List<Order> orders = repository.findAll();
 		List<OrderSummaryDTO> orderSummaryDTOList = new LinkedList<OrderSummaryDTO>();
 		for (Order o : orders) {
@@ -105,7 +105,7 @@ public class OrderController {
 	}
 
 	@RequestMapping("/orders/edit/{id}")
-	String edit(@PathVariable long id, Model model){
+	public String edit(@PathVariable long id, Model model){
 		Order order = repository.findById(id).get();
 		//Set<OrderProductDTO> opDTOList = new HashSet();
 		OrderProductDTO[] opDTOList = new OrderProductDTO[order.getProductsList().size()];
@@ -121,7 +121,15 @@ public class OrderController {
 			opDTO.setDeleted(false);
 			opDTOList[i++] = opDTO;
 		}
-		OrderDTO orderDTO = new OrderDTO(order.getId(),order.getDate(),opDTOList,(order.getContractor()!=null)? (order.getContractor().getNip() +" "+ order.getContractor().getName()):"");
+		OrderDTO orderDTO = OrderDTO.builder()
+				.id(order.getId())
+				.creationDate(order.getCreationDate())
+				.finishDate(order.getFinishDate())
+				.productsList(opDTOList)
+				.contractor((order.getContractor()!=null)?
+						(order.getContractor().getNip() +" "+ order.getContractor().getName()):"")
+				.build();
+
 		model.addAttribute("order",orderDTO);
 		model.addAttribute("contractors",contractorRepository.findAll());
 
@@ -130,7 +138,7 @@ public class OrderController {
 	}
 
 	@RequestMapping("/orders/delete/{id}")
-	String deleteOrder(@PathVariable long id){
+	public String deleteOrder(@PathVariable long id){
 		Optional<Order> orderOptional = repository.findById(id);
 		if (orderOptional.isPresent()) {
 			repository.delete(orderOptional.get());

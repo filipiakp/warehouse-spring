@@ -22,16 +22,16 @@ import java.util.Optional;
 public class ContractorController implements WebMvcConfigurer {
 
 	@Autowired
-	ContractorRepository repository;
+	private ContractorRepository repository;
 
 	@RequestMapping("/contractors/add")
-	String add(Model model){
+	private String add(Model model){
 		model.addAttribute("contractor",new Contractor());
 		return "contractorForm";
 	}
 
 	@RequestMapping(value="/saveContractor", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, method=RequestMethod.POST)
-	String saveContractor(@Valid Contractor data, BindingResult bindingResult){
+	public String saveContractor(@Valid Contractor data, BindingResult bindingResult){
 		if (bindingResult.hasErrors()) {
 			return "contractorForm";
 		}
@@ -49,19 +49,19 @@ public class ContractorController implements WebMvcConfigurer {
 	}
 
 	@RequestMapping("/contractors")
-	String getAll(Model model){
+	public String getAll(Model model){
 		model.addAttribute("contractors",repository.findAll());
 		return "contractors";
 	}
 
 	@RequestMapping("/contractors/edit/{nip}")
-	String edit(@PathVariable String nip, Model model){
+	public String edit(@PathVariable String nip, Model model){
 		model.addAttribute("contractor",repository.findByNip(nip));
 		return "contractorForm";
 	}
 
 	@RequestMapping("/contractors/delete/{nip}")
-	String deleteContractor(@PathVariable String nip){
+	public String deleteContractor(@PathVariable String nip){
 		Optional<Contractor> contractorOptional = repository.findByNip(nip);
 		if (contractorOptional.isPresent()) {
 			repository.delete(contractorOptional.get());

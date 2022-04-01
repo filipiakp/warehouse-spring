@@ -36,7 +36,7 @@ public class OrderRestController {
 	@PutMapping
 	public ResponseEntity<Order> updatePurchaseOrder(@RequestBody Order newPurchOrd){
 		Order oldPurchOrd = orderRepository.findById(newPurchOrd.getId()).get();
-		oldPurchOrd.setDate(newPurchOrd.getDate());
+		oldPurchOrd.setFinishDate(newPurchOrd.getFinishDate());
 		oldPurchOrd.setProductsList(newPurchOrd.getProductsList());
 		oldPurchOrd.setContractor(newPurchOrd.getContractor());
 		orderRepository.save(oldPurchOrd);

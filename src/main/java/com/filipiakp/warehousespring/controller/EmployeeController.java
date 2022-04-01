@@ -22,16 +22,16 @@ import java.util.Optional;
 public class EmployeeController {
 
 	@Autowired
-	EmployeeRepository repository;
+	private EmployeeRepository repository;
 
 	@RequestMapping("/employees/add")
-	String add(Model model){
+	public String add(Model model){
 		model.addAttribute("employee",new Employee());
 		return "employeeForm";
 	}
 
 	@RequestMapping(value="/saveEmployee", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, method=RequestMethod.POST)
-	String saveEmployee(@Valid Employee data, BindingResult bindingResult){
+	public String saveEmployee(@Valid Employee data, BindingResult bindingResult){
 		if (bindingResult.hasErrors()) {
 			return "employeeForm";
 		}
@@ -44,30 +44,25 @@ public class EmployeeController {
 		employee.setPosition(data.getPosition());
 		employee.setSalary(data.getSalary());
 		employee.setStreet(data.getStreet());
-//		try {
-//			employee.setEmploymentDate(new SimpleDateFormat("yyyy-MM-dd").parse(data.get("employmentDate")));
-//		} catch (ParseException e) {
-//			e.printStackTrace();
-//		}
 		employee.setEmploymentDate(data.getEmploymentDate());
 		repository.save(employee);
 		return "redirect:/employees";
 	}
 
 	@RequestMapping("/employees")
-	String getAll(Model model){
+	public String getAll(Model model){
 		model.addAttribute("employees",repository.findAll());
 		return "employees";
 	}
 
 	@RequestMapping("/employees/edit/{id}")
-	String edit(@PathVariable int id, Model model){
+	public String edit(@PathVariable int id, Model model){
 		model.addAttribute("employee",repository.findById(id));
 		return "employeeForm";
 	}
 
 	@RequestMapping("/employees/delete/{id}")
-	String deleteEmployee(@PathVariable int id){
+	public String deleteEmployee(@PathVariable int id){
 		Optional<Employee> employeeOptional = repository.findById(id);
 		if (employeeOptional.isPresent()) {
 			repository.delete(employeeOptional.get());

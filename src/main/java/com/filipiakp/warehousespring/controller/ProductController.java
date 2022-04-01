@@ -20,16 +20,16 @@ import java.util.Optional;
 public class ProductController {
 
 	@Autowired
-	ProductRepository repository;
+	private ProductRepository repository;
 
 	@RequestMapping("/products/add")
-	String add(Model model){
+	public String add(Model model){
 		model.addAttribute("product",new Product());
 		return "productForm";
 	}
 
 	@RequestMapping(value="/saveProduct", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, method=RequestMethod.POST)
-	String saveProduct(@Valid Product data, BindingResult bindingResult){
+	public String saveProduct(@Valid Product data, BindingResult bindingResult){
 		if (bindingResult.hasErrors()) {
 			return "productForm";
 		}
@@ -47,19 +47,19 @@ public class ProductController {
 	}
 
 	@RequestMapping("/products")
-	String getAll(Model model){
+	public String getAll(Model model){
 		model.addAttribute("products",repository.findAll());
 		return "products";
 	}
 
 	@RequestMapping("/products/edit/{code}")
-	String edit(@PathVariable String code, Model model){
+	public String edit(@PathVariable String code, Model model){
 		model.addAttribute("product",repository.findByCode(code));
 		return "productForm";
 	}
 
 	@RequestMapping("/products/delete/{code}")
-	String deleteProduct(@PathVariable String code){
+	public String deleteProduct(@PathVariable String code){
 		Optional<Product> productOptional = repository.findByCode(code);
 		if (productOptional.isPresent()) {
 			repository.delete(productOptional.get());

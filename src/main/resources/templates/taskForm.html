@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pl-PL" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head(siteTitle = 'Zadanie - Edycja')"></head>
+<body>
+<header id="main-menu">
+	<span id="menu-label"><a href="/" role="button"><b> <i class="icon-industry"></i>&nbsp;Hurtownia </b></a></span>
+	<span class="btn-group">
+        <a href="#" id="addButton" class="btn btn-sm btn-outline-primary btn-color disabled" aria-disabled="true"> <i class="icon-plus-squared"></i> Dodaj </a>
+		<a href="#" id="editButton" class="btn btn-sm btn-outline-primary btn-color disabled" aria-disabled="true"> <i class="icon-pencil-squared"></i> Edytuj </a>
+		<a href="#" id="deleteButton" class="btn btn-sm btn-outline-primary btn-color disabled" aria-disabled="true"> <i class="icon-minus-squared"></i> Usun </a>
+    </span>
+</header>
+<aside th:replace="fragments/aside"></aside>
+<main id="container" class="container">
+	<h1>Dodaj Zadanie</h1>
+	<form action="#" th:action="@{/saveTask}" method="POST" th:object="${task}">
+		<div class="form-group" style="display:none;">
+			<label for="taskId"> ID </label>
+			<input type="text" id="taskId" class="form-control" th:field="${task.id}"/>
+		</div>
+		<--!update below-->
+		<div class="form-group" style="display:none;">
+			<label for="taskCreationDate"> Data utworzenia </label>
+			<input type="date" id="taskCreationDate" class="form-control" th:field="${task.creationDate}" disabled/>
+		</div>
+		<div class="form-group">
+			<label for="taskContractor"> Kontrahent </label>
+			<select class="form-control" id="taskContractor" name="contractor">
+				<option value="" th:if="${#strings.isEmpty(task.contractor)}" selected disabled hidden>Wybierz Kontrahenta</option>
+				<option th:each="contractor : ${contractors}" th:value="${contractor.nip}" th:text="${contractor.nip + ' ' + contractor.name }" th:selected="${contractor.nip==task.contractor}"></option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="taskEmployees"> Pracownicy </label>
+			<select class="form-select" id="taskEmployees" name="employee" multiple>
+				<option value="" th:if="${#lists.isEmpty(task.employeesList)}" selected disabled hidden>Przypisz pracowników</option>
+				<option th:each="employee, i : ${employees}" th:id="${i.index}" th:value="${employee.id}" th:text="${employee.id + ' ' + employee.name + ' ' + employee.surname}" th:selected="${#lists.contains(task.employeesList, employee)}"></option>
+			</select>
+		</div>
+<!--			<div th:each="employee, i : ${task.employeesList}" th:id="${i.index}" th:text="${employee.id + ' ' + employee.name + ' ' + employee.surname}" class="badge badge-pill badge-light">-->
+		</option>
+		<br/>
+		<input type="submit" class="btn btn-primary" value="Zatwierdź"/>
+	</form>
+
+</main>
+</body>
+</html>
