@@ -51,12 +51,7 @@ public class OrderController {
 			order.setContractor(contractorRepository.findByNip(data.getContractor()).get());
 		order.setFinishDate(data.getFinishDate());
 
-		//Tutaj MOŻĘ Być w przyszłości problem
-		//hardcoded variable can cause problems in the future
-		//final int numberOfOrderFields = Order.class.getFields().length;
-		final int numberOfOrderFields = 4-1;//Id + date + contractor + collection of OrderProducts = 4 - collection
-		final int numberOfOPDTOFields = 5;//id + prodCode + prodName + quantity + deleted = 5
-		//int items = (data.size() - numberOfOrderFields) /numberOfOPDTOFields;
+
 		if(data.getProductsList() != null && data.getProductsList().length != 0) {
 			int items = data.getProductsList().length;
 			Set<OrderProduct> orderProductSet = new HashSet<>();
@@ -64,8 +59,6 @@ public class OrderController {
 			boolean tempOPdeleted = false;
 			for (int i = 0; i < items; ++i) {
 
-				//tempOPId = Long.parseLong(data.get("productsList["+i+"].id"));
-				//tempOPdeleted = Boolean.parseBoolean(data.get("productsList["+i+"].deleted"));
 				tempOPId = data.getProductsList()[i].getId();
 				tempOPdeleted = data.getProductsList()[i].isDeleted();
 
@@ -75,8 +68,6 @@ public class OrderController {
 					orderProductRepository.delete(orderProduct);
 				} else if (!tempOPdeleted) {
 					OrderProduct orderProduct = (tempOPId == 0) ? new OrderProduct() : orderProductRepository.findById(tempOPId).get();
-//				orderProduct.setProduct(productRepository.findByCode(data.get("productsList["+i+"].productCode")).get());
-//				orderProduct.setQuantity(Integer.parseInt(data.get("productsList["+i+"].quantity")));
 					orderProduct.setProduct(productRepository.findByCode(data.getProductsList()[i].getProductCode()).get());
 					orderProduct.setQuantity(data.getProductsList()[i].getQuantity());
 					orderProductSet.add(orderProduct);
@@ -87,6 +78,7 @@ public class OrderController {
 
 		order = repository.save(order);
 		orderProductRepository.saveAll(order.getProductsList());
+
 		return "redirect:/orders";
 	}
 
