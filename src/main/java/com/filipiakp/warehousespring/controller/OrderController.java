@@ -92,7 +92,8 @@ public class OrderController {
 		for (Order o : orders) {
 			OrderSummaryDTO osd = new OrderSummaryDTO();
 			osd.setId(o.getId());
-			osd.setDate(o.getDate());
+			osd.setCreationDate(o.getCreationDate());
+			osd.setFinishDate(o.getFinishDate());
 			osd.setContractor(o.getContractor());
 			osd.setSummaryValue(o.getProductsList()
 					.stream()

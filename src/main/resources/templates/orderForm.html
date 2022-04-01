@@ -19,8 +19,12 @@
 			<input type="text" id="ordId" class="form-control" th:field="${order.id}"/>
 		</div>
 		<div class="form-group">
-			<label for="ordDate"> Data </label>
-			<input type="date" id="ordDate" class="form-control" th:field="${order.date}"/>
+			<label for="ordFinishDate"> Data utworzenia </label>
+			<input type="datetime-local" id="ordCreationDate" class="form-control" th:field="${order.creationDate}" disabled/>
+		</div>
+		<div class="form-group">
+			<label for="ordFinishDate"> Data ukończenia </label>
+			<input type="datetime-local" id="ordFinishDate" class="form-control" th:field="${order.finishDate}"/>
 		</div>
 		<div class="form-group">
 			<label for="ordContractor"> Kontrahent </label>

@@ -14,7 +14,8 @@ import java.util.Date;
 @NoArgsConstructor
 public class OrderSummaryDTO {
 	private long id;
-	private Date date;
+	private Date creationDate;
+	private Date finishDate;
 	private Contractor contractor;
 	private double summaryValue;
 }
