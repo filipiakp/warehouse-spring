@@ -52,6 +52,7 @@ public class OrderController {
 			order.setContractor(contractorRepository.findByNip(data.getContractor()).get());
 		order.setFinishDate(data.getFinishDate());
 
+
 		if(data.getProductsList() != null && data.getProductsList().length != 0) {
 			int items = data.getProductsList().length;
 			Set<OrderProduct> orderProductSet = new HashSet<>();
@@ -59,8 +60,6 @@ public class OrderController {
 			boolean tempOPdeleted = false;
 			for (int i = 0; i < items; ++i) {
 
-				//tempOPId = Long.parseLong(data.get("productsList["+i+"].id"));
-				//tempOPdeleted = Boolean.parseBoolean(data.get("productsList["+i+"].deleted"));
 				tempOPId = data.getProductsList()[i].getId();
 				tempOPdeleted = data.getProductsList()[i].isDeleted();
 
@@ -70,8 +69,6 @@ public class OrderController {
 					orderProductRepository.delete(orderProduct);
 				} else if (!tempOPdeleted) {
 					OrderProduct orderProduct = (tempOPId == 0) ? new OrderProduct() : orderProductRepository.findById(tempOPId).get();
-//				orderProduct.setProduct(productRepository.findByCode(data.get("productsList["+i+"].productCode")).get());
-//				orderProduct.setQuantity(Integer.parseInt(data.get("productsList["+i+"].quantity")));
 					orderProduct.setProduct(productRepository.findByCode(data.getProductsList()[i].getProductCode()).get());
 					orderProduct.setQuantity(data.getProductsList()[i].getQuantity());
 					orderProductSet.add(orderProduct);
@@ -82,6 +79,7 @@ public class OrderController {
 
 		order = repository.save(order);
 		orderProductRepository.saveAll(order.getProductsList());
+
 		return "redirect:/orders";
 	}
 
