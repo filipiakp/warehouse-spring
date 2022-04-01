@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pl-PL" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head(siteTitle = 'Zamówienie - Edycja')"></head>
+<head th:replace="fragments/head :: head(siteTitle = 'Zamówienie - Formularz')"></head>
 <body>
 <header id="main-menu">
 	<span id="menu-label"><a href="/" role="button"><b> <i class="icon-industry"></i>&nbsp;Hurtownia </b></a></span>
@@ -12,7 +12,7 @@
 </header>
 <aside th:replace="fragments/aside"></aside>
 <main id="container" class="container">
-	<h1>Dodaj Zamówienie</h1>
+	<h1>Szczegóły Zamówienia</h1>
 	<form action="#" th:action="@{/saveOrder}" method="POST" th:object="${order}">
 		<div class="form-group" style="display:none;">
 			<label for="ordId"> ID </label>

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,7 +46,7 @@ public class OrderController {
 	}
 
 	@RequestMapping(value="/saveOrder", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, method=RequestMethod.POST)
-	public String saveOrder(@Valid OrderDTO data){
+	public String saveOrder(@Valid OrderDTO data, BindingResult bindingResult){
 		Order order = repository.existsById(data.getId()) ? repository.findById(data.getId()).get() : new Order();
 
 		if(data.getContractor()!=null && !data.getContractor().equals(""))
@@ -56,12 +57,11 @@ public class OrderController {
 		order.setFinishDate(data.getFinishDate());
 
 		if(data.getProductsList() != null && data.getProductsList().length != 0) {
-			int items = data.getProductsList().length;
 			Set<OrderProduct> orderProductSet = order.getProductsList();
-			for (int i = 0; i < items; ++i) {
+			for (OrderProductDTO dataOP : data.getProductsList()) {
 
-				long tempOPId = data.getProductsList()[i].getId();
-				boolean tempOPdeleted = data.getProductsList()[i].isDeleted();
+				long tempOPId = dataOP.getId();
+				boolean tempOPdeleted = dataOP.isDeleted();
 
 				if (tempOPId != 0 && tempOPdeleted) {
 					OrderProduct orderProduct = orderProductRepository.findById(tempOPId).get();
@@ -70,11 +70,10 @@ public class OrderController {
 				} else if (!tempOPdeleted && tempOPId == 0) {
 					OrderProduct orderProduct = new OrderProduct().builder()
 							.product(productRepository
-									.findByCode(data
-													.getProductsList()[i]
+									.findByCode(dataOP
 													.getProductCode())
 									.get())
-							.quantity(data.getProductsList()[i].getQuantity())
+							.quantity(dataOP.getQuantity())
 							.build();
 
 					orderProductSet.add(orderProduct);

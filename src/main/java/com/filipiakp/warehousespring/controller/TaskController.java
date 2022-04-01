@@ -1,6 +1,8 @@
 package com.filipiakp.warehousespring.controller;
 
+import com.filipiakp.warehousespring.entities.Employee;
 import com.filipiakp.warehousespring.entities.Task;
+import com.filipiakp.warehousespring.entities.dto.EmployeeDTO;
 import com.filipiakp.warehousespring.entities.dto.TaskDTO;
 import com.filipiakp.warehousespring.model.ContractorRepository;
 import com.filipiakp.warehousespring.model.EmployeeRepository;
@@ -15,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 public class TaskController {
@@ -40,19 +45,34 @@ public class TaskController {
     }
 
     @RequestMapping(value="/saveTask", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, method= RequestMethod.POST)
-    public String saveTask(@Valid Task data, BindingResult bindingResult){
+    public String saveTask(@Valid TaskDTO data, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             return "taskForm";
         }
         Task task = taskRepository.existsById(data.getId())? taskRepository.findById(data.getId()).get():new Task();
-        task.setId(data.getId());
+
+        if (data.getContractor()!=null && !data.getContractor().equals(""))
+            task.setContractor(contractorRepository.findByNip(data.getContractor()).get());
+        if (task.getCreationDate() == null)
+            task.setCreationDate(data.getCreationDate());
+        if (data.getEmployeesList() != null && data.getEmployeesList().length != 0) {
+            Set<Employee> employeeSet = task.getEmployees();
+            employeeSet.removeIf(existingEmployee ->
+                    Arrays.stream(data.getEmployeesList())
+                            .noneMatch(dataEmployeeId ->
+                                    existingEmployee.getId() == dataEmployeeId));
+            for (int employeeId : data.getEmployeesList()) {
+                if (employeeSet.stream().anyMatch(e -> e.getId() == employeeId))
+                    continue;
+                Optional<Employee> repositoryEmployee = employeeRepository.findById(employeeId);
+                if (repositoryEmployee.isPresent())
+                    employeeSet.add(repositoryEmployee.get());
+            }
+        }
         task.setName(data.getName());
-        task.setCreationDate(data.getCreationDate());
-        task.setContractor(data.getContractor());
         task.setDescription(data.getDescription());
-        task.setEmployees(data.getEmployees());
         task.setImportance(data.getImportance());
-        task.setFinishedDate(data.getFinishedDate());
+        task.setFinishDate(data.getFinishDate());
         taskRepository.save(task);
         return "redirect:/tasks";
     }
@@ -65,7 +85,29 @@ public class TaskController {
 
     @RequestMapping("/tasks/edit/{id}")
     public String edit(@PathVariable Long id, Model model){
-        model.addAttribute("task", taskRepository.findById(id));
+        Optional<Task> taskOptional = taskRepository.findById(id);
+        if (!taskOptional.isPresent()) {
+            return "redirect:/tasks/add";
+        }
+        Task task = taskOptional.get();
+        model.addAttribute("task", new TaskDTO().builder()
+                .id(task.getId())
+                .name(task.getName())
+                .contractor(task.getContractor() != null
+                        ? task.getContractor().getNip() + " " + task.getContractor().getName()
+                        : "")
+                .creationDate(task.getCreationDate())
+                .finishDate(task.getFinishDate())
+                .description(task.getDescription())
+                .employeesList(task.getEmployees()
+                        .stream()
+                        .mapToInt(Employee::getId)
+                        .toArray())
+                .importance(task.getImportance())
+                .build());
+        model.addAttribute("contractors",contractorRepository.findAll());
+        model.addAttribute("employees",employeeRepository.findAll());
+
         return "taskForm";
     }
 

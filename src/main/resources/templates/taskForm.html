@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pl-PL" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head(siteTitle = 'Zadanie - Edycja')"></head>
+<head th:replace="fragments/head :: head(siteTitle = 'Zadanie - Formularz')"></head>
 <body>
 <header id="main-menu">
 	<span id="menu-label"><a href="/" role="button"><b> <i class="icon-industry"></i>&nbsp;Hurtownia </b></a></span>
@@ -18,10 +18,25 @@
 			<label for="taskId"> ID </label>
 			<input type="text" id="taskId" class="form-control" th:field="${task.id}"/>
 		</div>
-		<--!update below-->
-		<div class="form-group" style="display:none;">
+		<div class="form-group">
+			<label for="taskName"> Nazwa </label>
+			<input type="text" id="taskName" class="form-control" th:field="${task.name}" required/>
+		</div>
+		<div class="form-group">
+			<label for="taskDescription"> Opis </label>
+			<textarea id="taskDescription" class="form-control" th:field="${task.description}"/>
+		</div>
+		<div class="form-group">
+			<label for="taskImportance"> Priorytet </label>
+			<input type="number" id="taskImportance" class="form-control" th:field="${task.importance}"/>
+		</div>
+		<div class="form-group">
 			<label for="taskCreationDate"> Data utworzenia </label>
-			<input type="date" id="taskCreationDate" class="form-control" th:field="${task.creationDate}" disabled/>
+			<input type="datetime-local" id="taskCreationDate" class="form-control" th:field="${task.creationDate}" readonly/>
+		</div>
+		<div class="form-group">
+			<label for="taskFinishDate"> Data ukończenia </label>
+			<input type="datetime-local" id="taskFinishDate" class="form-control" th:field="${task.finishDate}"/>
 		</div>
 		<div class="form-group">
 			<label for="taskContractor"> Kontrahent </label>
@@ -32,13 +47,10 @@
 		</div>
 		<div class="form-group">
 			<label for="taskEmployees"> Pracownicy </label>
-			<select class="form-select" id="taskEmployees" name="employee" multiple>
-				<option value="" th:if="${#lists.isEmpty(task.employeesList)}" selected disabled hidden>Przypisz pracowników</option>
-				<option th:each="employee, i : ${employees}" th:id="${i.index}" th:value="${employee.id}" th:text="${employee.id + ' ' + employee.name + ' ' + employee.surname}" th:selected="${#lists.contains(task.employeesList, employee)}"></option>
+			<select class="form-control" id="taskEmployees" name="employeesList" multiple>
+				<option th:each="employee : ${employees}" th:value="${employee.id}" th:text="${employee.id + ' ' + employee.name + ' ' + employee.surname}" th:selected="${#lists.contains(task.employeesList, employee.id)}"></option>
 			</select>
 		</div>
-<!--			<div th:each="employee, i : ${task.employeesList}" th:id="${i.index}" th:text="${employee.id + ' ' + employee.name + ' ' + employee.surname}" class="badge badge-pill badge-light">-->
-		</option>
 		<br/>
 		<input type="submit" class="btn btn-primary" value="Zatwierdź"/>
 	</form>

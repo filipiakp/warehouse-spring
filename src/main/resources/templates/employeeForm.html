@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pl-PL" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head(siteTitle = 'Pracownik - Edycja')"></head>
+<head th:replace="fragments/head :: head(siteTitle = 'Pracownik - Formularz')"></head>
 <body>
 <header id="main-menu">
 	<span id="menu-label"><a href="/" role="button"><b> <i class="icon-industry"></i>&nbsp;Hurtownia </b></a></span>
@@ -12,7 +12,7 @@
 </header>
 <aside th:replace="fragments/aside"></aside>
 <main id="container" class="container">
-	<h1>Dodaj Pracownika</h1>
+	<h1>Szczegóły Pracownika</h1>
 	<form action="/saveEmployee" method="POST" th:object="${employee}">
 		<input type="text" id="id" th:field="${employee.id}" hidden/>
 		<div class="form-group">
