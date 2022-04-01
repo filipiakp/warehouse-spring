@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pl-PL" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head(siteTitle = 'Zadania')"></head>
+<body>
+<header id="main-menu">
+  <span id="menu-label"><a href="/" role="button"><b> <i class="icon-industry"></i>&nbsp;Hurtownia </b></a></span>
+  <span class="btn-group">
+        <a href="/tasks/add" id="addButton" class="btn btn-sm btn-outline-primary btn-color"> <i class="icon-plus-squared"></i> Dodaj </a>
+		<a href="#" id="editButton" class="btn btn-sm btn-outline-primary btn-color disabled" aria-disabled="true"> <i class="icon-pencil-squared"></i> Edytuj </a>
+		<a href="#" id="deleteButton" class="btn btn-sm btn-outline-primary btn-color disabled" aria-disabled="true"> <i class="icon-minus-squared"></i> Usun </a>
+    </span>
+</header>
+<aside th:replace="fragments/aside"></aside>
+<main id="container" class="container">
+  <table id="taskTable" class="table selectable-table">
+    <thead>
+    <tr>
+      <th> ID </th>
+      <th> Nazwa </th>
+      <th> Utworzony </th>
+      <th> Ukończony </th>
+      <th> Priorytet </th>
+      <th> Kontrahent </th>
+    </tr>
+    </thead>
+    <tbody id="tasks">
+    <tr th:each="task: ${tasks}">
+      <td th:text="${task.id}">ID</td>
+      <td th:text="${task.name}">Name</td>
+      <td th:text="${task.creationDate}">CreationDate</td>
+      <td th:text="${task.finishedDate}">FinishedDate</td>
+      <td th:text="${task.importance}">Importance</td>
+      <td th:text="${task.contractor != null} ? ${task.contractor.name + ', NIP:' + task.contractor.nip} : ${'-'}">Contractor</td>
+    </tr>
+    </tbody>
+  </table>
+</main>
+</body>
+</html>

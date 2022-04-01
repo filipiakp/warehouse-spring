@@ -3,6 +3,7 @@ package com.filipiakp.warehousespring.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
@@ -14,6 +15,7 @@ import javax.validation.constraints.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Entity
 @Table(name = "warehouse_contractor")
 public class Contractor {
@@ -40,5 +42,7 @@ public class Contractor {
 	private String apartmentNumber;
 	@Column(name="is_supplier")
 	@Type(type = "org.hibernate.type.NumericBooleanType")
-	private boolean isSupplier;//dostawcy lub klienci
+	private boolean isSupplier;
+	private int importance;
+
 }

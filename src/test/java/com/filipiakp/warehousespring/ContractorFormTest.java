@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -54,7 +55,7 @@ public class ContractorFormTest {
 			).andExpect(status().is(302));
 
 		//then
-		assertEquals(before+1,repository.count());
+		assertNotNull(repository.findByNip("1234567890"));
 
 	}
 }

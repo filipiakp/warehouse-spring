@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -21,6 +22,9 @@ public class OrderProduct {
 	@ManyToOne
 	@JoinColumn(name = "code")
 	private Product product;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "order_id")
+	private List<Discount> appliedDiscounts;
 	private int quantity;
 
 	@Override

@@ -28,7 +28,7 @@ public class Employee {
 	@NotBlank(message = "Pole nie może być puste")
 	private String position;
 	@DecimalMin(value = "0", message = "Pensja musi byc dodatnia")
-	@Digits(integer = 5, fraction = 2,message = "Podaj poprawną pensję")
+	@Digits(integer = 6, fraction = 2,message = "Podaj poprawną pensję")
 	private double salary;
 	private String city;
 	@Pattern(regexp = "((al\\. )|(ul\\. ))?[A-ZŻŹĆĘŚĄÓŁŃ][a-zżźćńąśłęó]+([- ][A-ZŻŹĆĘŚĄÓŁŃ0-9][a-zżźćńąśłęó0-9]*){0,5}", message = "Niepoprawna ulica lub aleja")
@@ -43,4 +43,8 @@ public class Employee {
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@Column(name = "employment_date")
 	private Date employmentDate;
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@Column(name = "birth_date")
+	private Date birthDate;
 }
