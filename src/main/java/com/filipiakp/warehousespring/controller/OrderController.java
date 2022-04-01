@@ -46,38 +46,43 @@ public class OrderController {
 
 	@RequestMapping(value="/saveOrder", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, method=RequestMethod.POST)
 	public String saveOrder(@Valid OrderDTO data){
-		Order order = repository.existsById(data.getId())?repository.findById(data.getId()).get():new Order();
+		Order order = repository.existsById(data.getId()) ? repository.findById(data.getId()).get() : new Order();
 
 		if(data.getContractor()!=null && !data.getContractor().equals(""))
 			order.setContractor(contractorRepository.findByNip(data.getContractor()).get());
-		order.setFinishDate(data.getFinishDate());
 
+		if (order.getCreationDate() == null)
+			order.setCreationDate(data.getCreationDate());
+		order.setFinishDate(data.getFinishDate());
 
 		if(data.getProductsList() != null && data.getProductsList().length != 0) {
 			int items = data.getProductsList().length;
-			Set<OrderProduct> orderProductSet = new HashSet<>();
-			long tempOPId = 0;
-			boolean tempOPdeleted = false;
+			Set<OrderProduct> orderProductSet = order.getProductsList();
 			for (int i = 0; i < items; ++i) {
 
-				tempOPId = data.getProductsList()[i].getId();
-				tempOPdeleted = data.getProductsList()[i].isDeleted();
+				long tempOPId = data.getProductsList()[i].getId();
+				boolean tempOPdeleted = data.getProductsList()[i].isDeleted();
 
 				if (tempOPId != 0 && tempOPdeleted) {
 					OrderProduct orderProduct = orderProductRepository.findById(tempOPId).get();
 					orderProductSet.remove(orderProduct);
 					orderProductRepository.delete(orderProduct);
-				} else if (!tempOPdeleted) {
-					OrderProduct orderProduct = (tempOPId == 0) ? new OrderProduct() : orderProductRepository.findById(tempOPId).get();
-					orderProduct.setProduct(productRepository.findByCode(data.getProductsList()[i].getProductCode()).get());
-					orderProduct.setQuantity(data.getProductsList()[i].getQuantity());
+				} else if (!tempOPdeleted && tempOPId == 0) {
+					OrderProduct orderProduct = new OrderProduct().builder()
+							.product(productRepository
+									.findByCode(data
+													.getProductsList()[i]
+													.getProductCode())
+									.get())
+							.quantity(data.getProductsList()[i].getQuantity())
+							.build();
+
 					orderProductSet.add(orderProduct);
 				}
 			}
-			order.setProductsList(orderProductSet);
 		}
 
-		order = repository.save(order);
+		repository.save(order);
 		orderProductRepository.saveAll(order.getProductsList());
 
 		return "redirect:/orders";

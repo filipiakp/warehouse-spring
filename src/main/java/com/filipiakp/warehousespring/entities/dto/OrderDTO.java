@@ -13,14 +13,17 @@ import java.util.Set;
 @Data
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
 public class OrderDTO {
 	private long id;
-	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
+	@DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm")
 	private Date creationDate;
-	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
+	@DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm")
 	private Date finishDate;
 	private OrderProductDTO[] productsList;
 	@NotNull(message = "Musisz podać kontrahenta")
 	private String contractor;
+
+	public OrderDTO() {
+		creationDate = new Date(System.currentTimeMillis());
+	}
 }

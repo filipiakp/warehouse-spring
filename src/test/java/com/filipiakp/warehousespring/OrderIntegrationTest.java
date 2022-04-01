@@ -111,7 +111,7 @@ public class OrderIntegrationTest {
 		Order order = new Order();
 		order.setId(1);
 		order.setContractor(contractorRepository.findByNip("1234567890").get());
-		order.setDate(new SimpleDateFormat("yyyy-MM-dd").parse("2003-03-03"));
+		order.setCreationDate(new SimpleDateFormat("yyyy-MM-dd").parse("2003-03-03"));
 
 		Set<OrderProduct> orderProducts = new HashSet<OrderProduct>();
 		OrderProduct orderProduct = new OrderProduct();
@@ -140,7 +140,7 @@ public class OrderIntegrationTest {
 
 		//then
 		Order orderFound = orderRepository.findById(1).get();
-		assertEquals(new SimpleDateFormat("yyyy-MM-dd").parse("2002-02-10"),orderFound.getDate());//order.getDate()
+		assertEquals(new SimpleDateFormat("yyyy-MM-dd").parse("2002-02-10"),orderFound.getCreationDate());//order.getDate()
 		assertEquals("1234567890",orderFound.getContractor().getNip());//order.getContractor().getNip());
 		assertEquals(0,orderFound.getProductsList().size());//order.getProductsList().size());
 	}
@@ -181,7 +181,7 @@ public class OrderIntegrationTest {
 		Order order = new Order();
 		order.setId(0);
 		order.setContractor(contractorRepository.findByNip("1234567890").get());
-		order.setDate(new SimpleDateFormat("yyyy-MM-dd").parse("2003-03-03"));
+		order.setCreationDate(new SimpleDateFormat("yyyy-MM-dd").parse("2003-03-03"));
 
 		Set<OrderProduct> orderProducts = new HashSet<OrderProduct>();
 		OrderProduct orderProduct = new OrderProduct();
