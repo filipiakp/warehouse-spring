@@ -7,15 +7,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestPropertySource("classpath:integration-tests.properties")
 public class WarehouseSpringApplicationTests {
 
-	@Test
-	public void contextLoads(){
-	}
-
+  @Test
+  public void contextLoads() {}
 }

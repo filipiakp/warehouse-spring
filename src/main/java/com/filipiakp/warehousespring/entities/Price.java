@@ -10,7 +10,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Price {
-    private double gross;
-    private double net;
-
+  private double gross;
+  private double net;
 }
