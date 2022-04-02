@@ -21,7 +21,7 @@ public class Task {
     private String description;
     private String phase;
     private int importance;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "employee_id")
     private Set<Employee> employees;
     @ManyToOne

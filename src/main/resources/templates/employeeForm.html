@@ -11,7 +11,7 @@
     </span>
 </header>
 <aside th:replace="fragments/aside"></aside>
-<main id="container" class="container">
+<main id="container" class="main-content">
 	<h1>Szczegóły Pracownika</h1>
 	<form action="/saveEmployee" method="POST" th:object="${employee}">
 		<input type="text" id="id" th:field="${employee.id}" hidden/>

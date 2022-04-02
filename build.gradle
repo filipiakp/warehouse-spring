@@ -6,7 +6,7 @@ plugins {
 apply plugin: 'io.spring.dependency-management'
 
 group = 'com.filipiakp'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 configurations {
@@ -30,18 +30,20 @@ dependencies {
 	implementation "org.webjars:jquery:3.1.0"
 	implementation "org.webjars:stomp-websocket:2.3.3"
 	implementation "org.webjars:sockjs-client:1.0.2"
-	implementation "org.webjars:webjars-locator-core"
-	implementation "org.webjars:bootstrap:3.3.7"
-	implementation "org.springframework.boot:spring-boot-starter-websocket"
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation "org.webjars:webjars-locator-core:0.35"
+	implementation "org.webjars:bootstrap:5.1.3"
+	implementation "org.springframework.boot:spring-boot-starter-websocket:2.1.16.RELEASE"
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.1.16.RELEASE'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.1.16.RELEASE'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:2.1.16.RELEASE'
+	implementation 'org.springframework.boot:spring-boot-starter-web:2.1.16.RELEASE'
+	implementation 'org.apache.pdfbox:pdfbox:2.0.4'
+	implementation 'org.bouncycastle:bcprov-jdk15on:1.70'
+//	implementation 'com.oracle.jdbc:ojdbc8:12.2.0.1'
+	implementation 'com.oracle.ojdbc:ojdbc8:19.3.0.0'
+	compileOnly 'org.projectlombok:lombok:1.18.8'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools:2.1.16.RELEASE'
+	annotationProcessor 'org.projectlombok:lombok:1.18.8'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.1.16.RELEASE'
 	testImplementation 'com.h2database:h2:1.4.194'
-
-	compile name: 'ojdbc8'
 }

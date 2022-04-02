@@ -27,10 +27,10 @@ body {
     text-decoration: none;
 }
 
-#panel{
+.panel{
     min-width: 150px;
-    width: 8vh;
-    height: 95vh;
+    width: 8%;
+    min-height: 95vh;
     background-color: #444444;
     color: #eeeeee;
     margin: 0px;
@@ -49,17 +49,25 @@ body {
 	cursor: pointer;
 }
 
-aside a {
+.btn-outline-primary.disabled, .btn-outline-primary:disabled{
+    color: #cccccc;
+}
+
+.panel a {
 	color: white;
 }
 
-aside a:hover {
+.panel a:hover {
 	text-decoration: none;
 }
 
-#container {
+.main-content {
     padding: 7px;
 	float: left;
+    overflow: scroll;
+    height: 95vh;
+    min-height: 95vh;
+    width: 92%;
 }
 
 .btn-color {
@@ -68,8 +76,9 @@ aside a:hover {
 	background-color: #6666ff;/*#8080ff;*/
 }
 
-.btn-color:hover {
-    background-color: white;
+.btn-color:hover, btn-color.btn-outline-primary:hover {
+    background-color: #8888ff;
+    border-color: white;
 }
 
 .selected {

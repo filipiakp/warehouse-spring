@@ -11,46 +11,81 @@
     </span>
 </header>
 <aside th:replace="fragments/aside"></aside>
-<main id="container" class="container">
+<main id="container" class="main-content">
+	<div class="row">
+		<div class="col">
+			<div class="text-center"><h1 class="icon-users"></h1><p><span th:text="${employeesCount}"/> Pracowników</p></div>
+		</div>
+		<div class="col">
+			<div class="text-center"><h1 class="icon-cubes"></h1><p><span th:text="${productsCount}"/> Produktów</p></div>
+		</div>
+		<div class="col">
+			<div class="text-center"><h1 class="icon-handshake-o"></h1><p><span th:text="${contractorsCount}"/> Kontrahentów</p></div>
+		</div>
+		<div class="col">
+			<div class="text-center"><h1 class="icon-ok"></h1><p><span th:text="${#lists.size(ordersFinished)}"/> Zamówień zrealizowanych</p></div>
+		</div>
+		<div class="col">
+			<div class="text-center"><h1 class="icon-money"></h1><p><span th:text="${#lists.size(ordersInProgress)}"/> Zamówień bieżących</p></div>
+		</div>
+	</div>
 
-	<canvas id="myChart"></canvas>
+	<div class="row">
+		<div class="col">
+			<h3>Zadania</h3>
+			<canvas id="tasksByImportanceChart"></canvas>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			<h3>Zamówienia</h3>
+			<canvas id="ordersCountByDateChart"></canvas>
+		</div>
+	</div>
+
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script>
-	const ctx = 'myChart';
-	const myChart = new Chart(ctx, {
+<script th:inline="javascript">
+	/*<![CDATA[*/
+
+	var tasksCountByImportance = /*[[${tasksCountByImportance}]]*/ "";
+	var ordersCountByDate = /*[[${ordersCountByDate}]]*/ "";
+
+	/*]]>*/
+	const ctx = 'tasksByImportanceChart';
+	const tasksByImportanceChart = new Chart(ctx, {
 		type: 'bar',
 		data: {
-			labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+			labels: Object.keys(tasksCountByImportance).map(k => 'Priorytet '+k),
 			datasets: [{
-				label: '# of Votes',
-				data: [12, 19, 3, 5, 2, 3],
-				backgroundColor: [
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(255, 206, 86, 0.2)',
-					'rgba(75, 192, 192, 0.2)',
-					'rgba(153, 102, 255, 0.2)',
-					'rgba(255, 159, 64, 0.2)'
-				],
-				borderColor: [
-					'rgba(255, 99, 132, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(255, 206, 86, 1)',
-					'rgba(75, 192, 192, 1)',
-					'rgba(153, 102, 255, 1)',
-					'rgba(255, 159, 64, 1)'
-				],
+				label: 'Ilość zadań',
+				data: Object.values(tasksCountByImportance),
+				backgroundColor: Object.keys(tasksCountByImportance).map((val, i, arr) => `rgba(${(i*(255/arr.length))}, ${255 - (i*(255/arr.length))}, 132, 0.2)`),
+				borderColor: Object.keys(tasksCountByImportance).map((val, i, arr) => `rgba(${(i*(255/arr.length))}, ${255 - (i*(255/arr.length))}, 132, 1)`),
 				borderWidth: 1
 			}]
 		},
 		options: {
 			scales: {
 				y: {
-					beginAtZero: true
+					beginAtZero: true,
+					step: 1
 				}
 			}
 		}
+	});
+	const ordersCountByDate_ctx = 'ordersCountByDateChart';
+	const ordersCountByDateChart = new Chart(ordersCountByDate_ctx, {
+		type: 'line',
+		data: {
+			labels: Object.keys(ordersCountByDate),
+			datasets: [{
+				label: 'Ilość zamówień',
+				data: Object.values(tasksCountByImportance),
+				backgroundColor: 'rgba(255,0,0,0.2)',//Utils.transparentize(Utils.CHART_COLORS.blue, 0.5),
+				borderColor: 'rgba(255,0,0,1)',//Utils.CHART_COLORS.blue,
+			}]
+		},
 	});
 </script>
 </body>

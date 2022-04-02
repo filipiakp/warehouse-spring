@@ -22,7 +22,7 @@ public class TaskDTO {
 	private String name;
 	private String description;
 	private int importance;
-	private int[] employeesList = new int[0];
+	private int[] employeesList;
 	@NotNull(message = "Musisz podać kontrahenta")
 	private String contractor;
 }

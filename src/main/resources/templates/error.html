@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="pl-PL" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head(siteTitle = 'Hurtownia')"></head>
+<body>
+<header id="main-menu">
+  <span id="menu-label"><a href="/" role="button"><b> <i class="icon-industry"></i>&nbsp;Hurtownia </b></a></span>
+</header>
+<aside th:replace="fragments/aside"></aside>
+<main id="container" class="main-content">
+  <h1>Upss coś poszło nie tak..</h1>
+  <p>Przepraszamy, ale nie możemy zrealizować Pańskiego żądania.</p>
+  <br />
+  <a href="/">Powrót do strony głównej</a>
+</main>
+</body>
+</html>
