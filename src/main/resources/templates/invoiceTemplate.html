@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html lang="pl-PL" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<title>Faktura</title>
+	<style>
+		@font-face {
+			font-family: OpenSans-Regular;
+			src: url("/static/font/OpenSans-Regular.ttf") format("ttf");
+		}
+		* {
+			font-family: OpenSans-Regular, Arial, sans-serif;
+			/*  font-family: Times New Roman; - alternative. Without ""! */
+		}
+		.fLeft {
+			float: left;
+		}
+		.fRight {
+			float: right;
+		}
+		.clearBoth {
+			clear: both;
+		}
+	</style>
+</head>
+<body>
+<p class="fRight">Wystawiono dnia <span th:text="${#dates.format(generatedDate, 'dd.MM.yyyy')}"/>, Miejscowosc</p>
+<div id="fnum" class="fLeft">
+	<h4>Faktura VAT nr FV<span th:text="${#dates.format(order.creationDate, 'yyyy/MM/dd/') + order.id}"></span></h4>
+	<table>
+		<tr>
+			<td>Data Sprzedaży</td>
+			<td th:text="${#dates.format(order.creationDate, 'dd.MM.yyyy HH:mm')}">data</td>
+		</tr>
+		<tr>
+			<td>Data realizacji</td>
+			<td th:text="${#dates.format(order.finishDate, 'dd.MM.yyyy HH:mm')}">data</td>
+		</tr>
+	</table>
+</div>
+
+<div id="sprzedawca" class="clearBoth">
+	<h4>Sprzedawca:</h4>
+	<p>Nazwa i Dane Firmy</p>
+</div>
+<div id="nabywca" class="fLeft">
+	<h4>Nabywca:</h4>
+	<p>
+		<span th:text="${order.contractor.name}"></span>
+		<br/>
+		NIP: <span th:text="${order.contractor.nip}"></span>
+		<br/>
+		<span th:text="${order.contractor.city}"></span>
+		<br/>
+		<span th:text="${order.contractor.street}"></span>&nbsp;
+		<span th:text="${order.contractor.houseNumber}"></span>
+		<span th:if="${order.contractor.houseNumber != null && order.contractor.apartmentNumber != null}">/</span>
+		<span th:text="${order.contractor.apartmentNumber}"></span>
+		<br/>
+	</p>
+</div>
+
+<div id="pozycje" class="clearBoth">
+	<h3>Pozycje Faktury</h3>
+	<table id="pozycje_t" border="1">
+		<thead>
+		<tr>
+			<th>LP</th>
+			<th>Nazwa towaru</th>
+			<th>Ilość</th>
+			<th>Cena netto</th>
+			<th>Wartość netto</th>
+			<th>Stawka VAT</th>
+			<th>VAT</th>
+			<th>Wartość brutto</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr th:each="orderProduct, i : ${order.productsList}" th:id="${i.index}">
+			<td th:text="${i.index}"></td>
+			<td th:text="${orderProduct.product.name}"></td>
+			<td th:text="${orderProduct.quantity}"></td>
+			<td th:text="${#numbers.formatDecimal(orderProduct.product.price, 1,2)}"></td>
+			<td th:text="${#numbers.formatDecimal(orderProduct.quantity * orderProduct.product.price, 1,2)}"></td>
+			<td>23%</td>
+			<td th:text="${#numbers.formatDecimal(orderProduct.quantity * orderProduct.product.price * 0.23, 1,2)}"></td>
+			<td th:text="${#numbers.formatDecimal(orderProduct.quantity * orderProduct.product.price * 1.23, 1,2)}"></td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+
+
+<h3>Podsumowanie</h3>
+<table id="podsumowanie_t" border="1">
+	<thead>
+		<tr>
+			<th></th>
+			<th>Wartość netto</th>
+			<th>Stawka VAT</th>
+			<th>VAT</th>
+			<th>Wartość brutto</th>
+		</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td>Razem:</td>
+		<td th:text="${#numbers.formatDecimal(summaryNet, 1,2)}">netto</td>
+		<td>23%</td>
+		<td th:text="${#numbers.formatDecimal(summaryTax, 1,2)}">wart vat</td>
+		<td th:text="${#numbers.formatDecimal(summaryGross, 1,2)}">wart brutto</td>
+	</tr>
+	<tr>
+		<td>Konto bankowe:</td>
+		<td colspan="4">Nr konta hurtowni</td>
+	</tr>
+
+	</tbody>
+</table>
+<hr/>
+</body>
+</html>

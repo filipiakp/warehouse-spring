@@ -1,85 +1,93 @@
 package com.filipiakp.warehousespring.controller;
 
 import com.filipiakp.warehousespring.entities.Order;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.UUID;
+import com.filipiakp.warehousespring.model.OrderRepository;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.pdf.BaseFont;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+import org.xhtmlrenderer.pdf.ITextRenderer;
 
 @Controller
 public class InvoiceController {
 
-  @RequestMapping(
-      value = "/dinvoice/{orderId}",
-      method = RequestMethod.GET,
-      produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-  public void downloadInvoice(@PathVariable long orderId, HttpServletResponse response) {
-    try {
-      // get your file as InputStream
-      File file = createPDFInvoice(new Order());
-      InputStream is = new FileInputStream(file);
-      // copy it to response's OutputStream
-      FileCopyUtils.copy(is, response.getOutputStream());
-      response.setContentType("application/octet-stream");
-      response.flushBuffer();
-      file.delete();
-    } catch (IOException ex) {
-      System.out.printf("Error writing file to output stream. OrderId was '{0}'. {1}", orderId, ex);
-      throw new RuntimeException("IOError writing file to output stream");
-    }
-  }
+  @Autowired private TemplateEngine templateEngine;
+
+  @Autowired private OrderRepository orderRepository;
 
   @RequestMapping(
       value = "/invoice/{orderId}",
       method = RequestMethod.GET,
-      produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-  public ResponseEntity<FileSystemResource> downloadStuff(@PathVariable long orderId)
-      throws IOException {
-    File file = createPDFInvoice(new Order());
-    HttpHeaders respHeaders = new HttpHeaders();
-    respHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-    respHeaders.setContentDispositionFormData("attachment", file.getName());
-
-    return new ResponseEntity<>(new FileSystemResource(file), respHeaders, HttpStatus.OK);
+      produces = MediaType.APPLICATION_PDF_VALUE)
+  public void downloadInvoice(@PathVariable long orderId, HttpServletResponse response) {
+    try {
+      Optional<Order> orderOptional = orderRepository.findById(orderId);
+      Order order = orderOptional.get();
+      Context context = getOrderContext(order);
+      String html = parseThymeleafTemplate("invoiceTemplate", context);
+      response.setCharacterEncoding("UTF-8");
+      writeToStreamPdfFromHtml(response.getOutputStream(), html);
+      response.setContentType("application/pdf");
+      response.setHeader(
+          "content-disposition",
+          "attachment; filename=\"FV"
+              + new SimpleDateFormat("yyyy/MM/dd/").format(new Date(System.currentTimeMillis()))
+              + orderId
+              + ".pdf\"");
+      response.flushBuffer();
+    } catch (IOException | DocumentException ex) {
+      System.out.printf(
+          "Error writing file to output stream. OrderId was %d. %s", orderId, ex.getMessage());
+      throw new RuntimeException("IOError writing file to output stream");
+    }
   }
 
-  private File createPDFInvoice(Order order) {
-    final String FILENAME = "invoices/" + UUID.randomUUID() + "invoice.pdf";
-    PDDocument document = new PDDocument();
-    PDPage page = new PDPage();
-    document.addPage(page);
+  private Context getOrderContext(Order order) {
+    Context context = new Context();
+    context.setVariable("order", order);
+    context.setVariable(
+        "summaryNet",
+        order.getProductsList().stream()
+            .mapToDouble(p -> p.getProduct().getPrice() * p.getQuantity())
+            .sum());
+    context.setVariable(
+        "summaryGross",
+        order.getProductsList().stream()
+            .mapToDouble(p -> p.getProduct().getPrice() * 1.23 * p.getQuantity())
+            .sum());
+    context.setVariable(
+        "summaryTax",
+        order.getProductsList().stream()
+            .mapToDouble(p -> p.getProduct().getPrice() * 0.23 * p.getQuantity())
+            .sum());
+    context.setVariable("generatedDate", new Date(System.currentTimeMillis()));
+    context.setLocale(new Locale("pl"));
+    return context;
+  }
 
-    PDPageContentStream contentStream;
-    try {
-      contentStream = new PDPageContentStream(document, page);
-      contentStream.setFont(PDType1Font.COURIER, 12);
-      contentStream.beginText();
-      contentStream.newLine();
-      contentStream.showText("Hello World");
-      contentStream.endText();
-      contentStream.close();
+  public String parseThymeleafTemplate(String template, Context context) {
+    return templateEngine.process(template, context);
+  }
 
-      document.save(FILENAME);
-      document.close();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return new File(FILENAME);
+  public void writeToStreamPdfFromHtml(OutputStream outputStream, String html)
+      throws IOException, DocumentException {
+    ITextRenderer renderer = new ITextRenderer();
+
+    String fontpath =
+        this.getClass().getClassLoader().getResource("static/font/OpenSans-Regular.ttf").getPath();
+    renderer.getFontResolver().addFont(fontpath, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+    renderer.setDocumentFromString(html);
+    renderer.layout();
+    renderer.createPDF(outputStream);
   }
 }

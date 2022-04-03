@@ -75,7 +75,7 @@
 		<br/>
 		<input type="submit" class="btn btn-primary" value="Zatwierdź"/>
 	</form>
-
+	<a th:if="${order.id != null && order.id != 0}" th:href="'/invoice/'+${order.id}" class="btn btn-outline-primary"> <i class="icon-plus-squared"></i> Wygeneruj Fakturę </a>
 </main>
 <script>
 	var counter = document.getElementById("list").childElementCount - 1;
