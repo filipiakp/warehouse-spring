@@ -84,7 +84,7 @@ public class InvoiceController {
     ITextRenderer renderer = new ITextRenderer();
 
     String fontpath =
-        this.getClass().getClassLoader().getResource("static/font/OpenSans-Regular.ttf").getPath();
+        this.getClass().getClassLoader().getResource("static/font/Arial.ttf").getPath();
     renderer.getFontResolver().addFont(fontpath, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
     renderer.setDocumentFromString(html);
     renderer.layout();
