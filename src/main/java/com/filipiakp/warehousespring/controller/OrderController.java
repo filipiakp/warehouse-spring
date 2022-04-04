@@ -11,12 +11,14 @@ import com.filipiakp.warehousespring.model.OrderProductRepository;
 import com.filipiakp.warehousespring.model.OrderRepository;
 import com.filipiakp.warehousespring.model.ProductRepository;
 import java.util.*;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,7 +35,11 @@ public class OrderController {
   public String add(Model model) {
     model.addAttribute("order", new OrderDTO());
     model.addAttribute("contractors", contractorRepository.findAll());
-    model.addAttribute("products", productRepository.findAll());
+    model.addAttribute(
+        "products",
+        productRepository.findAll().stream()
+            .filter(p -> p.getAmount() > 0)
+            .collect(Collectors.toList()));
     return "orderForm";
   }
 
@@ -41,7 +47,7 @@ public class OrderController {
       value = "/saveOrder",
       consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
       method = RequestMethod.POST)
-  public String saveOrder(@Valid OrderDTO data, BindingResult bindingResult) {
+  public String saveOrder(@Valid OrderDTO data, BindingResult bindingResult, Model model) {
     Order order =
         repository.existsById(data.getId()) ? repository.findById(data.getId()).get() : new Order();
 
@@ -61,6 +67,14 @@ public class OrderController {
         if (tempOPId != 0 && tempOPdeleted) {
           OrderProduct orderProduct = orderProductRepository.findById(tempOPId).get();
           orderProductSet.remove(orderProduct);
+          Optional<Product> repositoryProduct =
+              productRepository.findByCode(orderProduct.getProduct().getCode());
+          if (repositoryProduct.isPresent()) {
+            repositoryProduct
+                .get()
+                .setAmount(repositoryProduct.get().getAmount() + orderProduct.getQuantity());
+            productRepository.save(repositoryProduct.get());
+          }
           orderProductRepository.delete(orderProduct);
         } else if (!tempOPdeleted && tempOPId == 0) {
           OrderProduct orderProduct =
@@ -69,6 +83,22 @@ public class OrderController {
                   .product(productRepository.findByCode(dataOP.getProductCode()).get())
                   .quantity(dataOP.getQuantity())
                   .build();
+
+          Optional<Product> repositoryProduct =
+              productRepository.findByCode(orderProduct.getProduct().getCode());
+          long changedAmount = repositoryProduct.get().getAmount() - orderProduct.getQuantity();
+          if (changedAmount < 0) {
+            model.addAttribute("order", order);
+            model.addAttribute("contractors", contractorRepository.findAll());
+            model.addAttribute("products", productRepository.findAll());
+            bindingResult.addError(
+                new ObjectError(
+                    "productsList",
+                    "Quantity of product " + orderProduct.getProduct().getName() + " exceeded."));
+            return "orderForm";
+          }
+          repositoryProduct.get().setAmount(changedAmount);
+          productRepository.save(repositoryProduct.get());
 
           orderProductSet.add(orderProduct);
         }

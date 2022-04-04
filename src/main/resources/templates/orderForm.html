@@ -28,13 +28,14 @@
 		</div>
 		<div class="form-group">
 			<label for="ordContractor"> Kontrahent </label>
-			<select class="form-control" id="ordContractor" name="contractor">
+			<select class="form-control" id="ordContractor" name="contractor" required>
 				<option value="" th:if="${#strings.isEmpty(order.contractor)}" selected disabled hidden>Wybierz Kontrahenta</option>
 				<option th:each="contractor : ${contractors}" th:value="${contractor.nip}" th:text="${contractor.nip + ' ' + contractor.name }" th:selected="${contractor.nip==order.contractor}"></option>
 			</select>
 		</div>
 		<fieldset>
 			<legend> Lista Produktów: </legend>
+			<span style="color:red;" th:if="${#fields.hasErrors('productsList')}" th:errors="*{productsList}"></span>
 			<table class="table">
 				<thead>
 					<th width="1"></th>
@@ -60,11 +61,11 @@
 					<td>
 						<select class="form-control" id="ordOP">
 							<option selected value="none">Wybierz Produkt...</option>
-							<option th:each="product : ${products}" th:value="${product.code}" th:text="${product.code + ' ' + product.name}"></option>
+							<option th:each="product : ${products}" th:attr="maxquantity=${product.amount}" th:value="${product.code}" th:text="${product.code + ' ' + product.name}"></option>
 						</select>
 					</td>
 					<td>
-						<input id="ordQuantity" type="text" class="form-control" placeholder="Ilość"/>
+						<input id="ordQuantity" type="number" min="0" class="form-control" placeholder="Ilość"/>
 					</td>
 					<td>
 						<button id="addOrderProductButton" class="btn btn-outline-secondary" type="button">Dodaj</button>
@@ -78,16 +79,24 @@
 	<a th:if="${order.id != null && order.id != 0}" th:href="'/invoice/'+${order.id}" class="btn btn-outline-primary"> <i class="icon-plus-squared"></i> Wygeneruj Fakturę </a>
 </main>
 <script>
-	var counter = document.getElementById("list").childElementCount - 1;
+	$("#ordOP").change(function (event) {
+		let maxQuantity = $("#ordOP option:selected").attr('maxquantity');
+		$("#ordQuantity").attr({"max": maxQuantity});
+	})
+
+	let counter = document.getElementById("list").childElementCount - 1;
 	$("#addOrderProductButton").click(function(event) {
 		event.preventDefault();
 		$("#ordOP").css("border-color", "unset");
 		$("#ordQuantity").css("border-color", "unset");
+
+		let maxQuantity = $("#ordOP option:selected").attr('maxquantity');
 		if ($("#ordOP").val() == "none") {
 			$("#ordOP").css("border-color", "red");
 			return;
 		}
-		if ($("#ordQuantity").val() <= 0) {
+		let selectedQuantity = $("#ordQuantity").val();
+		if (selectedQuantity <= 0 || selectedQuantity > maxQuantity) {
 			$("#ordQuantity").css("border-color", "red");
 			return;
 		}
