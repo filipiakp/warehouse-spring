@@ -8,6 +8,7 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
+@Slf4j
 @Controller
 public class InvoiceController {
 
@@ -46,7 +48,7 @@ public class InvoiceController {
               + ".pdf\"");
       response.flushBuffer();
     } catch (IOException | DocumentException ex) {
-      System.out.printf(
+      log.error(
           "Error writing file to output stream. OrderId was %d. %s", orderId, ex.getMessage());
       throw new RuntimeException("IOError writing file to output stream");
     }

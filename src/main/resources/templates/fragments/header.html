@@ -1,4 +1,27 @@
 <!DOCTYPE html>
-<html lang="pl-PL">
-
+<html lang="pl-PL" xmlns:th="http://www.thymeleaf.org">
+<header id="main-menu" th:fragment="header">
+    <span id="menu-label"><a href="/" role="button"><b> <i class="icon-industry"></i>&nbsp;Hurtownia </b></a></span>
+    <span class="btn-group" th:if="${showButtons}">
+        <a th:href="${#strings.isEmpty(addHref) ? addHref : '#'}"
+           id="addButton"
+           th:class="'btn btn-sm btn-outline-primary btn-color'+ ${#strings.isEmpty(addHref) ? ' disabled' : ''}"
+           th:attr="aria-disabled=${#strings.isEmpty(addHref)}" >
+                <i class="icon-plus-squared"></i> Dodaj
+        </a>
+		<a th:href="${#strings.isEmpty(editHref) ? editHref : '#'}"
+           id="editButton"
+           th:class="'btn btn-sm btn-outline-primary btn-color '+ ${#strings.isEmpty(editHref) ? ' disabled' : ''}"
+           th:attr="aria-disabled=${#strings.isEmpty(ediHref)}" >
+                <i class="icon-pencil-squared"></i> Edytuj
+        </a>
+		<a th:href="${#strings.isEmpty(deleteHref) ? deleteHref : '#'}"
+           id="deleteButton"
+           th:class="'btn btn-sm btn-outline-primary btn-color '+ ${#strings.isEmpty(deleteHref) ? ' disabled' : ''}"
+           th:attr="aria-disabled=${#strings.isEmpty(deleteHref)}" >
+                <i class="icon-minus-squared"></i> Usuń
+        </a>
+    </span>
+    <span class="float-right btn-group" th:if="${showButtons}"><a href="/logout" class="btn btn-sm btn-outline-primary btn-color"> <i class="icon-logout"></i> Wyloguj</a></span>
+</header>
 </html>
