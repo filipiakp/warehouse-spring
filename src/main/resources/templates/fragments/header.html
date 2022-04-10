@@ -3,19 +3,19 @@
 <header id="main-menu" th:fragment="header">
     <span id="menu-label"><a href="/" role="button"><b> <i class="icon-industry"></i>&nbsp;Hurtownia </b></a></span>
     <span class="btn-group" th:if="${showButtons}">
-        <a th:href="${#strings.isEmpty(addHref) ? addHref : '#'}"
+        <a th:href="${#strings.isEmpty(addHref) ? '#' : addHref}"
            id="addButton"
            th:class="'btn btn-sm btn-outline-primary btn-color'+ ${#strings.isEmpty(addHref) ? ' disabled' : ''}"
            th:attr="aria-disabled=${#strings.isEmpty(addHref)}" >
                 <i class="icon-plus-squared"></i> Dodaj
         </a>
-		<a th:href="${#strings.isEmpty(editHref) ? editHref : '#'}"
+		<a th:href="${#strings.isEmpty(editHref) ? '#' : editHref}"
            id="editButton"
            th:class="'btn btn-sm btn-outline-primary btn-color '+ ${#strings.isEmpty(editHref) ? ' disabled' : ''}"
            th:attr="aria-disabled=${#strings.isEmpty(ediHref)}" >
                 <i class="icon-pencil-squared"></i> Edytuj
         </a>
-		<a th:href="${#strings.isEmpty(deleteHref) ? deleteHref : '#'}"
+		<a th:href="${#strings.isEmpty(deleteHref) ? '#' : deleteHref}"
            id="deleteButton"
            th:class="'btn btn-sm btn-outline-primary btn-color '+ ${#strings.isEmpty(deleteHref) ? ' disabled' : ''}"
            th:attr="aria-disabled=${#strings.isEmpty(deleteHref)}" >

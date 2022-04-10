@@ -65,6 +65,7 @@
 		<tr>
 			<th>LP</th>
 			<th>Nazwa towaru</th>
+			<th>Producent</th>
 			<th>Ilość</th>
 			<th>Cena netto</th>
 			<th>Wartość netto</th>
@@ -77,6 +78,7 @@
 		<tr th:each="orderProduct, i : ${order.productsList}" th:id="${i.index}">
 			<td th:text="${i.index}"></td>
 			<td th:text="${orderProduct.product.name}"></td>
+			<td th:text="${orderProduct.product.manufacturer}"></td>
 			<td th:text="${orderProduct.quantity}"></td>
 			<td th:text="${#numbers.formatDecimal(orderProduct.product.price, 1,2)}"></td>
 			<td th:text="${#numbers.formatDecimal(orderProduct.quantity * orderProduct.product.price, 1,2)}"></td>

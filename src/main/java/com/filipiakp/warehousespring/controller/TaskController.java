@@ -95,7 +95,7 @@ public class TaskController {
             .name(task.getName())
             .contractor(
                 task.getContractor() != null
-                    ? task.getContractor().getNip() + " " + task.getContractor().getName()
+                    ? task.getContractor().getNip()
                     : "")
             .creationDate(task.getCreationDate())
             .finishDate(task.getFinishDate())
