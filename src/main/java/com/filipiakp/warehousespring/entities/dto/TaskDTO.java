@@ -24,7 +24,7 @@ public class TaskDTO {
   private String name;
   private String description;
   private int importance;
-  private int[] employeesList;
+  private int[] employeesList = new int[0];
 
   @NotNull(message = "Musisz podać kontrahenta")
   private String contractor;

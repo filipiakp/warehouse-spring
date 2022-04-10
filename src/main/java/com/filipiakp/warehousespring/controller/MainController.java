@@ -68,7 +68,7 @@ public class MainController {
             tKey -> {
               ordersCountByDate.put(tKey, ordersByDate.get(tKey).size());
             });
-    model.addAttribute("ordersCountByDate", tasksCountByImportance);
+    model.addAttribute("ordersCountByDate", ordersCountByDate);
     return "index";
   }
 

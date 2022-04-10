@@ -19,10 +19,10 @@ public class Product {
 
   @Id private String code;
 
-  @Pattern(regexp = "[\\w- ?]{3,}", message = "Niepoprawny producent")
+  @Pattern(regexp = "[\\w-ŻŹĆĘŚĄÓŁŃżźćńąśłęó ?]{3,}", message = "Niepoprawny producent")
   private String manufacturer;
 
-  @Pattern(regexp = "[\\w- ?]{3,}", message = "Niepoprawna nazwa")
+  @Pattern(regexp = "[\\w-ŻŹĆĘŚĄÓŁŃżźćńąśłęó ?]{3,}", message = "Niepoprawna nazwa")
   private String name;
 
   private String specification;

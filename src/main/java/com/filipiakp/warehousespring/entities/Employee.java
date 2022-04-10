@@ -19,21 +19,22 @@ public class Employee {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private int id;
 
-  @Size(min = 2, max = 40, message = "Zla dlugosc imienia")
+  @Size(min = 2, max = 40, message = "Zła długość imienia")
   @NotBlank(message = "Pole nie może być puste")
   private String name;
 
-  @Size(min = 2, max = 40, message = "Zla dlugosc nazwiska")
+  @Size(min = 2, max = 40, message = "Zła długość nazwiska")
   @NotBlank(message = "Pole nie może być puste")
   private String surname;
 
   @NotBlank(message = "Pole nie może być puste")
   private String position;
 
-  @DecimalMin(value = "0", message = "Pensja musi byc dodatnia")
+  @DecimalMin(value = "0", message = "Pensja musi być dodatnia")
   @Digits(integer = 6, fraction = 2, message = "Podaj poprawną pensję")
   private double salary;
 
+  @NotBlank(message = "Pole nie może być puste")
   private String city;
 
   @Pattern(

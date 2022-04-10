@@ -8,6 +8,7 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
+@Slf4j
 @Controller
 public class InvoiceController {
 
@@ -36,17 +38,18 @@ public class InvoiceController {
       Context context = getOrderContext(order);
       String html = parseThymeleafTemplate("invoiceTemplate", context);
       response.setCharacterEncoding("UTF-8");
-      writeToStreamPdfFromHtml(response.getOutputStream(), html);
       response.setContentType("application/pdf");
+      String disposition = new StringBuilder().append("inline; filename=\"FV")
+              .append(new SimpleDateFormat("yyyy-MM-dd-").format(new Date(System.currentTimeMillis())))
+              .append(orderId)
+              .append(".pdf\"")
+              .toString();
       response.setHeader(
-          "content-disposition",
-          "attachment; filename=\"FV"
-              + new SimpleDateFormat("yyyy/MM/dd/").format(new Date(System.currentTimeMillis()))
-              + orderId
-              + ".pdf\"");
+          "content-disposition",disposition);
+      writeToStreamPdfFromHtml(response.getOutputStream(), html);
       response.flushBuffer();
     } catch (IOException | DocumentException ex) {
-      System.out.printf(
+      log.error(
           "Error writing file to output stream. OrderId was %d. %s", orderId, ex.getMessage());
       throw new RuntimeException("IOError writing file to output stream");
     }
@@ -84,7 +87,7 @@ public class InvoiceController {
     ITextRenderer renderer = new ITextRenderer();
 
     String fontpath =
-        this.getClass().getClassLoader().getResource("static/font/OpenSans-Regular.ttf").getPath();
+        this.getClass().getClassLoader().getResource("static/font/Arial.ttf").getPath();
     renderer.getFontResolver().addFont(fontpath, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
     renderer.setDocumentFromString(html);
     renderer.layout();
