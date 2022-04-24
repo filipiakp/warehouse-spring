@@ -2,35 +2,43 @@
 <html lang="pl-PL" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: head(siteTitle = 'Kontrahenci')"></head>
 <body>
-<header th:replace="fragments/header :: header(showButtons = true, addHref='/contractors/add')"></header>
-<aside th:replace="fragments/aside"></aside>
-<main id="container" class="main-content">
-	<table id="contractorTable" class="table selectable-table">
-		<thead>
-		<tr>
-			<th> NIP </th>
-			<th> Nazwa </th>
-			<th> Nr Tel. </th>
-			<th> Miasto </th>
-			<th> Ulica </th>
-			<th> Nr Domu </th>
-			<th> Nr Mieszkania </th>
-			<th> Dostawca </th>
-		</tr>
-		</thead>
-		<tbody id="contractors">
-		<tr th:each="contractor: ${contractors}">
-			<td th:text="${contractor.nip}">Nip</td>
-			<td th:text="${contractor.name}">Name</td>
-			<td th:text="${contractor.phoneNumber}">Position</td>
-			<td th:text="${contractor.city}">City</td>
-			<td th:text="${contractor.street}">Street</td>
-			<td th:text="${contractor.houseNumber}">House Number</td>
-			<td th:text="${contractor.apartmentNumber}">Apart. Numb.</td>
-			<td th:text="${contractor.supplier?'tak':'nie'}">Is Supplier</td>
-		</tr>
-		</tbody>
-	</table>
-</main>
+<div class="container-fluid h-100 d-flex flex-column w-100 px-0">
+	<header th:replace="fragments/header :: header(showButtons = true, addHref='/contractors/add')"></header>
+	<div class="row flex-fill mx-0"  style="min-height:0">
+		<div class="col-sm-12 col-md-2 mh-100 panel">
+			<aside th:replace="fragments/aside"></aside>
+		</div>
+		<div class="col-sm-12 col-md-10 mh-100 overflow-scroll">
+			<main id="container" class="main-content table-responsive">
+				<table id="contractorTable" class="table selectable-table">
+					<thead>
+					<tr>
+						<th> NIP </th>
+						<th> Nazwa </th>
+						<th> Nr Tel. </th>
+						<th> Miasto </th>
+						<th> Ulica </th>
+						<th> Nr Domu </th>
+						<th> Nr Mieszkania </th>
+						<th> Dostawca </th>
+					</tr>
+					</thead>
+					<tbody id="contractors">
+					<tr th:each="contractor: ${contractors}">
+						<td th:text="${contractor.nip}">Nip</td>
+						<td th:text="${contractor.name}">Name</td>
+						<td th:text="${contractor.phoneNumber}">Position</td>
+						<td th:text="${contractor.city}">City</td>
+						<td th:text="${contractor.street}">Street</td>
+						<td th:text="${contractor.houseNumber}">House Number</td>
+						<td th:text="${contractor.apartmentNumber}">Apart. Numb.</td>
+						<td th:text="${contractor.supplier?'tak':'nie'}">Is Supplier</td>
+					</tr>
+					</tbody>
+				</table>
+			</main>
+		</div>
+	</div>
+</div>
 </body>
 </html>

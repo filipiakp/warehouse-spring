@@ -2,55 +2,64 @@
 <html lang="pl-PL" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: head(siteTitle = 'Produkt - Formularz')"></head>
 <body>
-<header th:replace="fragments/header :: header(showButtons = true)"></header>
-<aside th:replace="fragments/aside"></aside>
-<main id="container" class="main-content">
-	<h1>Szczegóły Produktu</h1>
-	<form action="/saveProduct" method="POST" th:object="${product}">
-		<div class="form-group">
-			<label for="code"> Kod </label>
-			<input type="text" id="code" class="form-control" th:field="${product.code}"/>
-			<span style="color:red;" th:if="${#fields.hasErrors('code')}" th:errors="*{code}"></span>
+<div class="container-fluid h-100 d-flex flex-column w-100 px-0">
+	<header th:replace="fragments/header :: header(showButtons = true)"></header>
+	<div class="row flex-fill mx-0"  style="min-height:0">
+		<div class="col-sm-12 col-md-2 mh-100 panel">
+			<aside th:replace="fragments/aside"></aside>
 		</div>
-		<div class="form-group">
-			<label for="prodManufacturer"> Producent </label>
-			<input type="text" id="prodManufacturer" class="form-control" th:field="${product.manufacturer}"/>
-			<span style="color:red;" th:if="${#fields.hasErrors('manufacturer')}" th:errors="*{manufacturer}"></span>
+		<div class="col-sm-12 col-md-10 mh-100 overflow-scroll">
+			<main id="container" class="main-content">
+				<h1>Szczegóły Produktu</h1>
+				<form action="/saveProduct" method="POST" th:object="${product}">
+					<div class="form-group">
+						<label for="code"> Kod </label>
+						<input type="text" id="code" class="form-control" th:field="${product.code}"/>
+						<span style="color:red;" th:if="${#fields.hasErrors('code')}" th:errors="*{code}"></span>
+					</div>
+					<div class="form-group">
+						<label for="prodManufacturer"> Producent </label>
+						<input type="text" id="prodManufacturer" class="form-control" th:field="${product.manufacturer}"/>
+						<span style="color:red;" th:if="${#fields.hasErrors('manufacturer')}" th:errors="*{manufacturer}"></span>
+					</div>
+					<div class="form-group">
+						<label for="prodName"> Nazwa </label>
+						<input type="text" id="prodName" class="form-control" th:field="${product.name}"/>
+						<span style="color:red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+					</div>
+					<div class="form-group">
+						<label for="prodSpecification"> Specyfikacja </label>
+						<textarea rows="5" id="prodSpecification" class="form-control" th:field="${product.specification}"/>
+						<span style="color:red;" th:if="${#fields.hasErrors('specification')}" th:errors="*{specification}"></span>
+					</div>
+					<div class="form-group">
+						<label for="prodAmount"> Ilość [szt] </label>
+						<input type="text" id="prodAmount" class="form-control" th:field="${product.amount}"/>
+						<span style="color:red;" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></span>
+					</div>
+					<div class="form-group">
+						<label for="prodPrice"> Cena [zł] </label>
+						<input type="text" id="prodPrice" class="form-control" th:field="${product.price}"/>
+						<span style="color:red;" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
+					</div>
+					<div class="form-group">
+						<label for="prodCategory"> Kategoria </label>
+						<input type="text" id="prodCategory" class="form-control" th:field="${product.category}"/>
+						<span style="color:red;" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></span>
+					</div>
+					<div class="form-group">
+						<label for="prodWeight"> Waga [g] </label>
+						<input type="text" id="prodWeight" class="form-control" th:field="${product.weight}"/>
+						<span style="color:red;" th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}"></span>
+					</div>
+					<div class="form-group">
+						<input type="submit" class="btn btn-primary"/>
+					</div>
+				</form>
+			</main>
 		</div>
-		<div class="form-group">
-			<label for="prodName"> Nazwa </label>
-			<input type="text" id="prodName" class="form-control" th:field="${product.name}"/>
-			<span style="color:red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
-		</div>
-		<div class="form-group">
-			<label for="prodSpecification"> Specyfikacja </label>
-			<textarea rows="5" id="prodSpecification" class="form-control" th:field="${product.specification}"/>
-			<span style="color:red;" th:if="${#fields.hasErrors('specification')}" th:errors="*{specification}"></span>
-		</div>
-		<div class="form-group">
-			<label for="prodAmount"> Ilość [szt] </label>
-			<input type="text" id="prodAmount" class="form-control" th:field="${product.amount}"/>
-			<span style="color:red;" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></span>
-		</div>
-		<div class="form-group">
-			<label for="prodPrice"> Cena [zł] </label>
-			<input type="text" id="prodPrice" class="form-control" th:field="${product.price}"/>
-			<span style="color:red;" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
-		</div>
-		<div class="form-group">
-			<label for="prodCategory"> Kategoria </label>
-			<input type="text" id="prodCategory" class="form-control" th:field="${product.category}"/>
-			<span style="color:red;" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></span>
-		</div>
-		<div class="form-group">
-			<label for="prodWeight"> Waga [g] </label>
-			<input type="text" id="prodWeight" class="form-control" th:field="${product.weight}"/>
-			<span style="color:red;" th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}"></span>
-		</div>
-		<div class="form-group">
-			<input type="submit" class="btn btn-primary"/>
-		</div>
-	</form>
-</main>
+	</div>
+</div>
+
 </body>
 </html>

@@ -2,29 +2,38 @@
 <html lang="pl-PL" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: head(siteTitle = 'Zamówienia')"></head>
 <body>
-<header th:replace="fragments/header :: header(showButtons = true, addHref='/orders/add')"></header>
-<aside th:replace="fragments/aside"></aside>
-<main id="container" class="main-content">
-	<table id="orderTable" class="table selectable-table">
-		<thead>
-		<tr>
-			<th> ID </th>
-			<th> Utworzone </th>
-			<th> Zrealizowane </th>
-			<th> Kontrahent </th>
-			<th> Wartość </th>
-		</tr>
-		</thead>
-		<tbody id="orders">
-		<tr th:each="order: ${orders}">
-			<td th:text="${order.id}">Id</td>
-			<td th:text="${{#dates.format(order.creationDate, 'dd.MM.yyyy HH:mm')}}">Creation Date</td>
-			<td th:text="${order.finishDate} ? 'Zrealizowane' : 'W trakcie'">Finished</td>
-			<td th:text="${order.contractor != null} ? ${order.contractor.name + ', NIP:' + order.contractor.nip} : ${'-'}">Contractor</td>
-			<td th:text="${order.summaryValue}">Summary Value</td>
-		</tr>
-		</tbody>
-	</table>
-</main>
+<div class="container-fluid h-100 d-flex flex-column w-100 px-0">
+	<header th:replace="fragments/header :: header(showButtons = true, addHref='/orders/add')"></header>
+	<div class="row flex-fill mx-0"  style="min-height:0">
+		<div class="col-sm-12 col-md-2 mh-100 panel">
+			<aside th:replace="fragments/aside"></aside>
+		</div>
+		<div class="col-sm-12 col-md-10 mh-100 overflow-scroll">
+			<main id="container" class="main-content table-responsive">
+				<table id="orderTable" class="table selectable-table">
+					<thead>
+					<tr>
+						<th> ID </th>
+						<th> Utworzone </th>
+						<th> Zrealizowane </th>
+						<th> Kontrahent </th>
+						<th> Wartość </th>
+					</tr>
+					</thead>
+					<tbody id="orders">
+					<tr th:each="order: ${orders}">
+						<td th:text="${order.id}">Id</td>
+						<td th:text="${{#dates.format(order.creationDate, 'dd.MM.yyyy HH:mm')}}">Creation Date</td>
+						<td th:text="${order.finishDate} ? 'Zrealizowane' : 'W trakcie'">Finished</td>
+						<td th:text="${order.contractor != null} ? ${order.contractor.name + ', NIP:' + order.contractor.nip} : ${'-'}">Contractor</td>
+						<td th:text="${order.summaryValue}">Summary Value</td>
+					</tr>
+					</tbody>
+				</table>
+			</main>
+		</div>
+	</div>
+</div>
+
 </body>
 </html>

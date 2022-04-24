@@ -2,54 +2,63 @@
 <html lang="pl-PL" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: head(siteTitle = 'Kontrahent - Formularz')"></head>
 <body>
-<header th:replace="fragments/header :: header(showButtons = true)"></header>
-<aside th:replace="fragments/aside"></aside>
-<main id="container" class="main-content">
-	<h1>Szczegóły Kontrahenta</h1>
-	<form action="/saveContractor" method="POST" th:object="${contractor}">
-		<div class="form-group">
-			<label for="contNip"> Nip </label>
-			<input type="text" id="contNip" class="form-control" th:field="${contractor.nip}"/>
-			<span style="color:red;" th:if="${#fields.hasErrors('nip')}" th:errors="*{nip}"></span>
+<div class="container-fluid h-100 d-flex flex-column w-100 px-0">
+	<header th:replace="fragments/header :: header(showButtons = true)"></header>
+	<div class="row flex-fill mx-0"  style="min-height:0">
+		<div class="col-sm-12 col-md-2 mh-100 panel">
+			<aside th:replace="fragments/aside"></aside>
 		</div>
-		<div class="form-group">
-			<label for="contName"> Nazwa </label>
-			<input type="text" id="contName" class="form-control" th:field="${contractor.name}"/>
-			<span style="color:red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+		<div class="col-sm-12 col-md-10 mh-100 overflow-scroll">
+			<main id="container" class="main-content">
+				<h1>Szczegóły Kontrahenta</h1>
+				<form action="/saveContractor" method="POST" th:object="${contractor}">
+					<div class="form-group">
+						<label for="contNip"> Nip </label>
+						<input type="text" id="contNip" class="form-control" th:field="${contractor.nip}"/>
+						<span style="color:red;" th:if="${#fields.hasErrors('nip')}" th:errors="*{nip}"></span>
+					</div>
+					<div class="form-group">
+						<label for="contName"> Nazwa </label>
+						<input type="text" id="contName" class="form-control" th:field="${contractor.name}"/>
+						<span style="color:red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+					</div>
+					<div class="form-group">
+						<label for="contPhoneNumber"> Nr Tel. </label>
+						<input type="text" id="contPhoneNumber" class="form-control" th:field="${contractor.phoneNumber}"/>
+						<span style="color:red;" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
+					</div>
+					<div class="form-group">
+						<label for="contCity"> Miasto </label>
+						<input type="text" id="contCity" class="form-control" th:field="${contractor.city}"/>
+						<span style="color:red;" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></span>
+					</div>
+					<div class="form-group">
+						<label for="contStreet"> Ulica </label>
+						<input type="text" id="contStreet" class="form-control" th:field="${contractor.street}"/>
+						<span style="color:red;" th:if="${#fields.hasErrors('street')}" th:errors="*{street}"></span>
+					</div>
+					<div class="form-group">
+						<label for="contHouseNum"> Numer Domu </label>
+						<input type="text" id="contHouseNum" class="form-control" th:field="${contractor.houseNumber}"/>
+						<span style="color:red;" th:if="${#fields.hasErrors('houseNumber')}" th:errors="*{houseNumber}"></span>
+					</div>
+					<div class="form-group">
+						<label for="contApartNum"> Numer Mieszkania </label>
+						<input type="text" id="contApartNum" class="form-control" th:field="${contractor.apartmentNumber}"/>
+						<span style="color:red;" th:if="${#fields.hasErrors('apartmentNumber')}" th:errors="*{apartmentNumber}"></span>
+					</div>
+					<div class="form-check">
+						<input type="checkbox" class="form-check-input" th:field="*{supplier}"/>
+						<label th:for="${#ids.prev('supplier')}" class="form-check-label"> Dostawca </label>
+					</div>
+					<div class="form-group">
+						<input type="submit" class="btn btn-primary"/>
+					</div>
+				</form>
+			</main>
 		</div>
-		<div class="form-group">
-			<label for="contPhoneNumber"> Nr Tel. </label>
-			<input type="text" id="contPhoneNumber" class="form-control" th:field="${contractor.phoneNumber}"/>
-			<span style="color:red;" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
-		</div>
-		<div class="form-group">
-			<label for="contCity"> Miasto </label>
-			<input type="text" id="contCity" class="form-control" th:field="${contractor.city}"/>
-			<span style="color:red;" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></span>
-		</div>
-		<div class="form-group">
-			<label for="contStreet"> Ulica </label>
-			<input type="text" id="contStreet" class="form-control" th:field="${contractor.street}"/>
-			<span style="color:red;" th:if="${#fields.hasErrors('street')}" th:errors="*{street}"></span>
-		</div>
-		<div class="form-group">
-			<label for="contHouseNum"> Numer Domu </label>
-			<input type="text" id="contHouseNum" class="form-control" th:field="${contractor.houseNumber}"/>
-			<span style="color:red;" th:if="${#fields.hasErrors('houseNumber')}" th:errors="*{houseNumber}"></span>
-		</div>
-		<div class="form-group">
-			<label for="contApartNum"> Numer Mieszkania </label>
-			<input type="text" id="contApartNum" class="form-control" th:field="${contractor.apartmentNumber}"/>
-			<span style="color:red;" th:if="${#fields.hasErrors('apartmentNumber')}" th:errors="*{apartmentNumber}"></span>
-		</div>
-		<div class="form-check">
-			<input type="checkbox" class="form-check-input" th:field="*{supplier}"/>
-			<label th:for="${#ids.prev('supplier')}" class="form-check-label"> Dostawca </label>
-		</div>
-		<div class="form-group">
-			<input type="submit" class="btn btn-primary"/>
-		</div>
-	</form>
-</main>
+	</div>
+</div>
+
 </body>
 </html>
