@@ -8,6 +8,7 @@
 	<a href="/orders"><div id="ordersButton" class=" panel-button"><i class="icon-money"></i> Zamówienia </div></a>
 	<a href="/products"><div id="productsButton" class=" panel-button"><i class="icon-cubes"></i> Produkty </div></a>
 	<a href="/tasks"><div id="tasksButton" class=" panel-button"><i class="icon-tasks"></i> Zadania </div></a>
+	<a href="/users" th:if="${#httpServletRequest.getUserPrincipal().getName().equals('admin')}"><div id="usersButton" class="panel-button"><i class="icon-user-circle"></i> Użytkownicy </div></a>
 	<!--<a href="/r" id=""></a>-->
 </aside>
 </html>

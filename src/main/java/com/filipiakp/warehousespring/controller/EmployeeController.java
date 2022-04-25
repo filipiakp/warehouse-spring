@@ -1,6 +1,7 @@
 package com.filipiakp.warehousespring.controller;
 
 import com.filipiakp.warehousespring.entities.Employee;
+import com.filipiakp.warehousespring.entities.dto.EmployeeDTO;
 import com.filipiakp.warehousespring.model.EmployeeRepository;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -28,7 +29,7 @@ public class EmployeeController {
       value = "/saveEmployee",
       consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
       method = RequestMethod.POST)
-  public String saveEmployee(@Valid Employee data, BindingResult bindingResult) {
+  public String saveEmployee(@Valid EmployeeDTO data, BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
       return "employeeForm";
     }
