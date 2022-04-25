@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pl-PL" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head(siteTitle = 'Użytkownik - Formularz')"></head>
+<body>
+<div class="container-fluid h-100 d-flex flex-column w-100 px-0">
+	<header th:replace="fragments/header :: header(showButtons = true)"></header>
+	<div class="row flex-fill mx-0"  style="min-height:0">
+		<div class="col-sm-12 col-md-2 mh-100 panel">
+			<aside th:replace="fragments/aside"></aside>
+		</div>
+		<div class="col-sm-12 col-md-10 mh-100 overflow-scroll">
+			<main id="container" class="main-content">
+				<h1>Szczegóły Użytkownika</h1>
+				<form action="/saveUser" method="POST" th:object="${userDTO}" autocomplete="off">
+					<div class="form-group">
+						<label for="userUsername"> Nazwa Użytkownika </label>
+						<input type="text" id="userUsername" class="form-control" th:field="${userDTO.username}" th:attr="disabled=${!(#strings.isEmpty(userDTO.username)) && !(#fields.hasErrors())}"/>
+						<span style="color:red;" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+					</div>
+					<div class="form-group">
+						<label for="userNewPassword"> Nowe Hasło </label>
+						<input type="password" id="userNewPassword" class="form-control" th:field="${userDTO.newPassword}"/>
+						<span style="color:red;" th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}"></span>
+					</div>
+					<div class="form-group">
+						<label for="userNewPasswordRepeated"> Powtórz Nowe Hasło </label>
+						<input type="password" id="userNewPasswordRepeated" class="form-control" th:field="${userDTO.newPasswordRepeated}"/>
+						<span style="color:red;" th:if="${#fields.hasErrors('newPasswordRepeated')}" th:errors="*{newPasswordRepeated}"></span>
+					</div>
+					<div class="form-group">
+						<input type="submit" class="btn btn-primary"/>
+					</div>
+				</form>
+			</main>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

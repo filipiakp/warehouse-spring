@@ -2,52 +2,61 @@
 <html lang="pl-PL" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: head(siteTitle = 'Zadanie - Formularz')"></head>
 <body>
-<header th:replace="fragments/header :: header(showButtons = true)"></header>
-<aside th:replace="fragments/aside"></aside>
-<main id="container" class="main-content">
-	<h1>Dodaj Zadanie</h1>
-	<form action="#" th:action="@{/saveTask}" method="POST" th:object="${task}">
-		<div class="form-group" style="display:none;">
-			<label for="taskId"> ID </label>
-			<input type="text" id="taskId" class="form-control" th:field="${task.id}"/>
+<div class="container-fluid h-100 d-flex flex-column w-100 px-0">
+	<header th:replace="fragments/header :: header(showButtons = true)"></header>
+	<div class="row flex-fill mx-0"  style="min-height:0">
+		<div class="col-sm-12 col-md-2 mh-100 panel">
+			<aside th:replace="fragments/aside"></aside>
 		</div>
-		<div class="form-group">
-			<label for="taskName"> Nazwa </label>
-			<input type="text" id="taskName" class="form-control" th:field="${task.name}" required/>
-		</div>
-		<div class="form-group">
-			<label for="taskDescription"> Opis </label>
-			<textarea id="taskDescription" class="form-control" th:field="${task.description}"/>
-		</div>
-		<div class="form-group">
-			<label for="taskImportance"> Priorytet </label>
-			<input type="number" id="taskImportance" class="form-control" th:field="${task.importance}"/>
-		</div>
-		<div class="form-group">
-			<label for="taskCreationDate"> Data utworzenia </label>
-			<input type="datetime-local" id="taskCreationDate" class="form-control" th:field="${task.creationDate}" readonly/>
-		</div>
-		<div class="form-group">
-			<label for="taskFinishDate"> Data ukończenia </label>
-			<input type="datetime-local" id="taskFinishDate" class="form-control" th:field="${task.finishDate}"/>
-		</div>
-		<div class="form-group">
-			<label for="taskContractor"> Kontrahent </label>
-			<select class="form-control" id="taskContractor" name="contractor">
-				<option value="" th:if="${#strings.isEmpty(task.contractor)}" selected disabled hidden>Wybierz Kontrahenta</option>
-				<option th:each="contractor : ${contractors}" th:value="${contractor.nip}" th:text="${contractor.nip + ' ' + contractor.name }" th:selected="${contractor.nip==task.contractor}"></option>
-			</select>
-		</div>
-		<div class="form-group">
-			<label for="taskEmployees"> Pracownicy </label>
-			<select class="form-control" id="taskEmployees" name="employeesList" multiple>
-				<option th:each="employee : ${employees}" th:value="${employee.id}" th:text="${employee.id + ' ' + employee.name + ' ' + employee.surname}" th:selected="${#lists.contains(task.employeesList, employee.id)}"></option>
-			</select>
-		</div>
-		<br/>
-		<input type="submit" class="btn btn-primary" value="Zatwierdź"/>
-	</form>
+		<div class="col-sm-12 col-md-10 mh-100 overflow-scroll">
+			<main id="container" class="main-content">
+				<h1>Szczegóły Zadania</h1>
+				<form action="#" th:action="@{/saveTask}" method="POST" th:object="${task}">
+					<div class="form-group" style="display:none;">
+						<label for="taskId"> ID </label>
+						<input type="text" id="taskId" class="form-control" th:field="${task.id}"/>
+					</div>
+					<div class="form-group">
+						<label for="taskName"> Nazwa </label>
+						<input type="text" id="taskName" class="form-control" th:field="${task.name}" required/>
+					</div>
+					<div class="form-group">
+						<label for="taskDescription"> Opis </label>
+						<textarea id="taskDescription" class="form-control" th:field="${task.description}"/>
+					</div>
+					<div class="form-group">
+						<label for="taskImportance"> Priorytet </label>
+						<input type="number" id="taskImportance" class="form-control" th:field="${task.importance}"/>
+					</div>
+					<div class="form-group">
+						<label for="taskCreationDate"> Data utworzenia </label>
+						<input type="datetime-local" id="taskCreationDate" class="form-control" th:field="${task.creationDate}" readonly/>
+					</div>
+					<div class="form-group">
+						<label for="taskFinishDate"> Data ukończenia </label>
+						<input type="datetime-local" id="taskFinishDate" class="form-control" th:field="${task.finishDate}"/>
+					</div>
+					<div class="form-group">
+						<label for="taskContractor"> Kontrahent </label>
+						<select class="form-control" id="taskContractor" name="contractor">
+							<option value="" th:if="${#strings.isEmpty(task.contractor)}" selected disabled hidden>Wybierz Kontrahenta</option>
+							<option th:each="contractor : ${contractors}" th:value="${contractor.nip}" th:text="${contractor.nip + ' ' + contractor.name }" th:selected="${contractor.nip==task.contractor}"></option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="taskEmployees"> Pracownicy </label>
+						<select class="form-control" id="taskEmployees" name="employeesList" multiple>
+							<option th:each="employee : ${employees}" th:value="${employee.id}" th:text="${employee.id + ' ' + employee.name + ' ' + employee.surname}" th:selected="${#lists.contains(task.employeesList, employee.id)}"></option>
+						</select>
+					</div>
+					<br/>
+					<input type="submit" class="btn btn-primary" value="Zatwierdź"/>
+				</form>
 
-</main>
+			</main>
+		</div>
+	</div>
+</div>
+
 </body>
 </html>

@@ -39,13 +39,15 @@ public class InvoiceController {
       String html = parseThymeleafTemplate("invoiceTemplate", context);
       response.setCharacterEncoding("UTF-8");
       response.setContentType("application/pdf");
-      String disposition = new StringBuilder().append("inline; filename=\"FV")
-              .append(new SimpleDateFormat("yyyy-MM-dd-").format(new Date(System.currentTimeMillis())))
+      String disposition =
+          new StringBuilder()
+              .append("inline; filename=\"FV")
+              .append(
+                  new SimpleDateFormat("yyyy-MM-dd-").format(new Date(System.currentTimeMillis())))
               .append(orderId)
               .append(".pdf\"")
               .toString();
-      response.setHeader(
-          "content-disposition",disposition);
+      response.setHeader("content-disposition", disposition);
       writeToStreamPdfFromHtml(response.getOutputStream(), html);
       response.flushBuffer();
     } catch (IOException | DocumentException ex) {

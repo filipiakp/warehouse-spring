@@ -1,42 +1,53 @@
 <!DOCTYPE html>
 <html lang="pl-PL" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head(siteTitle = 'Hurtownia')"></head>
+<head th:replace="fragments/head :: head(siteTitle = 'Hurtownia CRM')"></head>
 <body>
-<header th:replace="fragments/header :: header(showButtons = true)"></header>
-<aside th:replace="fragments/aside"></aside>
-<main id="container" class="main-content">
-	<div class="row">
-		<div class="col">
-			<div class="text-center"><h1 class="icon-users"></h1><p><span th:text="${employeesCount}"/> Pracowników</p></div>
+<div class="container-fluid h-100 d-flex flex-column w-100 px-0">
+	<header th:replace="fragments/header :: header(showButtons = true)"></header>
+	<div class="row flex-fill mx-0"  style="min-height:0">
+		<div class="col-sm-12 col-md-2 mh-100 panel">
+			<aside th:replace="fragments/aside"></aside>
 		</div>
-		<div class="col">
-			<div class="text-center"><h1 class="icon-cubes"></h1><p><span th:text="${productsCount}"/> Produktów</p></div>
-		</div>
-		<div class="col">
-			<div class="text-center"><h1 class="icon-handshake-o"></h1><p><span th:text="${contractorsCount}"/> Kontrahentów</p></div>
-		</div>
-		<div class="col">
-			<div class="text-center"><h1 class="icon-ok"></h1><p><span th:text="${#lists.size(ordersFinished)}"/> Zamówień zrealizowanych</p></div>
-		</div>
-		<div class="col">
-			<div class="text-center"><h1 class="icon-money"></h1><p><span th:text="${#lists.size(ordersInProgress)}"/> Zamówień bieżących</p></div>
-		</div>
-	</div>
+		<div class="col-sm-12 col-md-10 mh-100 overflow-scroll">
+			<main id="container" class="main-content">
+				<div class="row">
+					<div class="col">
+						<div class="text-center"><h1 class="icon-users"></h1><p><span th:text="${employeesCount}"/> Pracowników</p></div>
+					</div>
+					<div class="col">
+						<div class="text-center"><h1 class="icon-cubes"></h1><p><span th:text="${productsCount}"/> Produktów</p></div>
+					</div>
+					<div class="col">
+						<div class="text-center"><h1 class="icon-handshake-o"></h1><p><span th:text="${contractorsCount}"/> Kontrahentów</p></div>
+					</div>
+					<div class="col">
+						<div class="text-center"><h1 class="icon-ok"></h1><p><span th:text="${#lists.size(ordersFinished)}"/> Zamówień zrealizowanych</p></div>
+					</div>
+					<div class="col">
+						<div class="text-center"><h1 class="icon-money"></h1><p><span th:text="${#lists.size(ordersInProgress)}"/> Zamówień bieżących</p></div>
+					</div>
+				</div>
 
-	<div class="row">
-		<div class="col">
-			<h3>Zadania</h3>
-			<canvas id="tasksByImportanceChart"></canvas>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col">
-			<h3>Zamówienia</h3>
-			<canvas id="ordersCountByDateChart"></canvas>
-		</div>
-	</div>
+				<div class="row">
+					<div class="col">
+						<h3>Zadania</h3>
+						<canvas id="tasksByImportanceChart"></canvas>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<h3>Zamówienia</h3>
+						<canvas id="ordersCountByDateChart"></canvas>
+					</div>
+				</div>
 
-</main>
+			</main>
+		</div>
+	</div>
+</div>
+
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script th:inline="javascript">
 	/*<![CDATA[*/

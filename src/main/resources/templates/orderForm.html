@@ -2,75 +2,86 @@
 <html lang="pl-PL" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: head(siteTitle = 'Zamówienie - Formularz')"></head>
 <body>
-<header th:replace="fragments/header :: header(showButtons = true)"></header>
-<aside th:replace="fragments/aside"></aside>
-<main id="container" class="main-content">
-	<h1>Szczegóły Zamówienia</h1>
-	<form action="#" th:action="@{/saveOrder}" method="POST" th:object="${order}">
-		<div class="form-group" style="display:none;">
-			<label for="ordId"> ID </label>
-			<input type="text" id="ordId" class="form-control" th:field="${order.id}"/>
+<div class="container-fluid h-100 d-flex flex-column w-100 px-0">
+	<header th:replace="fragments/header :: header(showButtons = true)"></header>
+	<div class="row flex-fill mx-0"  style="min-height:0">
+		<div class="col-sm-12 col-md-2 mh-100 panel">
+			<aside th:replace="fragments/aside"></aside>
 		</div>
-		<div class="form-group">
-			<label for="ordFinishDate"> Data utworzenia </label>
-			<input type="datetime-local" id="ordCreationDate" class="form-control" th:field="${order.creationDate}" readonly />
-		</div>
-		<div class="form-group">
-			<label for="ordFinishDate"> Data ukończenia </label>
-			<input type="datetime-local" id="ordFinishDate" class="form-control" th:field="${order.finishDate}"/>
-		</div>
-		<div class="form-group">
-			<label for="ordContractor"> Kontrahent </label>
-			<select class="form-control" id="ordContractor" name="contractor" required>
-				<option value="" th:if="${#strings.isEmpty(order.contractor)}" selected disabled hidden>Wybierz Kontrahenta</option>
-				<option th:each="contractor : ${contractors}" th:value="${contractor.nip}" th:text="${contractor.nip + ' ' + contractor.name }" th:selected="${contractor.nip==order.contractor}"></option>
-			</select>
-		</div>
-		<fieldset>
-			<legend> Lista Produktów: </legend>
-			<span style="color:red;" th:if="${#fields.hasErrors('productsList')}" th:errors="*{productsList}"></span>
-			<table class="table">
-				<thead>
-					<th width="1"></th>
-					<th>Kod</th>
-					<th>Nazwa</th>
-					<th>Ilość</th>
-					<th><!--deletebutton--></th>
-					<th><!--ifdeleted--></th>
-				</thead>
-				<tbody id="list">
-					<tr th:each="ope, i : ${order.productsList}" th:id="${i.index}">
-						<td><input type="text" hidden th:name="'productsList['+${i.index}+'].id'" th:value="${ope.getId()}" readonly/></td>
-						<td><input type="text" th:name="'productsList['+${i.index}+'].productCode'" th:value="${ope.getProductCode()}" readonly/></td>
-						<td><input type="text" th:name="'productsList['+${i.index}+'].productName'" th:value="${ope.getProductName()}" readonly/></td>
-						<td><input type="text" th:name="'productsList['+${i.index}+'].quantity'" th:value="${ope.getQuantity()}" readonly/></td>
-						<td><button type="button" th:onclick="'deleteOrderProduct('+${i.index}+')'"><i class="demo-icon icon-minus-circled"></i></button></td>
-						<td><input type="text" th:name="'productsList['+${i.index}+'].deleted'" th:value="${ope.isDeleted()}" hidden/></td>
-					</tr>
-				</tbody>
-			</table>
-			<table>
-				<tr>
-					<td>
-						<select class="form-control" id="ordOP">
-							<option selected value="none">Wybierz Produkt...</option>
-							<option th:each="product : ${products}" th:attr="maxquantity=${product.amount}" th:value="${product.code}" th:text="${product.code + ' ' + product.name}"></option>
+		<div class="col-sm-12 col-md-10 mh-100 overflow-scroll">
+			<main id="container" class="main-content">
+				<h1>Szczegóły Zamówienia</h1>
+				<form action="#" th:action="@{/saveOrder}" method="POST" th:object="${order}">
+					<div class="form-group" style="display:none;">
+						<label for="ordId"> ID </label>
+						<input type="text" id="ordId" class="form-control" th:field="${order.id}"/>
+					</div>
+					<div class="form-group">
+						<label for="ordFinishDate"> Data utworzenia </label>
+						<input type="datetime-local" id="ordCreationDate" class="form-control" th:field="${order.creationDate}" readonly />
+					</div>
+					<div class="form-group">
+						<label for="ordFinishDate"> Data ukończenia </label>
+						<input type="datetime-local" id="ordFinishDate" class="form-control" th:field="${order.finishDate}"/>
+					</div>
+					<div class="form-group">
+						<label for="ordContractor"> Kontrahent </label>
+						<select class="form-control" id="ordContractor" name="contractor" required>
+							<option value="" th:if="${#strings.isEmpty(order.contractor)}" selected disabled hidden>Wybierz Kontrahenta</option>
+							<option th:each="contractor : ${contractors}" th:value="${contractor.nip}" th:text="${contractor.nip + ' ' + contractor.name }" th:selected="${contractor.nip==order.contractor}"></option>
 						</select>
-					</td>
-					<td>
-						<input id="ordQuantity" type="number" min="0" class="form-control" placeholder="Ilość"/>
-					</td>
-					<td>
-						<button id="addOrderProductButton" class="btn btn-outline-secondary" type="button">Dodaj</button>
-					</td>
-				</tr>
-			</table>
-		</fieldset>
-		<br/>
-		<input type="submit" class="btn btn-primary" value="Zatwierdź"/>
-	</form>
-	<a th:if="${order.id != null && order.id != 0}" th:href="'/invoice/'+${order.id}" class="btn btn-outline-primary"> <i class="icon-plus-squared"></i> Wygeneruj Fakturę </a>
-</main>
+					</div>
+					<fieldset>
+						<legend> Lista Produktów: </legend>
+						<span style="color:red;" th:if="${#fields.hasErrors('productsList')}" th:errors="*{productsList}"></span>
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+								<th width="1"></th>
+								<th>Kod</th>
+								<th>Nazwa</th>
+								<th>Ilość</th>
+								<th><!--deletebutton--></th>
+								<th><!--ifdeleted--></th>
+								</thead>
+								<tbody id="list">
+								<tr th:each="ope, i : ${order.productsList}" th:id="${i.index}">
+									<td><input type="text" hidden th:name="'productsList['+${i.index}+'].id'" th:value="${ope.getId()}" readonly/></td>
+									<td><input type="text" th:name="'productsList['+${i.index}+'].productCode'" th:value="${ope.getProductCode()}" readonly/></td>
+									<td><input type="text" th:name="'productsList['+${i.index}+'].productName'" th:value="${ope.getProductName()}" readonly/></td>
+									<td><input type="text" th:name="'productsList['+${i.index}+'].quantity'" th:value="${ope.getQuantity()}" readonly/></td>
+									<td><button type="button" th:onclick="'deleteOrderProduct('+${i.index}+')'"><i class="demo-icon icon-minus-circled"></i></button></td>
+									<td><input type="text" th:name="'productsList['+${i.index}+'].deleted'" th:value="${ope.isDeleted()}" hidden/></td>
+								</tr>
+								</tbody>
+							</table>
+							<table>
+								<tr>
+									<td>
+										<select class="form-control" id="ordOP">
+											<option selected value="none">Wybierz Produkt...</option>
+											<option th:each="product : ${products}" th:attr="maxquantity=${product.amount}" th:value="${product.code}" th:text="${product.code + ' ' + product.name}"></option>
+										</select>
+									</td>
+									<td>
+										<input id="ordQuantity" type="number" min="0" class="form-control" placeholder="Ilość"/>
+									</td>
+									<td>
+										<button id="addOrderProductButton" class="btn btn-outline-secondary" type="button">Dodaj</button>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</fieldset>
+					<br/>
+					<input type="submit" class="btn btn-primary" value="Zatwierdź"/>
+				</form>
+				<a th:if="${order.id != null && order.id != 0}" th:href="'/invoice/'+${order.id}" class="btn btn-outline-primary"> <i class="icon-plus-squared"></i> Wygeneruj Fakturę </a>
+			</main>
+		</div>
+	</div>
+</div>
+
 <script>
 	$("#ordOP").change(function (event) {
 		let maxQuantity = $("#ordOP option:selected").attr('maxquantity');

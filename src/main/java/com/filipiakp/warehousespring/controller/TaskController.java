@@ -93,10 +93,7 @@ public class TaskController {
             .builder()
             .id(task.getId())
             .name(task.getName())
-            .contractor(
-                task.getContractor() != null
-                    ? task.getContractor().getNip()
-                    : "")
+            .contractor(task.getContractor() != null ? task.getContractor().getNip() : "")
             .creationDate(task.getCreationDate())
             .finishDate(task.getFinishDate())
             .description(task.getDescription())

@@ -2,39 +2,48 @@
 <html lang="pl-PL" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: head(siteTitle = 'Pracownicy')"></head>
 <body>
-<header th:replace="fragments/header :: header(showButtons = true, addHref='/employees/add')"></header>
-<aside th:replace="fragments/aside"></aside>
-<main id="container" class="main-content">
-	<table id="employeeTable" class="table selectable-table">
-		<thead>
-		<tr>
-			<th> ID </th>
-			<th> Imię </th>
-			<th> Nazwisko </th>
-			<th> Stanowisko </th>
-			<th> Pensja </th>
-			<th> Miasto </th>
-			<th> Ulica </th>
-			<th> Nr Domu </th>
-			<th> Nr Mieszkania </th>
-			<th> Data Zatrudnienia </th>
-		</tr>
-		</thead>
-		<tbody id="employees">
-		<tr th:each="employee: ${employees}">
-			<td th:text="${employee.id}">Id</td>
-			<td th:text="${employee.name}">Name</td>
-			<td th:text="${employee.surname}">Surname</td>
-			<td th:text="${employee.position}">Position</td>
-			<td th:text="${employee.salary}">Salary</td>
-			<td th:text="${employee.city}">City</td>
-			<td th:text="${employee.street}">Street</td>
-			<td th:text="${employee.houseNumber}">House Number</td>
-			<td th:text="${employee.apartmentNumber}">Apart. Numb.</td>
-			<td th:text="${{#dates.format(employee.employmentDate, 'dd.MM.yyyy')}}">Employment Date</td>
-		</tr>
-		</tbody>
-	</table>
-</main>
+<div class="container-fluid h-100 d-flex flex-column w-100 px-0">
+	<header th:replace="fragments/header :: header(showButtons = true, addHref='/employees/add')"></header>
+	<div class="row flex-fill mx-0"  style="min-height:0">
+		<div class="col-sm-12 col-md-2 mh-100 panel">
+			<aside th:replace="fragments/aside"></aside>
+		</div>
+		<div class="col-sm-12 col-md-10 mh-100 overflow-scroll">
+			<main id="container" class="main-content table-responsive">
+				<table id="employeeTable" class="table selectable-table">
+					<thead>
+					<tr>
+						<th> ID </th>
+						<th> Imię </th>
+						<th> Nazwisko </th>
+						<th> Stanowisko </th>
+						<th> Pensja </th>
+						<th> Miasto </th>
+						<th> Ulica </th>
+						<th> Nr Domu </th>
+						<th> Nr Mieszkania </th>
+						<th> Data Zatrudnienia </th>
+					</tr>
+					</thead>
+					<tbody id="employees">
+					<tr th:each="employee: ${employees}">
+						<td th:text="${employee.id}">Id</td>
+						<td th:text="${employee.name}">Name</td>
+						<td th:text="${employee.surname}">Surname</td>
+						<td th:text="${employee.position}">Position</td>
+						<td th:text="${employee.salary}">Salary</td>
+						<td th:text="${employee.city}">City</td>
+						<td th:text="${employee.street}">Street</td>
+						<td th:text="${employee.houseNumber}">House Number</td>
+						<td th:text="${employee.apartmentNumber}">Apart. Numb.</td>
+						<td th:text="${{#dates.format(employee.employmentDate, 'dd.MM.yyyy')}}">Employment Date</td>
+					</tr>
+					</tbody>
+				</table>
+			</main>
+		</div>
+	</div>
+</div>
+
 </body>
 </html>
