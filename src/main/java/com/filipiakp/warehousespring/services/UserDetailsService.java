@@ -2,11 +2,12 @@ package com.filipiakp.warehousespring.services;
 
 import com.filipiakp.warehousespring.entities.User;
 import com.filipiakp.warehousespring.model.UserRepository;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.util.Optional;
 
 public class UserDetailsService
     implements org.springframework.security.core.userdetails.UserDetailsService {

@@ -1,10 +1,11 @@
 package com.filipiakp.warehousespring.entities;
 
-import java.util.Arrays;
-import java.util.Collection;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 @AllArgsConstructor
 public class UserDetails implements org.springframework.security.core.userdetails.UserDetails {

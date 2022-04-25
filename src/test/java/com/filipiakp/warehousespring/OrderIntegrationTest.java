@@ -1,10 +1,5 @@
 package com.filipiakp.warehousespring;
 
-import static org.junit.Assert.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.filipiakp.warehousespring.entities.Contractor;
 import com.filipiakp.warehousespring.entities.Order;
 import com.filipiakp.warehousespring.entities.OrderProduct;
@@ -13,10 +8,6 @@ import com.filipiakp.warehousespring.model.ContractorRepository;
 import com.filipiakp.warehousespring.model.OrderProductRepository;
 import com.filipiakp.warehousespring.model.OrderRepository;
 import com.filipiakp.warehousespring.model.ProductRepository;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,6 +21,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(
@@ -153,10 +154,7 @@ public class OrderIntegrationTest {
   }
 
   @Test
-  @Transactional // Because of org.hibernate.LazyInitializationException: failed to lazily
-  // initialize a collection of role:
-  // com.filipiakp.warehousespring.entities.Order.productsList, could not initialize
-  // proxy - no Session
+  @Transactional
   public void givenSaveOrderMapping_whenNewOrderWithProdListPOSTed_thenEntitiesFoundAtRepositories()
       throws Exception {
     orderRepository.deleteAll();

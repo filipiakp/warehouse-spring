@@ -3,8 +3,6 @@ package com.filipiakp.warehousespring.controller;
 import com.filipiakp.warehousespring.entities.User;
 import com.filipiakp.warehousespring.entities.dto.UserDTO;
 import com.filipiakp.warehousespring.model.UserRepository;
-import java.util.Optional;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,6 +12,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class UserController {

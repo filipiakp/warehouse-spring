@@ -10,9 +10,6 @@ import com.filipiakp.warehousespring.model.ContractorRepository;
 import com.filipiakp.warehousespring.model.OrderProductRepository;
 import com.filipiakp.warehousespring.model.OrderRepository;
 import com.filipiakp.warehousespring.model.ProductRepository;
-import java.util.*;
-import java.util.stream.Collectors;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -22,6 +19,13 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.validation.Valid;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 public class OrderController {

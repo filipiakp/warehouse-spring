@@ -1,10 +1,11 @@
 package com.filipiakp.warehousespring.entities.dto;
 
 import com.filipiakp.warehousespring.entities.Contractor;
-import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
 
 @Data
 @AllArgsConstructor

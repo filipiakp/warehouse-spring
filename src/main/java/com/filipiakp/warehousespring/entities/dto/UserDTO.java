@@ -1,8 +1,9 @@
 package com.filipiakp.warehousespring.entities.dto;
 
+import lombok.*;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import lombok.*;
 
 @Data
 @Builder

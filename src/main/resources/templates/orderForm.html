@@ -27,8 +27,14 @@
 					<div class="form-group">
 						<label for="ordContractor"> Kontrahent </label>
 						<select class="form-control" id="ordContractor" name="contractor" required>
-							<option value="" th:if="${#strings.isEmpty(order.contractor)}" selected disabled hidden>Wybierz Kontrahenta</option>
-							<option th:each="contractor : ${contractors}" th:value="${contractor.nip}" th:text="${contractor.nip + ' ' + contractor.name }" th:selected="${contractor.nip==order.contractor}"></option>
+							<option value="" th:if="${#strings.isEmpty(order.contractor)}" selected disabled hidden>
+								Wybierz Kontrahenta
+							</option>
+							<option th:each="contractor : ${contractors}"
+									th:value="${contractor.nip}"
+									th:text="${contractor.nip + ' ' + contractor.name }"
+									th:selected="${contractor.nip==order.contractor}">
+							</option>
 						</select>
 					</div>
 					<fieldset>

@@ -1,13 +1,13 @@
 package com.filipiakp.warehousespring.entities;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -36,7 +36,6 @@ public class Order {
 
   @ManyToOne
   @JoinColumn(name = "nip")
-  @NotNull(message = "Musisz podać kontrahenta")
   private Contractor contractor;
 
   public Order() {

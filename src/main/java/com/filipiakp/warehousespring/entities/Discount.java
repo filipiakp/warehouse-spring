@@ -1,10 +1,11 @@
 package com.filipiakp.warehousespring.entities;
 
-import java.util.List;
-import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Data
 @AllArgsConstructor

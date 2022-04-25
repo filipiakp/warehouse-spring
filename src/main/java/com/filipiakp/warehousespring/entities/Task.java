@@ -1,9 +1,12 @@
 package com.filipiakp.warehousespring.entities;
 
-import java.util.*;
-import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -18,7 +21,6 @@ public class Task {
   private Date finishDate;
   private String name;
   private String description;
-  private String phase;
   private int importance;
 
   @ManyToMany(fetch = FetchType.EAGER)
