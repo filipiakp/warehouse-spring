@@ -17,3 +17,4 @@ For building and running the application you need:
 
 - docker compose
 
+- have running db and use jar to start the app
